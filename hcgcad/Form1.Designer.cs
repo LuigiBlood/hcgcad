@@ -99,9 +99,9 @@ namespace hcgcad
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(93, 20);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(119, 17);
+            this.checkBox1.Size = new System.Drawing.Size(120, 17);
             this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "(COL) Force Palette";
+            this.checkBox1.Text = "(CGX) Force Palette";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 

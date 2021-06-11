@@ -29,7 +29,7 @@ namespace hcgcad
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.col;*.col.bak|*.col;*.col.bak|*.*|All files";
+            o.Filter = "*.col;*.col.bak|*.col;*.col.bak|All files|*.*";
             o.Title = "Load COL file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -67,7 +67,7 @@ namespace hcgcad
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.cgx;*.cgx.bak|*.cgx;*.cgx.bak|*.*|All files";
+            o.Filter = "*.cgx;*.cgx.bak|*.cgx;*.cgx.bak|All files|*.*";
             o.Title = "Load CGX file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -100,7 +100,7 @@ namespace hcgcad
         private void button3_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.scr;*.scr.bak|*.scr;*.scr.bak|*.*|All files";
+            o.Filter = "*.scr;*.scr.bak|*.scr;*.scr.bak|All files|*.*";
             o.Title = "Load SCR file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
