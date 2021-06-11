@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -206,6 +207,17 @@ namespace hcgcad
             scr = null;
             pictureBox3.Image = null;
             label3.Text = "SCR:";
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Images|*.png;";
+            ImageFormat format = ImageFormat.Png;
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                pictureBox1.Image.Save(sfd.FileName, format);
+            }
         }
     }
 }
