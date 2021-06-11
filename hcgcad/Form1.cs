@@ -33,13 +33,22 @@ namespace hcgcad
             if (o.ShowDialog() == DialogResult.OK)
             {
                 Stream file = o.OpenFile();
+
+                if (file.Length != 0x400)
+                {
+                    file.Close();
+                    return;
+                }
+
                 byte[] paldat = new byte[512];
                 file.Read(paldat, 0, 512);
                 file.Close();
 
                 pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
+
                 RenderCOL();
                 RenderCGX();
+                RenderSCR();
             }
         }
 
@@ -70,12 +79,31 @@ namespace hcgcad
                     fmt = 2;
 
                 RenderCGX();
+                RenderSCR();
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Filter = "*.scr|*.scr|*.scr.bak|*.scr.bak|*.*|All files";
+            o.Title = "Load SCR file...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                Stream file = o.OpenFile();
 
+                if (file.Length != 0x2300)
+                {
+                    file.Close();
+                    return;
+                }
+
+                scr = new byte[file.Length];
+                file.Read(scr, 0, (int)file.Length);
+                file.Close();
+
+                RenderSCR();
+            }
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
@@ -131,6 +159,19 @@ namespace hcgcad
             else
                 pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, pal, 2, selectedPal);
             pictureBox1.Size = pictureBox1.Image.Size;
+        }
+
+        private void RenderSCR()
+        {
+            if (cgx == null || pal == null || scr == null)
+                return;
+
+            pictureBox3.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, pal, 1, checkBox2.Checked);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            RenderSCR();
         }
     }
 }

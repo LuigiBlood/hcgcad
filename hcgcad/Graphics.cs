@@ -128,7 +128,7 @@ namespace hcgcad
             {
                 T[] output = new T[len];
 
-                for (int j = 0; j < len; j++)
+                for (int j = 0; j < Math.Min(len, obj.Length - i); j++)
                     output[j] = obj[i + j];
 
                 return output;
@@ -184,7 +184,7 @@ namespace hcgcad
                             break;
                         default:
                         case 2: //8bit
-                            tile = Tile8BPP(Subarray<byte>(cgx, i * 64, 64), Subarray<Color>(pal, (p_b * 128) + (p * 128), 128));
+                            tile = Tile8BPP(Subarray<byte>(cgx, i * 64, 64), Subarray<Color>(pal, (p_b * 128) + (p * 128), 256));
                             break;
                     }
 
@@ -194,6 +194,78 @@ namespace hcgcad
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                         //g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
                         g.DrawImage(tile, x, y, s, s);
+                    }
+                }
+
+                return output;
+            }
+
+            //SCR
+            public static Bitmap RenderSCR(byte[] scr, byte[] cgx, Color[] pal, int scale = 1, bool allvisible = false)
+            {
+                //Get Format
+                int fmt = 0;
+                if (cgx.Length == 0x8500)
+                    fmt = 1;
+                else if (cgx.Length == 0x10100)
+                    fmt = 2;
+
+                //Get Offset to Footer
+                int off_hdr = 0x2000;
+
+                //Tile Size
+                int t = 8;
+
+                Bitmap output = new Bitmap(512 * (t / 8), 512 * (t / 8));
+
+                //Screen ID
+                for (int s = 0; s < 4; s++)
+                {
+                    //Screen Data
+                    for (int i = 0; i < 0x800; i += 2)
+                    {
+                        //X Pos
+                        int x = (((s % 2) * 256) + (((i / 2) % 32) * t)) * scale;
+                        //Y Pos
+                        int y = (((s / 2) * 256) + (((i / 2) / 32) * t)) * scale;
+                        //Scale
+                        int z = (t * scale);
+
+                        int p_b = scr[off_hdr + 0x45];
+
+                        //Map
+                        ushort dat = (ushort)(scr[(s * 0x800) + i] | (scr[(s * 0x800) + i + 1] << 8));
+                        int tile = dat & 0x3FF;
+                        int color = (dat & 0x1C00) >> 10;
+                        bool xflip = ((dat & 0x4000) != 0);
+                        bool yflip = ((dat & 0x8000) != 0);
+                        bool visible = ((scr[off_hdr + 0x100 + (s * 0x80) + (((i / 2) % 32) / 8)] >> (7 - (((i / 2) % 32) % 8))) & 1) != 0;
+                        if (allvisible)
+                            visible = true;
+
+                        Bitmap chr;
+                        switch (fmt)
+                        {
+                            case 0: //2bit
+                                chr = Tile2BPP(Subarray<byte>(cgx, tile * 16, 16), Subarray<Color>(pal, (p_b * 128) + (color * 4), 4), xflip, yflip);
+                                break;
+                            case 1: //4bit
+                                chr = Tile4BPP(Subarray<byte>(cgx, tile * 32, 32), Subarray<Color>(pal, (p_b * 128) + (color * 16), 16), xflip, yflip);
+                                break;
+                            default:
+                            case 2: //8bit
+                                chr = Tile8BPP(Subarray<byte>(cgx, tile * 64, 64), Subarray<Color>(pal, (p_b * 128) + (color * 128), 256), xflip, yflip);
+                                break;
+                        }
+
+                        using (Graphics g = Graphics.FromImage(output))
+                        {
+                            //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                            //g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                            if (visible)
+                                g.DrawImage(chr, x, y, z, z);
+                        }
                     }
                 }
 
