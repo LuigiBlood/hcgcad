@@ -22,6 +22,8 @@ namespace hcgcad
 
         static int selectedPal = 0;
 
+        static bool CGXorSCR = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -190,6 +192,24 @@ namespace hcgcad
             pictureBox3.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, selPal, 1, checkBox2.Checked);
         }
 
+        private void ExportToPng()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Images|*.png;";
+            ImageFormat format = ImageFormat.Png;
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (CGXorSCR == false)
+                {
+                    pictureBox1.Image.Save(sfd.FileName, format);
+                }
+                else if (CGXorSCR == true)
+                {
+                    pictureBox3.Image.Save(sfd.FileName, format);
+                }
+            }
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             RenderSCR();
@@ -211,13 +231,14 @@ namespace hcgcad
 
         private void button5_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Images|*.png;";
-            ImageFormat format = ImageFormat.Png;
-            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                pictureBox1.Image.Save(sfd.FileName, format);
-            }
+            CGXorSCR = false;
+            ExportToPng();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CGXorSCR = true;
+            ExportToPng();
         }
     }
 }
