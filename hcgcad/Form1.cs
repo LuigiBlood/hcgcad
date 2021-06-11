@@ -15,6 +15,10 @@ namespace hcgcad
     {
         static Color[] pal;
         static byte[] cgx;
+        static int fmt;
+
+
+        static int selectedPal = 0;
 
         public Form1()
         {
@@ -34,7 +38,8 @@ namespace hcgcad
                 file.Close();
 
                 pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
-                pictureBox2.Image = GraphicsRender.Nintendo.RenderPalette(pal);
+                RenderCOL();
+                RenderCGX();
             }
         }
 
@@ -57,16 +62,76 @@ namespace hcgcad
                 file.Read(cgx, 0, (int)file.Length);
                 file.Close();
 
-
-                int fmt = 0;
+                //if (cgx.Length == 0x4500)
+                fmt = 0;
                 if (cgx.Length == 0x8500)
                     fmt = 1;
                 else if (cgx.Length == 0x10100)
                     fmt = 2;
 
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(fmt, cgx, pal, 2);
-                pictureBox1.Size = pictureBox1.Image.Size;
+                RenderCGX();
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            RenderCOL();
+            RenderCGX();
+        }
+
+        private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (fmt == 0)
+                selectedPal = (e.X / 64) + ((e.Y / 16) * 4);
+            else if (fmt == 1)
+                selectedPal = (e.Y / 16);
+            else //if (fmt == 2)
+                selectedPal = (e.Y / 128);
+
+            RenderCOL();
+            RenderCGX();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            selectedPal = 0;
+            RenderCOL();
+            RenderCGX();
+        }
+
+        private void RenderCOL()
+        {
+            if (pal == null)
+                return;
+
+            Bitmap output = GraphicsRender.Nintendo.RenderPalette(pal);
+
+            if (checkBox1.Checked)
+            {
+                if (fmt == 0)
+                    using (Graphics g = Graphics.FromImage(output))
+                        g.DrawRectangle(new Pen(Brushes.Red), (selectedPal % 4) * 64, (selectedPal / 4) * 16, (16 * 4) - 1, 16 - 1);
+                else if (fmt == 1)
+                    using (Graphics g = Graphics.FromImage(output))
+                        g.DrawRectangle(new Pen(Brushes.Red), 0, (selectedPal % 16) * 16, (16 * 16) - 1, 16 - 1);
+                else //if (fmt == 2)
+                    using (Graphics g = Graphics.FromImage(output))
+                        g.DrawRectangle(new Pen(Brushes.Red), 0, (selectedPal % 2) * 128, (16 * 16) - 1, 128 - 1);
+            }
+
+            pictureBox2.Image = output;
+        }
+
+        private void RenderCGX()
+        {
+            if (cgx == null || pal == null)
+                return;
+
+            if (!checkBox1.Checked)
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(fmt, cgx, pal, 2);
+            else
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(fmt, cgx, pal, 2, selectedPal);
+            pictureBox1.Size = pictureBox1.Image.Size;
         }
     }
 }

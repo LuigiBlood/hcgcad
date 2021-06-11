@@ -162,6 +162,10 @@ namespace hcgcad
                         if (fmt < 2)
                             p = dat[off_hdr + 0x100 + i];
                     }
+                    else
+                    {
+                        p = palForce;
+                    }
 
                     Bitmap tile;
                     switch (fmt)
