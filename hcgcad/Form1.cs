@@ -15,8 +15,8 @@ namespace hcgcad
     {
         static Color[] pal;
         static byte[] cgx;
+        static byte[] scr;
         static int fmt;
-
 
         static int selectedPal = 0;
 
@@ -75,8 +75,7 @@ namespace hcgcad
 
         private void button3_Click(object sender, EventArgs e)
         {
-            RenderCOL();
-            RenderCGX();
+
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
@@ -128,9 +127,9 @@ namespace hcgcad
                 return;
 
             if (!checkBox1.Checked)
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(fmt, cgx, pal, 2);
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, pal, 2);
             else
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(fmt, cgx, pal, 2, selectedPal);
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, pal, 2, selectedPal);
             pictureBox1.Size = pictureBox1.Image.Size;
         }
     }

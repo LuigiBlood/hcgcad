@@ -136,13 +136,19 @@ namespace hcgcad
 
             //SNES SuperCG-CAD Renderer
             //CGX
-            public static Bitmap RenderCGX(int fmt, byte[] dat, Color[] pal, int scale = 1, int palForce = -1)
+            public static Bitmap RenderCGX(byte[] cgx, Color[] pal, int scale = 1, int palForce = -1)
             {
-                //fmt: 0 = 2bit, 1 = 4bit, 2 = 8bit
                 //dat: CGX file
                 //pal: color palette (imported from *.COL)
                 //scale: scale int
                 //palForce: Force palette index (-1 = use *.CGX)
+
+                //Get CGX Format
+                int fmt = 0;
+                if (cgx.Length == 0x8500)
+                    fmt = 1;
+                else if (cgx.Length == 0x10100)
+                    fmt = 2;
 
                 Bitmap output = new Bitmap(128 * scale, (128 * scale) * 4);
                 int off_hdr = 0x4000;
@@ -158,9 +164,9 @@ namespace hcgcad
                     int p = 0;
                     if (palForce == -1)
                     {
-                        p_b = dat[off_hdr + 0x22];
+                        p_b = cgx[off_hdr + 0x22];
                         if (fmt < 2)
-                            p = dat[off_hdr + 0x100 + i];
+                            p = cgx[off_hdr + 0x100 + i];
                     }
                     else
                     {
@@ -171,14 +177,14 @@ namespace hcgcad
                     switch (fmt)
                     {
                         case 0: //2bit
-                            tile = Tile2BPP(Subarray<byte>(dat, i * 16, 16), Subarray<Color>(pal, (p_b * 128) + (p * 4), 4));
+                            tile = Tile2BPP(Subarray<byte>(cgx, i * 16, 16), Subarray<Color>(pal, (p_b * 128) + (p * 4), 4));
                             break;
                         case 1: //4bit
-                            tile = Tile4BPP(Subarray<byte>(dat, i * 32, 32), Subarray<Color>(pal, (p_b * 128) + (p * 16), 16));
+                            tile = Tile4BPP(Subarray<byte>(cgx, i * 32, 32), Subarray<Color>(pal, (p_b * 128) + (p * 16), 16));
                             break;
                         default:
                         case 2: //8bit
-                            tile = Tile8BPP(Subarray<byte>(dat, i * 64, 64), Subarray<Color>(pal, (p_b * 128) + (p * 128), 128));
+                            tile = Tile8BPP(Subarray<byte>(cgx, i * 64, 64), Subarray<Color>(pal, (p_b * 128) + (p * 128), 128));
                             break;
                     }
 
