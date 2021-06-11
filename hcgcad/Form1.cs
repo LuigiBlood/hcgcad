@@ -200,5 +200,12 @@ namespace hcgcad
             RenderCGX();
             RenderSCR();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            scr = null;
+            pictureBox3.Image = null;
+            label3.Text = "SCR:";
+        }
     }
 }
