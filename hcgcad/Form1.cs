@@ -14,6 +14,7 @@ namespace hcgcad
     public partial class Form1 : Form
     {
         static Color[] pal;
+        static Color[] pal_inv;
         static byte[] cgx;
         static byte[] scr;
         static int fmt;
@@ -28,7 +29,7 @@ namespace hcgcad
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.col|*.COL|*.col.bak|*.col.bak|*.*|All files";
+            o.Filter = "*.col;*.col.bak|*.col;*.col.bak|*.*|All files";
             o.Title = "Load COL file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -45,17 +46,28 @@ namespace hcgcad
                 file.Close();
 
                 pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
+                pal_inv = new Color[pal.Length];
+                for (int i = 0; i < pal.Length; i++)
+                {
+                    if (i + 128 < pal.Length)
+                        pal_inv[i] = pal[128 + i];
+                    else
+                        pal_inv[i] = pal[i - 128];
+                }
 
                 RenderCOL();
                 RenderCGX();
                 RenderSCR();
+
+                label2.Text = "COL (" + Path.GetFileName(o.FileName) + "):";
+
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.cgx|*.cgx|*.cgx.bak|*.cgx.bak|*.*|All files";
+            o.Filter = "*.cgx;*.cgx.bak|*.cgx;*.cgx.bak|*.*|All files";
             o.Title = "Load CGX file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -80,13 +92,15 @@ namespace hcgcad
 
                 RenderCGX();
                 RenderSCR();
+
+                label1.Text = "CGX (" + Path.GetFileName(o.FileName) + "):";
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.scr|*.scr|*.scr.bak|*.scr.bak|*.*|All files";
+            o.Filter = "*.scr;*.scr.bak|*.scr;*.scr.bak|*.*|All files";
             o.Title = "Load SCR file...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -103,6 +117,8 @@ namespace hcgcad
                 file.Close();
 
                 RenderSCR();
+
+                label3.Text = "SCR (" + Path.GetFileName(o.FileName) + "):";
             }
         }
 
@@ -131,7 +147,8 @@ namespace hcgcad
             if (pal == null)
                 return;
 
-            Bitmap output = GraphicsRender.Nintendo.RenderPalette(pal);
+            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
+            Bitmap output = GraphicsRender.Nintendo.RenderPalette(selPal);
 
             if (checkBox1.Checked)
             {
@@ -154,10 +171,12 @@ namespace hcgcad
             if (cgx == null || pal == null)
                 return;
 
+            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
+
             if (!checkBox1.Checked)
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, pal, 2);
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, selPal, 2);
             else
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, pal, 2, selectedPal);
+                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, selPal, 2, selectedPal);
             pictureBox1.Size = pictureBox1.Image.Size;
         }
 
@@ -166,11 +185,19 @@ namespace hcgcad
             if (cgx == null || pal == null || scr == null)
                 return;
 
-            pictureBox3.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, pal, 1, checkBox2.Checked);
+            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
+            pictureBox3.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, selPal, 1, checkBox2.Checked);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
+            RenderSCR();
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            RenderCOL();
+            RenderCGX();
             RenderSCR();
         }
     }
