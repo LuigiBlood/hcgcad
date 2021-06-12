@@ -67,7 +67,7 @@ namespace hcgcad
             // 
             // pictureBoxCGX
             // 
-            this.pictureBoxCGX.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxCGX.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxCGX.Name = "pictureBoxCGX";
             this.pictureBoxCGX.Size = new System.Drawing.Size(117, 108);
             this.pictureBoxCGX.TabIndex = 3;
@@ -90,7 +90,7 @@ namespace hcgcad
             this.panel1.Controls.Add(this.pictureBoxCGX);
             this.panel1.Location = new System.Drawing.Point(274, 55);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(280, 512);
+            this.panel1.Size = new System.Drawing.Size(273, 512);
             this.panel1.TabIndex = 5;
             // 
             // checkBoxPalForce
