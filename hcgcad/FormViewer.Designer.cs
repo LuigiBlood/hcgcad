@@ -46,13 +46,15 @@ namespace hcgcad
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCGXAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSCRAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -217,22 +219,31 @@ namespace hcgcad
             this.exportSCRAsPNGToolStripMenuItem.Text = "Export SCR as PNG...";
             this.exportSCRAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportSCRAsPNGToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
-            // toolStripSeparator1
+            // numericUpDown1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
+            this.numericUpDown1.Location = new System.Drawing.Point(29, 143);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 17;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
-            // Form1
+            // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 575);
+            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
             this.Controls.Add(this.checkBoxVisibleTiles);
@@ -245,7 +256,7 @@ namespace hcgcad
             this.Controls.Add(this.pictureBoxCOL);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
-            this.Name = "Form1";
+            this.Name = "FormViewer";
             this.Text = "Hyper CG-CAD - Viewer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).EndInit();
@@ -253,6 +264,7 @@ namespace hcgcad
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,6 +291,7 @@ namespace hcgcad
         private System.Windows.Forms.ToolStripMenuItem exportSCRAsPNGToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 

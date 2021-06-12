@@ -18,7 +18,8 @@ namespace hcgcad
         static Color[] pal_inv;
         static byte[] cgx;
         static byte[] scr;
-        static int fmt;
+        static int fmt;     //for CGX
+        static byte[] obj;
 
         static int selectedPal = 0;
 
@@ -88,6 +89,14 @@ namespace hcgcad
             pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked);
         }
 
+        private void RenderOBJ()
+        {
+            if (cgx == null || pal == null || obj == null)
+                return;
+
+            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ(0, (int)numericUpDown1.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv);
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             RenderSCR();
@@ -111,13 +120,14 @@ namespace hcgcad
         {
             OpenFileDialog o = new OpenFileDialog();
             o.Multiselect = true;
-            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak|COL (CGRAM) Files|*.col;*.col.bak|CGX (Graphics) Files|*.cgx;*.cgx.bak|SCR (Screen) Files|*.scr;*.scr.bak|All files|*.*";
+            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak;*.obj;*.obj.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak|Screen Files (*.scr)|*.scr;*.scr.bak|Object Files (*.obj)|*.obj;*.obj.bak|All files|*.*";
             o.Title = "Load SCAD files...";
             if (o.ShowDialog() == DialogResult.OK)
             {
                 bool loadedCOL = false;
                 bool loadedCGX = false;
                 bool loadedSCR = false;
+                bool loadedOBJ = false;
 
                 foreach (string p in o.FileNames)
                 {
@@ -138,6 +148,11 @@ namespace hcgcad
                         labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
                         loadedSCR = true;
                     }
+                    else if (LoadOBJ(file))
+                    {
+                        labelSCR.Text = "OBJ (" + Path.GetFileName(p) + "):";
+                        loadedOBJ = true;
+                    }
 
                     file.Close();
                 }
@@ -147,15 +162,21 @@ namespace hcgcad
                     RenderCOL();
                     RenderCGX();
                     RenderSCR();
+                    RenderOBJ();
                 }
                 else if (loadedCGX)
                 {
                     RenderCGX();
                     RenderSCR();
+                    RenderOBJ();
                 }
                 else if (loadedSCR)
                 {
                     RenderSCR();
+                }
+                else if (loadedOBJ)
+                {
+                    RenderOBJ();
                 }
             }
         }
@@ -246,6 +267,27 @@ namespace hcgcad
             return true;
         }
 
+        private bool LoadOBJ(FileStream file)
+        {
+            //OBJ
+            file.Seek(0, SeekOrigin.Begin);
+
+            //Check File Size
+            if (file.Length != 0x3500)
+                return false;
+
+            byte[] obj_t = new byte[file.Length];
+            file.Read(obj_t, 0, (int)file.Length);
+
+            //Check Footer Info
+            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(obj_t, 0x3000, 0x10));
+            if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                return false;
+
+            obj = obj_t;
+            return true;
+        }
+
         private void exportCGXAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -270,6 +312,11 @@ namespace hcgcad
             {
                 GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            RenderOBJ();
         }
     }
 }

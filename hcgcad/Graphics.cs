@@ -265,17 +265,17 @@ namespace hcgcad
                                 g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 16, 16), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                             case 1:
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 32, 32), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 32, 32), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 32, 32), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 32, 32), pal, xflip, yflip), 8, 8, 8, 8);
+                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile1 * 32, 32), pal, xflip, yflip), 0, 0, 8, 8);
+                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile2 * 32, 32), pal, xflip, yflip), 8, 0, 8, 8);
+                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile3 * 32, 32), pal, xflip, yflip), 0, 8, 8, 8);
+                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile4 * 32, 32), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                             default:
                             case 2:
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 64, 64), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 64, 64), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 64, 64), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 64, 64), pal, xflip, yflip), 8, 8, 8, 8);
+                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile1 * 64, 64), pal, xflip, yflip), 0, 0, 8, 8);
+                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile2 * 64, 64), pal, xflip, yflip), 8, 0, 8, 8);
+                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile3 * 64, 64), pal, xflip, yflip), 0, 8, 8, 8);
+                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile4 * 64, 64), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                         }
                     }
@@ -287,7 +287,7 @@ namespace hcgcad
             //SCR
             public static Bitmap RenderSCR(byte[] scr, byte[] cgx, Color[] pal, int scale = 1, bool allvisible = false)
             {
-                //Get Format
+                //Get CGX Format
                 int fmt = 0;
                 if (cgx.Length == 0x8500)
                     fmt = 1;
@@ -354,6 +354,63 @@ namespace hcgcad
                             if (visible)
                                 g.DrawImage(chr, x, y, z, z);
                         }
+                    }
+                }
+
+                return output;
+            }
+
+            public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, int scale = 1)
+            {
+                //Get CGX Format
+                int fmt = 0;
+                if (cgx.Length == 0x8500)
+                    fmt = 1;
+                else if (cgx.Length == 0x10100)
+                    fmt = 2;
+
+                //Get Offset to Footer
+                int off_hdr = 0x3000;
+
+                //Get Version
+                float ver = float.Parse(System.Text.Encoding.ASCII.GetString(obj, off_hdr + 0x13, 4), System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                int rev = int.Parse(System.Text.Encoding.ASCII.GetString(obj, off_hdr + 0x18, 6));
+
+                //Get Data
+                byte obj_size = obj[off_hdr + 0x51];
+                byte pal_half = obj[off_hdr + 0x53];
+                byte cgx_bank = obj[off_hdr + 0x55];
+
+                Bitmap output = new Bitmap(256, 256);
+
+                //Get All Frame Data at once
+                int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
+                for (int i = 0; i < 64; i++)
+                {
+                    bool visible = (obj[(entry * 0x180) + (i * 6) + 0] & 0x80) != 0;
+                    bool sizetype = (obj[(entry * 0x180) + (i * 6) + 0] & 0x01) != 0;
+                    int size = sizetype ? 16 : 8;
+                    byte group = obj[(entry * 0x180) + (i * 6) + 1];
+                    sbyte y = (sbyte)obj[(entry * 0x180) + (i * 6) + 2];
+                    sbyte x = (sbyte)obj[(entry * 0x180) + (i * 6) + 3];
+
+                    //Assumes Big Endian for now
+                    bool yflip = (obj[(entry * 0x180) + (i * 6) + 4] & 0x80) != 0;
+                    bool xflip = (obj[(entry * 0x180) + (i * 6) + 4] & 0x40) != 0;
+                    byte color = (byte)((obj[(entry * 0x180) + (i * 6) + 4] & 0x0E) >> 1);
+                    int tile = ((obj[(entry * 0x180) + (i * 6) + 4] & 0x01) << 8) | obj[(entry * 0x180) + (i * 6) + 5];
+
+                    //Get 16-color Palette
+                    Color[] sprpal = Program.Subarray(pal, (pal_half * 128) + (color * 16), 16);
+                    sprpal[0] = Color.FromArgb(0, 0, 0, 0); //Must be transparent
+
+                    Bitmap chr = RenderCGXTile((cgx_bank * 256) + tile, size, cgx, sprpal, xflip, yflip);
+
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        if (visible)
+                            g.DrawImage(chr, 128 + x, 128 + y, size, size);
                     }
                 }
 
