@@ -205,78 +205,27 @@ namespace hcgcad
                 else if (cgx.Length == 0x10100)
                     fmt = 2;
 
-                if (size == 8)
+                for (int y = 0; y < (size / 8); y++)
                 {
-                    switch (fmt)
+                    for (int x = 0; x < (size / 8); x++)
                     {
-                        case 0:
-                            output = Tile2BPP(Program.Subarray<byte>(cgx, tile * 16, 16), pal, xflip, yflip);
-                            break;
-                        case 1:
-                            output = Tile4BPP(Program.Subarray<byte>(cgx, tile * 32, 32), pal, xflip, yflip);
-                            break;
-                        default:
-                        case 2:
-                            output = Tile8BPP(Program.Subarray<byte>(cgx, tile * 64, 64), pal, xflip, yflip);
-                            break;
-                    }
-                }
-                else if (size == 16)
-                {
-                    int tile1, tile2, tile3, tile4;
-                    if (!xflip && !yflip)
-                    {
-                        tile1 = tile;
-                        tile2 = tile + 1;
-                        tile3 = tile + 16;
-                        tile4 = tile + 17;
-                    }
-                    else if (!xflip && yflip)
-                    {
-                        tile3 = tile;
-                        tile4 = tile + 1;
-                        tile1 = tile + 16;
-                        tile2 = tile + 17;
-                    }
-                    else if (xflip && !yflip)
-                    {
-                        tile2 = tile;
-                        tile1 = tile + 1;
-                        tile4 = tile + 16;
-                        tile3 = tile + 17;
-                    }
-                    else //if (xflip && yflip)
-                    {
-                        tile4 = tile;
-                        tile3 = tile + 1;
-                        tile2 = tile + 16;
-                        tile1 = tile + 17;
-                    }
-
-                    using (Graphics g = Graphics.FromImage(output))
-                    {
-                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                        switch (fmt)
+                        using (Graphics g = Graphics.FromImage(output))
                         {
-                            case 0:
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 16, 16), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 16, 16), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 16, 16), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 16, 16), pal, xflip, yflip), 8, 8, 8, 8);
-                                break;
-                            case 1:
-                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile1 * 32, 32), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile2 * 32, 32), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile3 * 32, 32), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tile4 * 32, 32), pal, xflip, yflip), 8, 8, 8, 8);
-                                break;
-                            default:
-                            case 2:
-                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile1 * 64, 64), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile2 * 64, 64), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile3 * 64, 64), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tile4 * 64, 64), pal, xflip, yflip), 8, 8, 8, 8);
-                                break;
+                            int tilecalc = tile + (!xflip ? x : ((size / 8) - x - 1)) + (!yflip ? y * 0x10 : ((size / 8) - y - 1) * 0x10);
+                            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                            switch (fmt)
+                            {
+                                case 0:
+                                    g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tilecalc * 16, 16), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    break;
+                                case 1:
+                                    g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tilecalc * 32, 32), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    break;
+                                default:
+                                case 2:
+                                    g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tilecalc * 64, 64), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    break;
+                            }
                         }
                     }
                 }
@@ -361,6 +310,16 @@ namespace hcgcad
 
             public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, int scale = 1)
             {
+                //Get Offset to Footer
+                int off_hdr = 0x3000;
+
+                int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
+
+                return RenderOBJ(entry, obj, cgx, pal, scale);
+            }
+
+            public static Bitmap RenderOBJ(int entry, byte[] obj, byte[] cgx, Color[] pal, int scale = 1)
+            {
                 //Get CGX Format
                 int fmt = 0;
                 if (cgx.Length == 0x8500)
@@ -383,7 +342,6 @@ namespace hcgcad
                 Bitmap output = new Bitmap(256, 256);
 
                 //Get All Frame Data at once
-                int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
                 for (int i = 63; i >= 0; i--)
                 {
                     bool visible = (obj[(entry * 0x180) + (i * 6) + 0] & 0x80) != 0;

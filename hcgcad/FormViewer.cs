@@ -94,7 +94,7 @@ namespace hcgcad
             if (cgx == null || pal == null || obj == null)
                 return;
 
-            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ(0, (int)numericUpDown1.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv);
+            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ((int)numericUpDown1.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
