@@ -123,22 +123,6 @@ namespace hcgcad
                 return output;
             }
 
-            //Handy stuff
-            public static T[] Subarray<T>(T[] obj, int i, int len)
-            {
-                T[] output = new T[len];
-
-                for (int j = 0; j < len; j++)
-                {
-                    if ((i + j) < obj.Length)
-                        output[j] = obj[i + j];
-                    else
-                        output[j] = obj[j - i];
-                }
-
-                return output;
-            }
-
             //SNES SuperCG-CAD Renderer
             //CGX
             public static Bitmap RenderCGX(byte[] cgx, Color[] pal, int scale = 1, int palForce = -1)
@@ -182,14 +166,14 @@ namespace hcgcad
                     switch (fmt)
                     {
                         case 0: //2bit
-                            tile = Tile2BPP(Subarray<byte>(cgx, i * 16, 16), Subarray<Color>(pal, (p_b * 128) + (p * 4), 4));
+                            tile = Tile2BPP(Program.Subarray<byte>(cgx, i * 16, 16), Program.Subarray<Color>(pal, (p_b * 128) + (p * 4), 4));
                             break;
                         case 1: //4bit
-                            tile = Tile4BPP(Subarray<byte>(cgx, i * 32, 32), Subarray<Color>(pal, (p_b * 128) + (p * 16), 16));
+                            tile = Tile4BPP(Program.Subarray<byte>(cgx, i * 32, 32), Program.Subarray<Color>(pal, (p_b * 128) + (p * 16), 16));
                             break;
                         default:
                         case 2: //8bit
-                            tile = Tile8BPP(Subarray<byte>(cgx, i * 64, 64), Subarray<Color>(pal, (p_b * 128) + (p * 128), 256));
+                            tile = Tile8BPP(Program.Subarray<byte>(cgx, i * 64, 64), Program.Subarray<Color>(pal, (p_b * 128) + (p * 128), 256));
                             break;
                     }
 
@@ -220,14 +204,14 @@ namespace hcgcad
                     switch (fmt)
                     {
                         case 0:
-                            output = Tile2BPP(Subarray<byte>(cgx, tile * 16, 16), pal, xflip, yflip);
+                            output = Tile2BPP(Program.Subarray<byte>(cgx, tile * 16, 16), pal, xflip, yflip);
                             break;
                         case 1:
-                            output = Tile4BPP(Subarray<byte>(cgx, tile * 32, 32), pal, xflip, yflip);
+                            output = Tile4BPP(Program.Subarray<byte>(cgx, tile * 32, 32), pal, xflip, yflip);
                             break;
                         default:
                         case 2:
-                            output = Tile8BPP(Subarray<byte>(cgx, tile * 64, 64), pal, xflip, yflip);
+                            output = Tile8BPP(Program.Subarray<byte>(cgx, tile * 64, 64), pal, xflip, yflip);
                             break;
                     }
                 }
@@ -269,23 +253,23 @@ namespace hcgcad
                         switch (fmt)
                         {
                             case 0:
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile1 * 16, 16), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile2 * 16, 16), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile3 * 16, 16), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile4 * 16, 16), pal, xflip, yflip), 8, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 16, 16), pal, xflip, yflip), 0, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 16, 16), pal, xflip, yflip), 8, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 16, 16), pal, xflip, yflip), 0, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 16, 16), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                             case 1:
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile1 * 32, 32), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile2 * 32, 32), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile3 * 32, 32), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile4 * 32, 32), pal, xflip, yflip), 8, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 32, 32), pal, xflip, yflip), 0, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 32, 32), pal, xflip, yflip), 8, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 32, 32), pal, xflip, yflip), 0, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 32, 32), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                             default:
                             case 2:
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile1 * 64, 64), pal, xflip, yflip), 0, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile2 * 64, 64), pal, xflip, yflip), 8, 0, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile3 * 64, 64), pal, xflip, yflip), 0, 8, 8, 8);
-                                g.DrawImage(Tile2BPP(Subarray<byte>(cgx, tile4 * 64, 64), pal, xflip, yflip), 8, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile1 * 64, 64), pal, xflip, yflip), 0, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile2 * 64, 64), pal, xflip, yflip), 8, 0, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile3 * 64, 64), pal, xflip, yflip), 0, 8, 8, 8);
+                                g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tile4 * 64, 64), pal, xflip, yflip), 8, 8, 8, 8);
                                 break;
                         }
                     }
@@ -341,14 +325,14 @@ namespace hcgcad
                         switch (fmt)
                         {
                             case 0: //2bit
-                                chr = RenderCGXTile(tile, z, cgx, Subarray<Color>(pal, (p_b * 128) + (color * 4), 4), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + (color * 4), 4), xflip, yflip);
                                 break;
                             case 1: //4bit
-                                chr = RenderCGXTile(tile, z, cgx, Subarray<Color>(pal, (p_b * 128) + (color * 16), 16), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + (color * 16), 16), xflip, yflip);
                                 break;
                             default:
                             case 2: //8bit
-                                chr = RenderCGXTile(tile, z, cgx, Subarray<Color>(pal, (p_b * 128) + ((color & 1) * 128), 256), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + ((color & 1) * 128), 256), xflip, yflip);
                                 break;
                         }
 

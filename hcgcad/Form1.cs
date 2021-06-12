@@ -163,13 +163,21 @@ namespace hcgcad
         private bool LoadCOL(FileStream file)
         {
             //COL
+            file.Seek(0, SeekOrigin.Begin);
+
+            //Check File Size
             if (file.Length != 0x400)
-            {
                 return false;
-            }
 
             byte[] paldat = new byte[512];
             file.Read(paldat, 0, 512);
+            byte[] palftr = new byte[512];
+            file.Read(palftr, 0, 512);
+
+            //Check Footer Info
+            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(palftr, 0, 0x10));
+            if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                return false;
 
             pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
             pal_inv = new Color[pal.Length];
@@ -186,35 +194,55 @@ namespace hcgcad
         private bool LoadCGX(FileStream file)
         {
             //CGX
+            file.Seek(0, SeekOrigin.Begin);
+
+            //Check File Size
             if (file.Length != 0x4500 && file.Length != 0x8500 && file.Length != 0x10100)
-            {
                 return false;
-            }
 
-            cgx = new byte[file.Length];
-            file.Read(cgx, 0, (int)file.Length);
+            int off_hdr = 0x4000;
+            if (file.Length == 0x8500)
+                off_hdr = 0x8000;
+            else if (file.Length == 0x10100)
+                off_hdr = 0x10000;
 
-            //if (cgx.Length == 0x4500)
+            byte[] cgx_t = new byte[file.Length];
+            file.Read(cgx_t, 0, (int)file.Length);
+
+            //Check Footer Info
+            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(cgx_t, off_hdr, 0x10));
+            if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                return false;
+
+            //if (cgx_t.Length == 0x4500)
             fmt = 0;
-            if (cgx.Length == 0x8500)
+            if (cgx_t.Length == 0x8500)
                 fmt = 1;
-            else if (cgx.Length == 0x10100)
+            else if (cgx_t.Length == 0x10100)
                 fmt = 2;
 
+            cgx = cgx_t;
             return true;
         }
 
         private bool LoadSCR(FileStream file)
         {
             //SCR
+            file.Seek(0, SeekOrigin.Begin);
+
+            //Check File Size
             if (file.Length != 0x2300)
-            {
                 return false;
-            }
 
-            scr = new byte[file.Length];
-            file.Read(scr, 0, (int)file.Length);
+            byte[] scr_t = new byte[file.Length];
+            file.Read(scr_t, 0, (int)file.Length);
 
+            //Check Footer Info
+            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(scr_t, 0x2000, 0x10));
+            if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                return false;
+
+            scr = scr_t;
             return true;
         }
 
