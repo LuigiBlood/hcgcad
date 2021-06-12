@@ -1,7 +1,7 @@
 ﻿
 namespace hcgcad
 {
-    partial class Form1
+    partial class FormViewer
     {
         /// <summary>
         /// Variable nécessaire au concepteur.

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace hcgcad
 {
-    public partial class Form1 : Form
+    public partial class FormViewer : Form
     {
         static Color[] pal;
         static Color[] pal_inv;
@@ -22,7 +22,7 @@ namespace hcgcad
 
         static int selectedPal = 0;
 
-        public Form1()
+        public FormViewer()
         {
             InitializeComponent();
         }
