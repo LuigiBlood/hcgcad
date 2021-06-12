@@ -330,6 +330,8 @@ namespace hcgcad
                         bool visible = ((scr[off_hdr + 0x100 + (s * 0x80) + (((i / 2) % 32) / 8)] >> (7 - (((i / 2) % 32) % 8))) & 1) != 0;
                         if (allvisible)
                             visible = true;
+                        if (!visible)
+                            continue;
 
                         Bitmap chr;
                         switch (fmt)
@@ -348,11 +350,8 @@ namespace hcgcad
 
                         using (Graphics g = Graphics.FromImage(output))
                         {
-                            //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                            //g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                            if (visible)
-                                g.DrawImage(chr, x, y, z, z);
+                            g.DrawImage(chr, x, y, z, z);
                         }
                     }
                 }
