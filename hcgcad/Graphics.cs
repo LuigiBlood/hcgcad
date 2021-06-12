@@ -139,10 +139,16 @@ namespace hcgcad
                 else if (cgx.Length == 0x10100)
                     fmt = 2;
 
-                Bitmap output = new Bitmap(128 * scale, (128 * scale) * 4);
+                //Get Footer Address
                 int off_hdr = 0x4000;
                 for (int i = 0; i < fmt; i++)
                     off_hdr *= 2;
+
+                //Get Version
+                float ver = float.Parse(System.Text.Encoding.ASCII.GetString(cgx, off_hdr + 0x13, 4), System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                int rev = int.Parse(System.Text.Encoding.ASCII.GetString(cgx, off_hdr + 0x18, 6));
+
+                Bitmap output = new Bitmap(128 * scale, (128 * scale) * 4);
 
                 for (int i = 0; i < (256 * 4); i++)
                 {
@@ -290,6 +296,10 @@ namespace hcgcad
 
                 //Get Offset to Footer
                 int off_hdr = 0x2000;
+
+                //Get Version
+                float ver = float.Parse(System.Text.Encoding.ASCII.GetString(scr, off_hdr + 0x13, 4), System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                int rev = int.Parse(System.Text.Encoding.ASCII.GetString(scr, off_hdr + 0x18, 6));
 
                 //Tile Size
                 int t = 8 * (scr[off_hdr + 0x42] + 1);
