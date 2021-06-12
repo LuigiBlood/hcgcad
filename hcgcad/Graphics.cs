@@ -221,7 +221,7 @@ namespace hcgcad
                             break;
                     }
                 }
-                else
+                else if (size == 16)
                 {
                     int tile1, tile2, tile3, tile4;
                     if (!xflip && !yflip)
@@ -385,9 +385,11 @@ namespace hcgcad
 
                 //Get All Frame Data at once
                 int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
-                for (int i = 0; i < 64; i++)
+                for (int i = 63; i >= 0; i--)
                 {
                     bool visible = (obj[(entry * 0x180) + (i * 6) + 0] & 0x80) != 0;
+                    if (!visible)
+                        continue;
                     bool sizetype = (obj[(entry * 0x180) + (i * 6) + 0] & 0x01) != 0;
                     int size = sizetype ? 16 : 8;
                     byte group = obj[(entry * 0x180) + (i * 6) + 1];
@@ -397,6 +399,7 @@ namespace hcgcad
                     //Assumes Big Endian for now
                     bool yflip = (obj[(entry * 0x180) + (i * 6) + 4] & 0x80) != 0;
                     bool xflip = (obj[(entry * 0x180) + (i * 6) + 4] & 0x40) != 0;
+                    byte priority = (byte)((obj[(entry * 0x180) + (i * 6) + 4] & 0x30) >> 8);
                     byte color = (byte)((obj[(entry * 0x180) + (i * 6) + 4] & 0x0E) >> 1);
                     int tile = ((obj[(entry * 0x180) + (i * 6) + 4] & 0x01) << 8) | obj[(entry * 0x180) + (i * 6) + 5];
 
@@ -409,8 +412,7 @@ namespace hcgcad
                     using (Graphics g = Graphics.FromImage(output))
                     {
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                        if (visible)
-                            g.DrawImage(chr, 128 + x, 128 + y, size, size);
+                        g.DrawImage(chr, 128 + x, 128 + y, size, size);
                     }
                 }
 
