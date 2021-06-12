@@ -27,102 +27,6 @@ namespace hcgcad
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.col;*.col.bak|*.col;*.col.bak|All files|*.*";
-            o.Title = "Load COL file...";
-            if (o.ShowDialog() == DialogResult.OK)
-            {
-                Stream file = o.OpenFile();
-
-                if (file.Length != 0x400)
-                {
-                    file.Close();
-                    return;
-                }
-
-                byte[] paldat = new byte[512];
-                file.Read(paldat, 0, 512);
-                file.Close();
-
-                pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
-                pal_inv = new Color[pal.Length];
-                for (int i = 0; i < pal.Length; i++)
-                {
-                    if (i + 128 < pal.Length)
-                        pal_inv[i] = pal[128 + i];
-                    else
-                        pal_inv[i] = pal[i - 128];
-                }
-
-                RenderCOL();
-                RenderCGX();
-                RenderSCR();
-
-                label2.Text = "COL (" + Path.GetFileName(o.FileName) + "):";
-
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.cgx;*.cgx.bak|*.cgx;*.cgx.bak|All files|*.*";
-            o.Title = "Load CGX file...";
-            if (o.ShowDialog() == DialogResult.OK)
-            {
-                Stream file = o.OpenFile();
-
-                if (file.Length != 0x4500 && file.Length != 0x8500 && file.Length != 0x10100)
-                {
-                    file.Close();
-                    return;
-                }
-
-                cgx = new byte[file.Length];
-                file.Read(cgx, 0, (int)file.Length);
-                file.Close();
-
-                //if (cgx.Length == 0x4500)
-                fmt = 0;
-                if (cgx.Length == 0x8500)
-                    fmt = 1;
-                else if (cgx.Length == 0x10100)
-                    fmt = 2;
-
-                RenderCGX();
-                RenderSCR();
-
-                label1.Text = "CGX (" + Path.GetFileName(o.FileName) + "):";
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog o = new OpenFileDialog();
-            o.Filter = "*.scr;*.scr.bak|*.scr;*.scr.bak|All files|*.*";
-            o.Title = "Load SCR file...";
-            if (o.ShowDialog() == DialogResult.OK)
-            {
-                Stream file = o.OpenFile();
-
-                if (file.Length != 0x2300)
-                {
-                    file.Close();
-                    return;
-                }
-
-                scr = new byte[file.Length];
-                file.Read(scr, 0, (int)file.Length);
-                file.Close();
-
-                RenderSCR();
-
-                label3.Text = "SCR (" + Path.GetFileName(o.FileName) + "):";
-            }
-        }
-
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
         {
             if (fmt == 0)
@@ -148,10 +52,10 @@ namespace hcgcad
             if (pal == null)
                 return;
 
-            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
+            Color[] selPal = (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv;
             Bitmap output = GraphicsRender.Nintendo.RenderPalette(selPal);
 
-            if (checkBox1.Checked)
+            if (checkBoxPalForce.Checked)
             {
                 if (fmt == 0)
                     using (Graphics g = Graphics.FromImage(output))
@@ -164,7 +68,7 @@ namespace hcgcad
                         g.DrawRectangle(new Pen(Brushes.Red), 0, (selectedPal % 2) * 128, (16 * 16) - 1, 128 - 1);
             }
 
-            pictureBox2.Image = output;
+            pictureBoxCOL.Image = output;
         }
 
         private void RenderCGX()
@@ -172,13 +76,8 @@ namespace hcgcad
             if (cgx == null || pal == null)
                 return;
 
-            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
-
-            if (!checkBox1.Checked)
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, selPal, 2);
-            else
-                pictureBox1.Image = GraphicsRender.Nintendo.RenderCGX(cgx, selPal, 2, selectedPal);
-            pictureBox1.Size = pictureBox1.Image.Size;
+            pictureBoxCGX.Image = GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 2, checkBoxPalForce.Checked ? selectedPal : -1);
+            pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
         private void RenderSCR()
@@ -186,8 +85,7 @@ namespace hcgcad
             if (cgx == null || pal == null || scr == null)
                 return;
 
-            Color[] selPal = (!checkBox3.Checked) ? pal : pal_inv;
-            pictureBox3.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, selPal, 1, checkBox2.Checked);
+            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -205,18 +103,120 @@ namespace hcgcad
         private void button4_Click(object sender, EventArgs e)
         {
             scr = null;
-            pictureBox3.Image = null;
-            label3.Text = "SCR:";
+            pictureBoxSCR.Image = null;
+            labelSCR.Text = "SCR:";
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak|COL (CGRAM) Files|*.col;*.col.bak|CGX (Graphics) Files|*.cgx;*.cgx.bak|SCR (Screen) Files|*.scr;*.scr.bak|All files|*.*";
+            o.Title = "Load SCAD file...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                if (LoadCOL(o.OpenFile()))
+                    labelCOL.Text = "COL (" + Path.GetFileName(o.FileName) + "):";
+                else if (LoadCGX(o.OpenFile()))
+                    labelCGX.Text = "CGX (" + Path.GetFileName(o.FileName) + "):";
+                else if (LoadSCR(o.OpenFile()))
+                    labelSCR.Text = "SCR (" + Path.GetFileName(o.FileName) + "):";
+            }
+        }
+
+        private bool LoadCOL(Stream file)
+        {
+            //COL
+            if (file.Length != 0x400)
+            {
+                file.Close();
+                return false;
+            }
+
+            byte[] paldat = new byte[512];
+            file.Read(paldat, 0, 512);
+            file.Close();
+
+            pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
+            pal_inv = new Color[pal.Length];
+            for (int i = 0; i < pal.Length; i++)
+            {
+                if (i + 128 < pal.Length)
+                    pal_inv[i] = pal[128 + i];
+                else
+                    pal_inv[i] = pal[i - 128];
+            }
+
+            RenderCOL();
+            RenderCGX();
+            RenderSCR();
+            return true;
+        }
+
+        private bool LoadCGX(Stream file)
+        {
+            //CGX
+            if (file.Length != 0x4500 && file.Length != 0x8500 && file.Length != 0x10100)
+            {
+                file.Close();
+                return false;
+            }
+
+            cgx = new byte[file.Length];
+            file.Read(cgx, 0, (int)file.Length);
+            file.Close();
+
+            //if (cgx.Length == 0x4500)
+            fmt = 0;
+            if (cgx.Length == 0x8500)
+                fmt = 1;
+            else if (cgx.Length == 0x10100)
+                fmt = 2;
+
+            RenderCGX();
+            RenderSCR();
+            return true;
+        }
+
+        private bool LoadSCR(Stream file)
+        {
+            //SCR
+            if (file.Length != 0x2300)
+            {
+                file.Close();
+                return false;
+            }
+
+            scr = new byte[file.Length];
+            file.Read(scr, 0, (int)file.Length);
+            file.Close();
+
+            RenderSCR();
+            return true;
+        }
+
+        private void exportCGXAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Images|*.png;";
+            sfd.Filter = "PNG Image|*.png";
+            sfd.Title = "Save CGX Output...";
             ImageFormat format = ImageFormat.Png;
+            sfd.FileName = labelCGX.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                pictureBox1.Image.Save(sfd.FileName, format);
+                GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
+            }
+        }
+
+        private void exportSCRAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG Image|*.png";
+            sfd.Title = "Save SCR Output...";
+            ImageFormat format = ImageFormat.Png;
+            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
         }
     }

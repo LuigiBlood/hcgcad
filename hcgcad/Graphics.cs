@@ -164,7 +164,7 @@ namespace hcgcad
                 {
                     int x = ((i % 16) * 8) * scale;
                     int y = ((i / 16) * 8) * scale;
-                    int s = (8 * scale) + 1;
+                    int s = (8 * scale) + ((scale > 1) ? 1 : 0);
                     int p_b = 0;
                     int p = 0;
                     if (palForce == -1)

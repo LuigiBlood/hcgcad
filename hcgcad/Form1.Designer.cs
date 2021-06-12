@@ -30,158 +30,143 @@ namespace hcgcad
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxCGX = new System.Windows.Forms.PictureBox();
+            this.pictureBoxCOL = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBoxPalForce = new System.Windows.Forms.CheckBox();
+            this.labelCGX = new System.Windows.Forms.Label();
+            this.labelCOL = new System.Windows.Forms.Label();
+            this.labelSCR = new System.Windows.Forms.Label();
+            this.pictureBoxSCR = new System.Windows.Forms.PictureBox();
+            this.checkBoxVisibleTiles = new System.Windows.Forms.CheckBox();
+            this.checkBoxCGRAMSwap = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportCGXAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSCRAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 9);
+            this.button1.Location = new System.Drawing.Point(12, 33);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(132, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Load COL...";
+            this.button1.Text = "Load COL/CGX/SCR...";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // button2
+            // pictureBoxCGX
             // 
-            this.button2.Location = new System.Drawing.Point(12, 38);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Load CGX...";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.pictureBoxCGX.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxCGX.Name = "pictureBoxCGX";
+            this.pictureBoxCGX.Size = new System.Drawing.Size(117, 108);
+            this.pictureBoxCGX.TabIndex = 3;
+            this.pictureBoxCGX.TabStop = false;
             // 
-            // pictureBox1
+            // pictureBoxCOL
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(117, 108);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 182);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(256, 256);
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseClick);
+            this.pictureBoxCOL.Location = new System.Drawing.Point(12, 202);
+            this.pictureBoxCOL.Name = "pictureBoxCOL";
+            this.pictureBoxCOL.Size = new System.Drawing.Size(256, 256);
+            this.pictureBoxCOL.TabIndex = 4;
+            this.pictureBoxCOL.TabStop = false;
+            this.pictureBoxCOL.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseClick);
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(274, 24);
+            this.panel1.Controls.Add(this.pictureBoxCGX);
+            this.panel1.Location = new System.Drawing.Point(274, 55);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(280, 512);
             this.panel1.TabIndex = 5;
             // 
-            // checkBox1
+            // checkBoxPalForce
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(93, 20);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(120, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "(CGX) Force Palette";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBoxPalForce.AutoSize = true;
+            this.checkBoxPalForce.Location = new System.Drawing.Point(15, 66);
+            this.checkBoxPalForce.Name = "checkBoxPalForce";
+            this.checkBoxPalForce.Size = new System.Drawing.Size(120, 17);
+            this.checkBoxPalForce.TabIndex = 6;
+            this.checkBoxPalForce.Text = "(CGX) Force Palette";
+            this.checkBoxPalForce.UseVisualStyleBackColor = true;
+            this.checkBoxPalForce.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // button3
+            // labelCGX
             // 
-            this.button3.Location = new System.Drawing.Point(12, 67);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Load SCR...";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.labelCGX.AutoSize = true;
+            this.labelCGX.Location = new System.Drawing.Point(274, 38);
+            this.labelCGX.Name = "labelCGX";
+            this.labelCGX.Size = new System.Drawing.Size(32, 13);
+            this.labelCGX.TabIndex = 8;
+            this.labelCGX.Text = "CGX:";
             // 
-            // label1
+            // labelCOL
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(274, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "CGX:";
+            this.labelCOL.AutoSize = true;
+            this.labelCOL.Location = new System.Drawing.Point(12, 183);
+            this.labelCOL.Name = "labelCOL";
+            this.labelCOL.Size = new System.Drawing.Size(31, 13);
+            this.labelCOL.TabIndex = 9;
+            this.labelCOL.Text = "COL:";
             // 
-            // label2
+            // labelSCR
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 163);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "COL:";
+            this.labelSCR.AutoSize = true;
+            this.labelSCR.Location = new System.Drawing.Point(570, 38);
+            this.labelSCR.Name = "labelSCR";
+            this.labelSCR.Size = new System.Drawing.Size(32, 13);
+            this.labelSCR.TabIndex = 10;
+            this.labelSCR.Text = "SCR:";
             // 
-            // label3
+            // pictureBoxSCR
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(570, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "SCR:";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBoxSCR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox3.Location = new System.Drawing.Point(573, 24);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(512, 512);
-            this.pictureBox3.TabIndex = 11;
-            this.pictureBox3.TabStop = false;
+            this.pictureBoxSCR.Location = new System.Drawing.Point(573, 55);
+            this.pictureBoxSCR.Name = "pictureBoxSCR";
+            this.pictureBoxSCR.Size = new System.Drawing.Size(512, 512);
+            this.pictureBoxSCR.TabIndex = 11;
+            this.pictureBoxSCR.TabStop = false;
             // 
-            // checkBox2
+            // checkBoxVisibleTiles
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(93, 43);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(156, 17);
-            this.checkBox2.TabIndex = 12;
-            this.checkBox2.Text = "(SCR) Make All Tiles Visible";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.checkBoxVisibleTiles.AutoSize = true;
+            this.checkBoxVisibleTiles.Location = new System.Drawing.Point(15, 89);
+            this.checkBoxVisibleTiles.Name = "checkBoxVisibleTiles";
+            this.checkBoxVisibleTiles.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxVisibleTiles.TabIndex = 12;
+            this.checkBoxVisibleTiles.Text = "(SCR) Make All Tiles Visible";
+            this.checkBoxVisibleTiles.UseVisualStyleBackColor = true;
+            this.checkBoxVisibleTiles.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // checkBox3
+            // checkBoxCGRAMSwap
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(93, 67);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(134, 17);
-            this.checkBox3.TabIndex = 13;
-            this.checkBox3.Text = "Swap CG-RAM (Hi/Lo)";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.checkBoxCGRAMSwap.AutoSize = true;
+            this.checkBoxCGRAMSwap.Location = new System.Drawing.Point(15, 113);
+            this.checkBoxCGRAMSwap.Name = "checkBoxCGRAMSwap";
+            this.checkBoxCGRAMSwap.Size = new System.Drawing.Size(134, 17);
+            this.checkBoxCGRAMSwap.TabIndex = 13;
+            this.checkBoxCGRAMSwap.Text = "Swap CG-RAM (Hi/Lo)";
+            this.checkBoxCGRAMSwap.UseVisualStyleBackColor = true;
+            this.checkBoxCGRAMSwap.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(13, 111);
+            this.button4.Location = new System.Drawing.Point(181, 33);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 14;
@@ -189,41 +174,85 @@ namespace hcgcad
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
+            // menuStrip1
             // 
-            this.button5.Location = new System.Drawing.Point(95, 111);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 15;
-            this.button5.Text = "Export PNG";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1092, 24);
+            this.menuStrip1.TabIndex = 16;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
+            this.exportCGXAsPNGToolStripMenuItem,
+            this.exportSCRAsPNGToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadToolStripMenuItem.Text = "Load File...";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // exportCGXAsPNGToolStripMenuItem
+            // 
+            this.exportCGXAsPNGToolStripMenuItem.Name = "exportCGXAsPNGToolStripMenuItem";
+            this.exportCGXAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportCGXAsPNGToolStripMenuItem.Text = "Export CGX as PNG...";
+            this.exportCGXAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportCGXAsPNGToolStripMenuItem_Click);
+            // 
+            // exportSCRAsPNGToolStripMenuItem
+            // 
+            this.exportSCRAsPNGToolStripMenuItem.Name = "exportSCRAsPNGToolStripMenuItem";
+            this.exportSCRAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportSCRAsPNGToolStripMenuItem.Text = "Export SCR as PNG...";
+            this.exportSCRAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportSCRAsPNGToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 544);
-            this.Controls.Add(this.button5);
+            this.ClientSize = new System.Drawing.Size(1092, 575);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBoxCGRAMSwap);
+            this.Controls.Add(this.checkBoxVisibleTiles);
+            this.Controls.Add(this.pictureBoxSCR);
+            this.Controls.Add(this.labelSCR);
+            this.Controls.Add(this.labelCOL);
+            this.Controls.Add(this.labelCGX);
+            this.Controls.Add(this.checkBoxPalForce);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.pictureBoxCOL);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
             this.Text = "Hyper CG-CAD - Viewer";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).EndInit();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,20 +261,24 @@ namespace hcgcad
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBoxCGX;
+        private System.Windows.Forms.PictureBox pictureBoxCOL;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBoxPalForce;
+        private System.Windows.Forms.Label labelCGX;
+        private System.Windows.Forms.Label labelCOL;
+        private System.Windows.Forms.Label labelSCR;
+        private System.Windows.Forms.PictureBox pictureBoxSCR;
+        private System.Windows.Forms.CheckBox checkBoxVisibleTiles;
+        private System.Windows.Forms.CheckBox checkBoxCGRAMSwap;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportCGXAsPNGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSCRAsPNGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
