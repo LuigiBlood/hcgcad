@@ -110,31 +110,66 @@ namespace hcgcad
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
+            o.Multiselect = true;
             o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak|COL (CGRAM) Files|*.col;*.col.bak|CGX (Graphics) Files|*.cgx;*.cgx.bak|SCR (Screen) Files|*.scr;*.scr.bak|All files|*.*";
-            o.Title = "Load SCAD file...";
+            o.Title = "Load SCAD files...";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                if (LoadCOL(o.OpenFile()))
-                    labelCOL.Text = "COL (" + Path.GetFileName(o.FileName) + "):";
-                else if (LoadCGX(o.OpenFile()))
-                    labelCGX.Text = "CGX (" + Path.GetFileName(o.FileName) + "):";
-                else if (LoadSCR(o.OpenFile()))
-                    labelSCR.Text = "SCR (" + Path.GetFileName(o.FileName) + "):";
+                bool loadedCOL = false;
+                bool loadedCGX = false;
+                bool loadedSCR = false;
+
+                foreach (string p in o.FileNames)
+                {
+                    FileStream file = File.Open(p, FileMode.Open, FileAccess.Read);
+
+                    if (LoadCOL(file))
+                    {
+                        labelCOL.Text = "COL (" + Path.GetFileName(p) + "):";
+                        loadedCOL = true;
+                    }
+                    else if (LoadCGX(file))
+                    {
+                        labelCGX.Text = "CGX (" + Path.GetFileName(p) + "):";
+                        loadedCGX = true;
+                    }
+                    else if (LoadSCR(file))
+                    {
+                        labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
+                        loadedSCR = true;
+                    }
+
+                    file.Close();
+                }
+
+                if (loadedCOL)
+                {
+                    RenderCOL();
+                    RenderCGX();
+                    RenderSCR();
+                }
+                else if (loadedCGX)
+                {
+                    RenderCGX();
+                    RenderSCR();
+                }
+                else if (loadedSCR)
+                {
+                    RenderSCR();
+                }
             }
         }
 
-        private bool LoadCOL(Stream file)
+        private bool LoadCOL(FileStream file)
         {
             //COL
             if (file.Length != 0x400)
             {
-                file.Close();
                 return false;
             }
 
             byte[] paldat = new byte[512];
             file.Read(paldat, 0, 512);
-            file.Close();
 
             pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
             pal_inv = new Color[pal.Length];
@@ -145,25 +180,19 @@ namespace hcgcad
                 else
                     pal_inv[i] = pal[i - 128];
             }
-
-            RenderCOL();
-            RenderCGX();
-            RenderSCR();
             return true;
         }
 
-        private bool LoadCGX(Stream file)
+        private bool LoadCGX(FileStream file)
         {
             //CGX
             if (file.Length != 0x4500 && file.Length != 0x8500 && file.Length != 0x10100)
             {
-                file.Close();
                 return false;
             }
 
             cgx = new byte[file.Length];
             file.Read(cgx, 0, (int)file.Length);
-            file.Close();
 
             //if (cgx.Length == 0x4500)
             fmt = 0;
@@ -172,25 +201,20 @@ namespace hcgcad
             else if (cgx.Length == 0x10100)
                 fmt = 2;
 
-            RenderCGX();
-            RenderSCR();
             return true;
         }
 
-        private bool LoadSCR(Stream file)
+        private bool LoadSCR(FileStream file)
         {
             //SCR
             if (file.Length != 0x2300)
             {
-                file.Close();
                 return false;
             }
 
             scr = new byte[file.Length];
             file.Read(scr, 0, (int)file.Length);
-            file.Close();
 
-            RenderSCR();
             return true;
         }
 
