@@ -79,7 +79,7 @@ namespace hcgcad
             if (cgx == null || pal == null)
                 return;
 
-            pictureBoxCGX.Image = GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 2, checkBoxPalForce.Checked ? selectedPal : -1);
+            pictureBoxCGX.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1), 2);
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
@@ -88,7 +88,7 @@ namespace hcgcad
             if (cgx == null || pal == null || scr == null)
                 return;
 
-            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked);
+            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked);
         }
 
         private void RenderOBJ()
@@ -96,7 +96,7 @@ namespace hcgcad
             if (cgx == null || pal == null || obj == null)
                 return;
 
-            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
+            pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -297,7 +297,7 @@ namespace hcgcad
             sfd.FileName = labelCGX.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
+                GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
             }
         }
 
@@ -310,7 +310,7 @@ namespace hcgcad
             sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, 1, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+                GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
         }
 

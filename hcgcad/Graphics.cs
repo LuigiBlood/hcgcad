@@ -125,7 +125,7 @@ namespace hcgcad
 
             //SNES SuperCG-CAD Renderer
             //CGX
-            public static Bitmap RenderCGX(byte[] cgx, Color[] pal, int scale = 1, int palForce = -1)
+            public static Bitmap RenderCGX(byte[] cgx, Color[] pal, int palForce = -1)
             {
                 //dat: CGX file
                 //pal: color palette (imported from *.COL)
@@ -148,13 +148,13 @@ namespace hcgcad
                 float ver = float.Parse(System.Text.Encoding.ASCII.GetString(cgx, off_hdr + 0x13, 4), System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                 int rev = int.Parse(System.Text.Encoding.ASCII.GetString(cgx, off_hdr + 0x18, 6));
 
-                Bitmap output = new Bitmap(128 * scale, (128 * scale) * 4);
+                Bitmap output = new Bitmap(128, (128) * 4);
 
                 for (int i = 0; i < (256 * 4); i++)
                 {
-                    int x = ((i % 16) * 8) * scale;
-                    int y = ((i / 16) * 8) * scale;
-                    int s = (8 * scale) + ((scale > 1) ? 1 : 0);
+                    int x = ((i % 16) * 8);
+                    int y = ((i / 16) * 8);
+                    int s = 8;
                     int p_b = 0;
                     int p = 0;
                     if (palForce == -1)
@@ -185,9 +185,9 @@ namespace hcgcad
 
                     using (Graphics g = Graphics.FromImage(output))
                     {
-                        //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                        //g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                         g.DrawImage(tile, x, y, s, s);
                     }
                 }
@@ -213,6 +213,8 @@ namespace hcgcad
                         {
                             int tilecalc = (tile + (!xflip ? x : ((size / 8) - x - 1)) + (!yflip ? y * 0x10 : ((size / 8) - y - 1) * 0x10)) % 0x400;
                             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                             switch (fmt)
                             {
                                 case 0:
@@ -234,7 +236,7 @@ namespace hcgcad
             }
 
             //SCR
-            public static Bitmap RenderSCR(byte[] scr, byte[] cgx, Color[] pal, int scale = 1, bool allvisible = false)
+            public static Bitmap RenderSCR(byte[] scr, byte[] cgx, Color[] pal, bool allvisible = false)
             {
                 //Get CGX Format
                 int fmt = 0;
@@ -300,6 +302,8 @@ namespace hcgcad
                         using (Graphics g = Graphics.FromImage(output))
                         {
                             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                             g.DrawImage(chr, x, y, z, z);
                         }
                     }
@@ -308,17 +312,17 @@ namespace hcgcad
                 return output;
             }
 
-            public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, int scale = 1)
+            public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank)
             {
                 //Get Offset to Footer
                 int off_hdr = 0x3000;
 
                 int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
 
-                return RenderOBJ(entry, obj, cgx, pal, obj_size, cgx_bank, scale);
+                return RenderOBJ(entry, obj, cgx, pal, obj_size, cgx_bank);
             }
 
-            public static Bitmap RenderOBJ(int entry, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, int scale = 1)
+            public static Bitmap RenderOBJ(int entry, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank)
             {
                 //Tile Sizes
                 int[] tilesizes = { 8, 16, 8, 32, 8, 64, 16, 32, 16, 64, 32, 64 };
@@ -372,12 +376,29 @@ namespace hcgcad
                     using (Graphics g = Graphics.FromImage(output))
                     {
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                        g.DrawImage(chr, 128 + x, 128 + y, size, size);
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.DrawImage(chr, (128 + x), (128 + y), size, size);
                     }
                 }
 
                 return output;
             }
+        }
+
+        public static Bitmap ScaleBitmap(Bitmap input, int scale)
+        {
+            Bitmap output = new Bitmap(input.Width * scale, input.Height * scale);
+
+            using (Graphics g = Graphics.FromImage(output))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                g.DrawImage(input, 0, 0, input.Width * scale, input.Height * scale);
+            }
+
+            return output;
         }
     }
 }
