@@ -55,6 +55,7 @@ namespace hcgcad
             this.groupBoxOBJ = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.exportOBJAsGIFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -134,7 +135,7 @@ namespace hcgcad
             // labelSCR
             // 
             this.labelSCR.AutoSize = true;
-            this.labelSCR.Location = new System.Drawing.Point(570, 38);
+            this.labelSCR.Location = new System.Drawing.Point(550, 38);
             this.labelSCR.Name = "labelSCR";
             this.labelSCR.Size = new System.Drawing.Size(32, 13);
             this.labelSCR.TabIndex = 10;
@@ -145,7 +146,8 @@ namespace hcgcad
             this.pictureBoxSCR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxSCR.Location = new System.Drawing.Point(573, 55);
+            this.pictureBoxSCR.Location = new System.Drawing.Point(553, 55);
+            this.pictureBoxSCR.MinimumSize = new System.Drawing.Size(512, 512);
             this.pictureBoxSCR.Name = "pictureBoxSCR";
             this.pictureBoxSCR.Size = new System.Drawing.Size(512, 512);
             this.pictureBoxSCR.TabIndex = 11;
@@ -189,7 +191,7 @@ namespace hcgcad
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1092, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1072, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -199,6 +201,7 @@ namespace hcgcad
             this.loadToolStripMenuItem,
             this.exportCGXAsPNGToolStripMenuItem,
             this.exportSCRAsPNGToolStripMenuItem,
+            this.exportOBJAsGIFToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -209,7 +212,7 @@ namespace hcgcad
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.loadToolStripMenuItem.Text = "Load File...";
+            this.loadToolStripMenuItem.Text = "Load Assets...";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // exportCGXAsPNGToolStripMenuItem
@@ -322,11 +325,18 @@ namespace hcgcad
             this.label3.TabIndex = 23;
             this.label3.Text = "CGX Base:";
             // 
+            // exportOBJAsGIFToolStripMenuItem
+            // 
+            this.exportOBJAsGIFToolStripMenuItem.Name = "exportOBJAsGIFToolStripMenuItem";
+            this.exportOBJAsGIFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportOBJAsGIFToolStripMenuItem.Text = "Export OBJ as GIF...";
+            this.exportOBJAsGIFToolStripMenuItem.Click += new System.EventHandler(this.exportOBJAsGIFToolStripMenuItem_Click);
+            // 
             // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 575);
+            this.ClientSize = new System.Drawing.Size(1072, 575);
             this.Controls.Add(this.groupBoxOBJ);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
@@ -384,6 +394,7 @@ namespace hcgcad
         private System.Windows.Forms.GroupBox groupBoxOBJ;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem exportOBJAsGIFToolStripMenuItem;
     }
 }
 

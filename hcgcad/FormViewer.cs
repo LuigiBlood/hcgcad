@@ -306,7 +306,7 @@ namespace hcgcad
 
         private void exportSCRAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pal == null && cgx == null && scr == null)
+            if (pal == null || cgx == null || scr == null)
                 return;
 
             SaveFileDialog sfd = new SaveFileDialog();
@@ -323,6 +323,22 @@ namespace hcgcad
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             RenderOBJ();
+        }
+
+        private void exportOBJAsGIFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pal == null || cgx == null || obj == null)
+                return;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "GIF Animation|*.gif";
+            sfd.Title = "Save OBJ Output...";
+            ImageFormat format = ImageFormat.Gif;
+            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //GraphicsRender.Nintendo.RenderOBJ(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+            }
         }
     }
 }
