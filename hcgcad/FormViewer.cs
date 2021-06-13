@@ -26,6 +26,8 @@ namespace hcgcad
         public FormViewer()
         {
             InitializeComponent();
+            comboBoxCHRBANK.SelectedIndex = 0;
+            comboBoxOBJSize.SelectedIndex = 0;
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
@@ -94,7 +96,7 @@ namespace hcgcad
             if (cgx == null || pal == null || obj == null)
                 return;
 
-            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ((int)numericUpDown1.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv);
+            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -317,6 +319,11 @@ namespace hcgcad
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             RenderOBJ();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            obj = null;
         }
     }
 }

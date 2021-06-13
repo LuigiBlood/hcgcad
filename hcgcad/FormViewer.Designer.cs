@@ -48,13 +48,17 @@ namespace hcgcad
             this.exportSCRAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownFrame = new System.Windows.Forms.NumericUpDown();
+            this.button2 = new System.Windows.Forms.Button();
+            this.comboBoxOBJSize = new System.Windows.Forms.ComboBox();
+            this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -77,7 +81,7 @@ namespace hcgcad
             // 
             // pictureBoxCOL
             // 
-            this.pictureBoxCOL.Location = new System.Drawing.Point(12, 202);
+            this.pictureBoxCOL.Location = new System.Drawing.Point(12, 263);
             this.pictureBoxCOL.Name = "pictureBoxCOL";
             this.pictureBoxCOL.Size = new System.Drawing.Size(256, 256);
             this.pictureBoxCOL.TabIndex = 4;
@@ -118,7 +122,7 @@ namespace hcgcad
             // labelCOL
             // 
             this.labelCOL.AutoSize = true;
-            this.labelCOL.Location = new System.Drawing.Point(12, 183);
+            this.labelCOL.Location = new System.Drawing.Point(12, 244);
             this.labelCOL.Name = "labelCOL";
             this.labelCOL.Size = new System.Drawing.Size(31, 13);
             this.labelCOL.TabIndex = 9;
@@ -230,25 +234,78 @@ namespace hcgcad
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
-            // numericUpDown1
+            // numericUpDownFrame
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(29, 143);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDownFrame.Location = new System.Drawing.Point(181, 143);
+            this.numericUpDownFrame.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 17;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.numericUpDownFrame.Name = "numericUpDownFrame";
+            this.numericUpDownFrame.Size = new System.Drawing.Size(72, 20);
+            this.numericUpDownFrame.TabIndex = 17;
+            this.numericUpDownFrame.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(181, 66);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "Unload OBJ";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // comboBoxOBJSize
+            // 
+            this.comboBoxOBJSize.FormattingEnabled = true;
+            this.comboBoxOBJSize.Items.AddRange(new object[] {
+            "8x8 16x16",
+            "8x8 32x32",
+            "8x8 64x64",
+            "16x16 32x32",
+            "16x16 64x64",
+            "32x32 64x64"});
+            this.comboBoxOBJSize.Location = new System.Drawing.Point(132, 169);
+            this.comboBoxOBJSize.Name = "comboBoxOBJSize";
+            this.comboBoxOBJSize.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxOBJSize.TabIndex = 19;
+            this.comboBoxOBJSize.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // comboBoxCHRBANK
+            // 
+            this.comboBoxCHRBANK.FormattingEnabled = true;
+            this.comboBoxCHRBANK.Items.AddRange(new object[] {
+            "CGX Bank 0",
+            "CGX Bank 1",
+            "CGX Bank 2",
+            "CGX Bank 3"});
+            this.comboBoxCHRBANK.Location = new System.Drawing.Point(132, 196);
+            this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
+            this.comboBoxCHRBANK.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCHRBANK.TabIndex = 20;
+            this.comboBoxCHRBANK.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(109, 145);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "OBJ Frame:";
             // 
             // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 575);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxCHRBANK);
+            this.Controls.Add(this.comboBoxOBJSize);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.numericUpDownFrame);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
             this.Controls.Add(this.checkBoxVisibleTiles);
@@ -269,7 +326,7 @@ namespace hcgcad
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,7 +353,11 @@ namespace hcgcad
         private System.Windows.Forms.ToolStripMenuItem exportSCRAsPNGToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDownFrame;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox comboBoxOBJSize;
+        private System.Windows.Forms.ComboBox comboBoxCHRBANK;
+        private System.Windows.Forms.Label label1;
     }
 }
 

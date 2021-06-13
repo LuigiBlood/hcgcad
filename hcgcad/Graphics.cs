@@ -211,7 +211,7 @@ namespace hcgcad
                     {
                         using (Graphics g = Graphics.FromImage(output))
                         {
-                            int tilecalc = tile + (!xflip ? x : ((size / 8) - x - 1)) + (!yflip ? y * 0x10 : ((size / 8) - y - 1) * 0x10);
+                            int tilecalc = (tile + (!xflip ? x : ((size / 8) - x - 1)) + (!yflip ? y * 0x10 : ((size / 8) - y - 1) * 0x10)) % 0x400;
                             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                             switch (fmt)
                             {
@@ -308,18 +308,21 @@ namespace hcgcad
                 return output;
             }
 
-            public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, int scale = 1)
+            public static Bitmap RenderOBJ(int seq, int frame, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, int scale = 1)
             {
                 //Get Offset to Footer
                 int off_hdr = 0x3000;
 
                 int entry = obj[off_hdr + 0x100 + (seq * 0x40) + (frame * 2) + 1];
 
-                return RenderOBJ(entry, obj, cgx, pal, scale);
+                return RenderOBJ(entry, obj, cgx, pal, obj_size, cgx_bank, scale);
             }
 
-            public static Bitmap RenderOBJ(int entry, byte[] obj, byte[] cgx, Color[] pal, int scale = 1)
+            public static Bitmap RenderOBJ(int entry, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, int scale = 1)
             {
+                //Tile Sizes
+                int[] tilesizes = { 8, 16, 8, 32, 8, 64, 16, 32, 16, 64, 32, 64 };
+
                 //Get CGX Format
                 int fmt = 0;
                 if (cgx.Length == 0x8500)
@@ -335,9 +338,9 @@ namespace hcgcad
                 int rev = int.Parse(System.Text.Encoding.ASCII.GetString(obj, off_hdr + 0x18, 6));
 
                 //Get Data
-                byte obj_size = obj[off_hdr + 0x51];
+                //byte obj_size = obj[off_hdr + 0x50];
                 byte pal_half = obj[off_hdr + 0x53];
-                byte cgx_bank = obj[off_hdr + 0x55];
+                //byte cgx_bank = obj[off_hdr + 0x56];
 
                 Bitmap output = new Bitmap(256, 256);
 
@@ -348,7 +351,7 @@ namespace hcgcad
                     if (!visible)
                         continue;
                     bool sizetype = (obj[(entry * 0x180) + (i * 6) + 0] & 0x01) != 0;
-                    int size = sizetype ? 16 : 8;
+                    int size = tilesizes[(obj_size * 2) + (sizetype ? 1 : 0)];
                     byte group = obj[(entry * 0x180) + (i * 6) + 1];
                     sbyte y = (sbyte)obj[(entry * 0x180) + (i * 6) + 2];
                     sbyte x = (sbyte)obj[(entry * 0x180) + (i * 6) + 3];
