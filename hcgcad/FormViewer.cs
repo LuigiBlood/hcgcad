@@ -290,6 +290,9 @@ namespace hcgcad
 
         private void exportCGXAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (pal == null && cgx == null)
+                return;
+
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "PNG Image|*.png";
             sfd.Title = "Save CGX Output...";
@@ -303,6 +306,9 @@ namespace hcgcad
 
         private void exportSCRAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (pal == null && cgx == null && scr == null)
+                return;
+
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "PNG Image|*.png";
             sfd.Title = "Save SCR Output...";
