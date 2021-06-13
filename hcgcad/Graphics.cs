@@ -347,6 +347,14 @@ namespace hcgcad
                 //byte cgx_bank = obj[off_hdr + 0x56];
 
                 Bitmap output = new Bitmap(256, 256);
+                
+                using (Graphics g = Graphics.FromImage(output))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                    g.FillRectangle(new SolidBrush(Color.FromArgb(254, 1, 254)), 0, 0, 256, 256);
+                }
 
                 //Get All Frame Data at once
                 for (int i = 63; i >= 0; i--)
@@ -369,8 +377,7 @@ namespace hcgcad
 
                     //Get 16-color Palette
                     Color[] sprpal = Program.Subarray(pal, (pal_half * 128) + (color * 16), 16);
-                    sprpal[0] = Color.FromArgb(0, 0, 0, 0); //Must be transparent
-
+                    sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
                     Bitmap chr = RenderCGXTile((cgx_bank * 256) + tile, size, cgx, sprpal, xflip, yflip);
 
                     using (Graphics g = Graphics.FromImage(output))
@@ -381,7 +388,6 @@ namespace hcgcad
                         g.DrawImage(chr, (128 + x), (128 + y), size, size);
                     }
                 }
-
                 return output;
             }
         }

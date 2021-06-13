@@ -46,6 +46,7 @@ namespace hcgcad
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCGXAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSCRAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportOBJAsGIFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numericUpDownFrame = new System.Windows.Forms.NumericUpDown();
@@ -53,9 +54,8 @@ namespace hcgcad
             this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxOBJ = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.exportOBJAsGIFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -229,6 +229,13 @@ namespace hcgcad
             this.exportSCRAsPNGToolStripMenuItem.Text = "Export SCR as PNG...";
             this.exportSCRAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportSCRAsPNGToolStripMenuItem_Click);
             // 
+            // exportOBJAsGIFToolStripMenuItem
+            // 
+            this.exportOBJAsGIFToolStripMenuItem.Name = "exportOBJAsGIFToolStripMenuItem";
+            this.exportOBJAsGIFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportOBJAsGIFToolStripMenuItem.Text = "Export OBJ as GIF...";
+            this.exportOBJAsGIFToolStripMenuItem.Click += new System.EventHandler(this.exportOBJAsGIFToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -255,6 +262,7 @@ namespace hcgcad
             // 
             // comboBoxOBJSize
             // 
+            this.comboBoxOBJSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxOBJSize.FormattingEnabled = true;
             this.comboBoxOBJSize.Items.AddRange(new object[] {
             "8x8 16x16",
@@ -271,6 +279,7 @@ namespace hcgcad
             // 
             // comboBoxCHRBANK
             // 
+            this.comboBoxCHRBANK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCHRBANK.FormattingEnabled = true;
             this.comboBoxCHRBANK.Items.AddRange(new object[] {
             "CGX Bank 0",
@@ -305,16 +314,7 @@ namespace hcgcad
             this.groupBoxOBJ.Size = new System.Drawing.Size(256, 135);
             this.groupBoxOBJ.TabIndex = 22;
             this.groupBoxOBJ.TabStop = false;
-            this.groupBoxOBJ.Text = "OBJ Control";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(48, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Object Sizes:";
+            this.groupBoxOBJ.Text = "s";
             // 
             // label3
             // 
@@ -325,12 +325,14 @@ namespace hcgcad
             this.label3.TabIndex = 23;
             this.label3.Text = "CGX Base:";
             // 
-            // exportOBJAsGIFToolStripMenuItem
+            // label2
             // 
-            this.exportOBJAsGIFToolStripMenuItem.Name = "exportOBJAsGIFToolStripMenuItem";
-            this.exportOBJAsGIFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.exportOBJAsGIFToolStripMenuItem.Text = "Export OBJ as GIF...";
-            this.exportOBJAsGIFToolStripMenuItem.Click += new System.EventHandler(this.exportOBJAsGIFToolStripMenuItem_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(48, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Object Sizes:";
             // 
             // FormViewer
             // 
