@@ -208,14 +208,7 @@ namespace hcgcad
             }
 
             pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
-            pal_inv = new Color[pal.Length];
-            for (int i = 0; i < pal.Length; i++)
-            {
-                if (i + 128 < pal.Length)
-                    pal_inv[i] = pal[128 + i];
-                else
-                    pal_inv[i] = pal[i - 128];
-            }
+            pal_inv = Program.Subarray(pal, 128, 256);
             return true;
         }
 
