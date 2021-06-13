@@ -191,18 +191,21 @@ namespace hcgcad
             file.Seek(0, SeekOrigin.Begin);
 
             //Check File Size
-            if (file.Length != 0x400)
+            if (file.Length != 0x200 && file.Length != 0x400)
                 return false;
 
             byte[] paldat = new byte[512];
             file.Read(paldat, 0, 512);
-            byte[] palftr = new byte[512];
-            file.Read(palftr, 0, 512);
+            if (file.Length == 0x400)
+            {
+                byte[] palftr = new byte[512];
+                file.Read(palftr, 0, 512);
 
-            //Check Footer Info
-            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(palftr, 0, 0x10));
-            if (!footer_string.Equals("NAK1989 S-CG-CAD"))
-                return false;
+                //Check Footer Info
+                string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(palftr, 0, 0x10));
+                if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                    return false;
+            }
 
             pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
             pal_inv = new Color[pal.Length];
