@@ -52,12 +52,16 @@ namespace hcgcad
             this.comboBoxOBJSize = new System.Windows.Forms.ComboBox();
             this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBoxOBJ = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
+            this.groupBoxOBJ.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -80,7 +84,7 @@ namespace hcgcad
             // 
             // pictureBoxCOL
             // 
-            this.pictureBoxCOL.Location = new System.Drawing.Point(12, 263);
+            this.pictureBoxCOL.Location = new System.Drawing.Point(12, 311);
             this.pictureBoxCOL.Name = "pictureBoxCOL";
             this.pictureBoxCOL.Size = new System.Drawing.Size(256, 256);
             this.pictureBoxCOL.TabIndex = 4;
@@ -121,7 +125,7 @@ namespace hcgcad
             // labelCOL
             // 
             this.labelCOL.AutoSize = true;
-            this.labelCOL.Location = new System.Drawing.Point(12, 244);
+            this.labelCOL.Location = new System.Drawing.Point(12, 292);
             this.labelCOL.Name = "labelCOL";
             this.labelCOL.Size = new System.Drawing.Size(31, 13);
             this.labelCOL.TabIndex = 9;
@@ -235,7 +239,7 @@ namespace hcgcad
             // 
             // numericUpDownFrame
             // 
-            this.numericUpDownFrame.Location = new System.Drawing.Point(181, 143);
+            this.numericUpDownFrame.Location = new System.Drawing.Point(172, 17);
             this.numericUpDownFrame.Maximum = new decimal(new int[] {
             31,
             0,
@@ -256,7 +260,7 @@ namespace hcgcad
             "16x16 32x32",
             "16x16 64x64",
             "32x32 64x64"});
-            this.comboBoxOBJSize.Location = new System.Drawing.Point(132, 169);
+            this.comboBoxOBJSize.Location = new System.Drawing.Point(123, 43);
             this.comboBoxOBJSize.Name = "comboBoxOBJSize";
             this.comboBoxOBJSize.Size = new System.Drawing.Size(121, 21);
             this.comboBoxOBJSize.TabIndex = 19;
@@ -270,7 +274,7 @@ namespace hcgcad
             "CGX Bank 1",
             "CGX Bank 2",
             "CGX Bank 3"});
-            this.comboBoxCHRBANK.Location = new System.Drawing.Point(132, 196);
+            this.comboBoxCHRBANK.Location = new System.Drawing.Point(123, 70);
             this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
             this.comboBoxCHRBANK.Size = new System.Drawing.Size(121, 21);
             this.comboBoxCHRBANK.TabIndex = 20;
@@ -279,21 +283,51 @@ namespace hcgcad
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(109, 145);
+            this.label1.Location = new System.Drawing.Point(104, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "OBJ Frame:";
+            // 
+            // groupBoxOBJ
+            // 
+            this.groupBoxOBJ.Controls.Add(this.label3);
+            this.groupBoxOBJ.Controls.Add(this.label2);
+            this.groupBoxOBJ.Controls.Add(this.numericUpDownFrame);
+            this.groupBoxOBJ.Controls.Add(this.label1);
+            this.groupBoxOBJ.Controls.Add(this.comboBoxOBJSize);
+            this.groupBoxOBJ.Controls.Add(this.comboBoxCHRBANK);
+            this.groupBoxOBJ.Location = new System.Drawing.Point(12, 141);
+            this.groupBoxOBJ.Name = "groupBoxOBJ";
+            this.groupBoxOBJ.Size = new System.Drawing.Size(256, 135);
+            this.groupBoxOBJ.TabIndex = 22;
+            this.groupBoxOBJ.TabStop = false;
+            this.groupBoxOBJ.Text = "OBJ Control";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(48, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Object Sizes:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(58, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "CGX Base:";
             // 
             // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 575);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBoxCHRBANK);
-            this.Controls.Add(this.comboBoxOBJSize);
-            this.Controls.Add(this.numericUpDownFrame);
+            this.Controls.Add(this.groupBoxOBJ);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
             this.Controls.Add(this.checkBoxVisibleTiles);
@@ -315,6 +349,8 @@ namespace hcgcad
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
+            this.groupBoxOBJ.ResumeLayout(false);
+            this.groupBoxOBJ.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,6 +381,9 @@ namespace hcgcad
         private System.Windows.Forms.ComboBox comboBoxOBJSize;
         private System.Windows.Forms.ComboBox comboBoxCHRBANK;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBoxOBJ;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 
