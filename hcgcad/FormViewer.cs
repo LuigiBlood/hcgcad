@@ -114,8 +114,8 @@ namespace hcgcad
         private void button4_Click(object sender, EventArgs e)
         {
             scr = null;
+            obj = null;
             pictureBoxSCR.Image = null;
-            labelSCR.Text = "SCR:";
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -149,11 +149,13 @@ namespace hcgcad
                     {
                         labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
                         loadedSCR = true;
+                        obj = null;
                     }
                     else if (LoadOBJ(file))
                     {
                         labelSCR.Text = "OBJ (" + Path.GetFileName(p) + "):";
                         loadedOBJ = true;
+                        scr = null;
                     }
 
                     file.Close();
@@ -319,11 +321,6 @@ namespace hcgcad
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             RenderOBJ();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            obj = null;
         }
     }
 }

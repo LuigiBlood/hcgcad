@@ -49,7 +49,6 @@ namespace hcgcad
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numericUpDownFrame = new System.Windows.Forms.NumericUpDown();
-            this.button2 = new System.Windows.Forms.Button();
             this.comboBoxOBJSize = new System.Windows.Forms.ComboBox();
             this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -67,7 +66,7 @@ namespace hcgcad
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(132, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Load COL/CGX/SCR...";
+            this.button1.Text = "Load Assets...";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -174,9 +173,9 @@ namespace hcgcad
             // 
             this.button4.Location = new System.Drawing.Point(181, 33);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Size = new System.Drawing.Size(75, 38);
             this.button4.TabIndex = 14;
-            this.button4.Text = "Unload SCR";
+            this.button4.Text = "Unload SCR/OBJ";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -247,16 +246,6 @@ namespace hcgcad
             this.numericUpDownFrame.TabIndex = 17;
             this.numericUpDownFrame.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(181, 66);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Unload OBJ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // comboBoxOBJSize
             // 
             this.comboBoxOBJSize.FormattingEnabled = true;
@@ -304,7 +293,6 @@ namespace hcgcad
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxCHRBANK);
             this.Controls.Add(this.comboBoxOBJSize);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.numericUpDownFrame);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
@@ -354,7 +342,6 @@ namespace hcgcad
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown numericUpDownFrame;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox comboBoxOBJSize;
         private System.Windows.Forms.ComboBox comboBoxCHRBANK;
         private System.Windows.Forms.Label label1;
