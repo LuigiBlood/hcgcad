@@ -348,6 +348,14 @@ namespace hcgcad
 
                 Bitmap output = new Bitmap(256, 256);
 
+                using (Graphics g = Graphics.FromImage(output))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                    g.FillRectangle(new SolidBrush(Color.FromArgb(0, 254, 1, 254)), 0, 0, 256, 256);
+                }
+
                 //Get All Frame Data at once
                 for (int i = 63; i >= 0; i--)
                 {
@@ -369,8 +377,7 @@ namespace hcgcad
 
                     //Get 16-color Palette
                     Color[] sprpal = Program.Subarray(pal, (pal_half * 128) + (color * 16), 16);
-                    sprpal[0] = Color.FromArgb(0, 0, 0, 0); //Must be transparent
-
+                    sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
                     Bitmap chr = RenderCGXTile((cgx_bank * 256) + tile, size, cgx, sprpal, xflip, yflip);
 
                     using (Graphics g = Graphics.FromImage(output))
@@ -381,8 +388,34 @@ namespace hcgcad
                         g.DrawImage(chr, (128 + x), (128 + y), size, size);
                     }
                 }
-
                 return output;
+            }
+
+            public static bool RenderOBJAnim(int seq, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, out Bitmap[] frames, out int[] durations)
+            {
+                int amountframe = 0;
+                for (int i = 0; i < 0x40; i += 2)
+                {
+                    if ((obj[0x3100 + (seq * 0x40) + i] == 0) && (obj[0x3100 + (seq * 0x40) + i + 1] == 0))
+                    {
+                        amountframe = (i / 2) - 1;
+                        break;
+                    }
+                }
+
+                frames = new Bitmap[amountframe];
+                durations = new int[amountframe];
+
+                if (amountframe == 0)
+                    return false;
+
+                for (int i = 0; i < amountframe; i++)
+                {
+                    durations[i] = (obj[0x3100 + (seq * 0x40) + i * 2] * 16) / 10;
+                    frames[i] = RenderOBJ(seq, i, obj, cgx, pal, obj_size, cgx_bank);
+                }
+
+                return true;
             }
         }
 
