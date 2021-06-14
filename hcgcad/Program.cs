@@ -220,5 +220,46 @@ namespace hcgcad
 
             return true;
         }
+
+        public static Rectangle GetBounding(Bitmap[] imgs)
+        {
+            Rectangle rect = new Rectangle(imgs[0].Width, imgs[0].Height, 0, 0);
+
+            //Find Base
+            foreach (Bitmap b in imgs)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    for (int x = 0; x < b.Width; x++)
+                    {
+                        Color pixel = b.GetPixel(x, y);
+                        if (pixel.A != 0)
+                        {
+                            rect.X = (x < rect.X) ? x : rect.X;
+                            rect.Y = (y < rect.Y) ? y : rect.Y;
+                        }
+                    }
+                }
+            }
+
+            //Width & Height
+            foreach (Bitmap b in imgs)
+            {
+                for (int y = b.Height - 1; y >= 0; y--)
+                {
+                    for (int x = b.Width - 1; x >= 0; x--)
+                    {
+                        Color pixel = b.GetPixel(x, y);
+                        if (pixel.A != 0)
+                        {
+                            rect.Width = ((x - rect.X) > rect.Width) ? (x - rect.X + 1) : rect.Width;
+                            rect.Height = ((y - rect.Y) > rect.Height) ? (y - rect.Y + 1) : rect.Height;
+                        }
+                    }
+                }
+            }
+
+            return rect;
+        }
     }
 }

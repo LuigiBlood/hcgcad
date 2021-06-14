@@ -343,6 +343,12 @@ namespace hcgcad
                     frames[i] = GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
                 }
 
+                Rectangle rect = Program.GetBoundingRect(frames);
+                for (int i = 0; i < 32; i++)
+                {
+                    frames[i] = frames[i].Clone(rect, PixelFormat.Format32bppArgb);
+                }
+
                 Program.SaveGIF(sfd.FileName, frames, pal);
 
                 MessageBox.Show("Done");
