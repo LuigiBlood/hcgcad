@@ -53,21 +53,23 @@ namespace hcgcad
             this.comboBoxOBJSize = new System.Windows.Forms.ComboBox();
             this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBoxOBJ = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDownOBJSeq = new System.Windows.Forms.NumericUpDown();
             this.radioButtonOBJSeq = new System.Windows.Forms.RadioButton();
             this.radioButtonOBJRaw = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
-            this.groupBoxOBJ.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -254,7 +256,7 @@ namespace hcgcad
             // 
             // numericUpDownFrame
             // 
-            this.numericUpDownFrame.Location = new System.Drawing.Point(209, 55);
+            this.numericUpDownFrame.Location = new System.Drawing.Point(201, 47);
             this.numericUpDownFrame.Maximum = new decimal(new int[] {
             31,
             0,
@@ -276,7 +278,7 @@ namespace hcgcad
             "16x16 32x32",
             "16x16 64x64",
             "32x32 64x64"});
-            this.comboBoxOBJSize.Location = new System.Drawing.Point(129, 81);
+            this.comboBoxOBJSize.Location = new System.Drawing.Point(121, 73);
             this.comboBoxOBJSize.Name = "comboBoxOBJSize";
             this.comboBoxOBJSize.Size = new System.Drawing.Size(121, 21);
             this.comboBoxOBJSize.TabIndex = 19;
@@ -291,7 +293,7 @@ namespace hcgcad
             "CGX Bank 1",
             "CGX Bank 2",
             "CGX Bank 3"});
-            this.comboBoxCHRBANK.Location = new System.Drawing.Point(129, 108);
+            this.comboBoxCHRBANK.Location = new System.Drawing.Point(121, 100);
             this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
             this.comboBoxCHRBANK.Size = new System.Drawing.Size(121, 21);
             this.comboBoxCHRBANK.TabIndex = 20;
@@ -300,35 +302,16 @@ namespace hcgcad
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(141, 57);
+            this.label1.Location = new System.Drawing.Point(137, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "OBJ Frame:";
             // 
-            // groupBoxOBJ
-            // 
-            this.groupBoxOBJ.Controls.Add(this.label4);
-            this.groupBoxOBJ.Controls.Add(this.numericUpDownOBJSeq);
-            this.groupBoxOBJ.Controls.Add(this.radioButtonOBJSeq);
-            this.groupBoxOBJ.Controls.Add(this.radioButtonOBJRaw);
-            this.groupBoxOBJ.Controls.Add(this.label3);
-            this.groupBoxOBJ.Controls.Add(this.label2);
-            this.groupBoxOBJ.Controls.Add(this.numericUpDownFrame);
-            this.groupBoxOBJ.Controls.Add(this.label1);
-            this.groupBoxOBJ.Controls.Add(this.comboBoxOBJSize);
-            this.groupBoxOBJ.Controls.Add(this.comboBoxCHRBANK);
-            this.groupBoxOBJ.Location = new System.Drawing.Point(12, 141);
-            this.groupBoxOBJ.Name = "groupBoxOBJ";
-            this.groupBoxOBJ.Size = new System.Drawing.Size(256, 135);
-            this.groupBoxOBJ.TabIndex = 22;
-            this.groupBoxOBJ.TabStop = false;
-            this.groupBoxOBJ.Text = "OBJ Control:";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 57);
+            this.label4.Location = new System.Drawing.Point(5, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 13);
             this.label4.TabIndex = 27;
@@ -336,7 +319,7 @@ namespace hcgcad
             // 
             // numericUpDownOBJSeq
             // 
-            this.numericUpDownOBJSeq.Location = new System.Drawing.Point(97, 55);
+            this.numericUpDownOBJSeq.Location = new System.Drawing.Point(89, 47);
             this.numericUpDownOBJSeq.Maximum = new decimal(new int[] {
             15,
             0,
@@ -350,7 +333,7 @@ namespace hcgcad
             // radioButtonOBJSeq
             // 
             this.radioButtonOBJSeq.AutoSize = true;
-            this.radioButtonOBJSeq.Location = new System.Drawing.Point(129, 19);
+            this.radioButtonOBJSeq.Location = new System.Drawing.Point(129, 6);
             this.radioButtonOBJSeq.Name = "radioButtonOBJSeq";
             this.radioButtonOBJSeq.Size = new System.Drawing.Size(79, 17);
             this.radioButtonOBJSeq.TabIndex = 25;
@@ -362,7 +345,7 @@ namespace hcgcad
             // radioButtonOBJRaw
             // 
             this.radioButtonOBJRaw.AutoSize = true;
-            this.radioButtonOBJRaw.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonOBJRaw.Location = new System.Drawing.Point(6, 6);
             this.radioButtonOBJRaw.Name = "radioButtonOBJRaw";
             this.radioButtonOBJRaw.Size = new System.Drawing.Size(84, 17);
             this.radioButtonOBJRaw.TabIndex = 24;
@@ -374,7 +357,7 @@ namespace hcgcad
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(64, 111);
+            this.label3.Location = new System.Drawing.Point(56, 103);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 23;
@@ -383,18 +366,47 @@ namespace hcgcad
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(54, 84);
+            this.label2.Location = new System.Drawing.Point(46, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 22;
             this.label2.Text = "Object Sizes:";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(12, 136);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(256, 153);
+            this.tabControl1.TabIndex = 28;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.radioButtonOBJRaw);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.comboBoxCHRBANK);
+            this.tabPage1.Controls.Add(this.numericUpDownOBJSeq);
+            this.tabPage1.Controls.Add(this.comboBoxOBJSize);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.radioButtonOBJSeq);
+            this.tabPage1.Controls.Add(this.numericUpDownFrame);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(248, 127);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "OBJ Control";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 575);
-            this.Controls.Add(this.groupBoxOBJ);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
             this.Controls.Add(this.checkBoxVisibleTiles);
@@ -416,9 +428,10 @@ namespace hcgcad
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
-            this.groupBoxOBJ.ResumeLayout(false);
-            this.groupBoxOBJ.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -449,7 +462,6 @@ namespace hcgcad
         private System.Windows.Forms.ComboBox comboBoxOBJSize;
         private System.Windows.Forms.ComboBox comboBoxCHRBANK;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBoxOBJ;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem exportOBJAsGIFToolStripMenuItem;
@@ -457,6 +469,8 @@ namespace hcgcad
         private System.Windows.Forms.NumericUpDown numericUpDownOBJSeq;
         private System.Windows.Forms.RadioButton radioButtonOBJSeq;
         private System.Windows.Forms.RadioButton radioButtonOBJRaw;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }
 
