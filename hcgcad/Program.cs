@@ -221,7 +221,7 @@ namespace hcgcad
             return true;
         }
 
-        public static Rectangle GetBounding(Bitmap[] imgs)
+        public static Rectangle GetBoundingRect(Bitmap[] imgs)
         {
             Rectangle rect = new Rectangle(imgs[0].Width, imgs[0].Height, 0, 0);
 
