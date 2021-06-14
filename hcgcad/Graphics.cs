@@ -347,7 +347,7 @@ namespace hcgcad
                 //byte cgx_bank = obj[off_hdr + 0x56];
 
                 Bitmap output = new Bitmap(256, 256);
-                
+
                 using (Graphics g = Graphics.FromImage(output))
                 {
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -389,6 +389,33 @@ namespace hcgcad
                     }
                 }
                 return output;
+            }
+
+            public static bool RenderOBJAnim(int seq, byte[] obj, byte[] cgx, Color[] pal, byte obj_size, byte cgx_bank, out Bitmap[] frames, out int[] durations)
+            {
+                int amountframe = 0;
+                for (int i = 0; i < 0x40; i += 2)
+                {
+                    if ((obj[0x3100 + (seq * 0x40) + i] == 0) && (obj[0x3100 + (seq * 0x40) + i + 1] == 0))
+                    {
+                        amountframe = (i / 2) - 1;
+                        break;
+                    }
+                }
+
+                frames = new Bitmap[amountframe];
+                durations = new int[amountframe];
+
+                if (amountframe == 0)
+                    return false;
+
+                for (int i = 0; i < amountframe; i++)
+                {
+                    durations[i] = (obj[0x3100 + (seq * 0x40) + i * 2] * 16) / 10;
+                    frames[i] = RenderOBJ(seq, i, obj, cgx, pal, obj_size, cgx_bank);
+                }
+
+                return true;
             }
         }
 

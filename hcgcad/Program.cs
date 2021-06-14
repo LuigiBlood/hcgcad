@@ -117,7 +117,7 @@ namespace hcgcad
             return bytes;
         }
 
-        public static bool SaveGIF(string filename, Bitmap[] images, Color[] pal)
+        public static bool SaveGIF(string filename, Bitmap[] images, Color[] pal, int[] duration)
         {
             if (images.Length == 0 || pal.Length == 0 || filename == "")
                 return false;
@@ -149,9 +149,24 @@ namespace hcgcad
                 gif.Add(c.B);
             }
 
+            //Application Extension
+            gif.Add(0x21);      //EXT
+            gif.Add(0xFF);      //App
+            gif.Add(0x0B);      //Size
+            gif.AddRange(System.Text.Encoding.ASCII.GetBytes("NETSCAPE2.0"));
+            gif.Add(0x03);      //Size Sub Block
+            gif.Add(0x01);      //Index Sub Block
+
+            gif.Add(0x00);      //Repeat
+            gif.Add(0x00);
+
+            gif.Add(0x00);      //End Sub Block
+
             //Bitmap
-            foreach (Bitmap b in images)
+            for (int j = 0; j < images.Length; j++)
             {
+                Bitmap b = images[j];
+
                 //-Graphic Control Extension Block
                 gif.Add(0x21);      //EXT
                 gif.Add(0xF9);      //GCE
@@ -160,7 +175,7 @@ namespace hcgcad
                 gif.Add(0b00001001);    //Packed - Restore to background color, transparent color flag
 
                 //Delay Time
-                gif.Add(10);
+                gif.Add((byte)duration[j]);
                 gif.Add(0);
 
                 //Transparent Color Index = 00
@@ -252,8 +267,8 @@ namespace hcgcad
                         Color pixel = b.GetPixel(x, y);
                         if (pixel.A != 0)
                         {
-                            rect.Width = ((x - rect.X) > rect.Width) ? (x - rect.X + 1) : rect.Width;
-                            rect.Height = ((y - rect.Y) > rect.Height) ? (y - rect.Y + 1) : rect.Height;
+                            rect.Width = ((x - rect.X + 1) > rect.Width) ? (x - rect.X + 1) : rect.Width;
+                            rect.Height = ((y - rect.Y + 1) > rect.Height) ? (y - rect.Y + 1) : rect.Height;
                         }
                     }
                 }

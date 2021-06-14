@@ -28,6 +28,7 @@ namespace hcgcad
             InitializeComponent();
             comboBoxCHRBANK.SelectedIndex = 0;
             comboBoxOBJSize.SelectedIndex = 0;
+            radioButtonOBJRaw.Checked = true;
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
@@ -95,8 +96,10 @@ namespace hcgcad
         {
             if (cgx == null || pal == null || obj == null)
                 return;
-
-            pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
+            if (radioButtonOBJRaw.Checked)
+                pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
+            else
+                pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownOBJSeq.Value, (int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -161,6 +164,8 @@ namespace hcgcad
                     file.Close();
                 }
 
+                UpdateOBJGroupBox();
+
                 if (loadedCOL)
                 {
                     RenderCOL();
@@ -182,8 +187,6 @@ namespace hcgcad
                 {
                     RenderOBJ();
                 }
-
-                groupBoxOBJ.Visible = (obj == null) ? false : true;
             }
         }
 
@@ -324,6 +327,7 @@ namespace hcgcad
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            UpdateOBJGroupBox();
             RenderOBJ();
         }
 
@@ -335,26 +339,108 @@ namespace hcgcad
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "GIF Animation|*.gif";
             sfd.Title = "Save OBJ Output...";
-            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
+            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2 - 2) + "_obj";
+            if (radioButtonOBJSeq.Checked)
+            {
+                sfd.FileName += "_seq" + numericUpDownOBJSeq.Value;
+            }
 
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Bitmap[] frames = new Bitmap[32];
-                for (int i = 0; i < 32; i++)
+                Bitmap[] frames;
+                int[] duration;
+                bool render = true;
+                if (radioButtonOBJRaw.Checked)
                 {
-                    frames[i] = GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
+                    frames = new Bitmap[32];
+                    duration = new int[32];
+                    for (int i = 0; i < 32; i++)
+                    {
+                        frames[i] = GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
+                        duration[i] = 10;
+                    }
+                }
+                else
+                {
+                    render = GraphicsRender.Nintendo.RenderOBJAnim((int)numericUpDownOBJSeq.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex, out frames, out duration);
                 }
 
                 Rectangle rect = Program.GetBoundingRect(frames);
-                for (int i = 0; i < 32; i++)
+                render = (rect.Width == 0 || rect.Height == 0) ? false : render;
+
+                if (render)
                 {
-                    frames[i] = frames[i].Clone(rect, PixelFormat.Format32bppArgb);
+                    for (int i = 0; i < frames.Length; i++)
+                    {
+                        frames[i] = frames[i].Clone(rect, PixelFormat.Format32bppArgb);
+                    }
+
+                    Program.SaveGIF(sfd.FileName, frames, pal, duration);
+                    MessageBox.Show("GIF file has been exported.", "GIF Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Couldn't export the GIF file.", "GIF Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                Program.SaveGIF(sfd.FileName, frames, pal);
-
-                MessageBox.Show("Done");
             }
+        }
+
+        private void UpdateOBJGroupBox()
+        {
+            if (obj == null)
+                return;
+
+            if (radioButtonOBJSeq.Checked)
+            {
+                //Sequence
+                numericUpDownFrame.Maximum = 15;
+                numericUpDownOBJSeq.Enabled = true;
+                if ((obj[0x3100 + ((int)numericUpDownOBJSeq.Value * 0x40) + 0] == 0) && (obj[0x3100 + ((int)numericUpDownOBJSeq.Value * 0x40) + 1] == 0))
+                {
+                    numericUpDownFrame.Value = 0;
+                    numericUpDownFrame.Enabled = false;
+                }
+                else
+                {
+                    numericUpDownFrame.Enabled = true;
+                    for (int i = 0; i < 0x40; i+=2)
+                    {
+                        if ((obj[0x3100 + ((int)numericUpDownOBJSeq.Value * 0x40) + i] == 0) && (obj[0x3100 + ((int)numericUpDownOBJSeq.Value * 0x40) + i + 1] == 0))
+                        {
+                            numericUpDownFrame.Maximum = (i / 2) - 1;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Raw
+                numericUpDownFrame.Maximum = 31;
+                numericUpDownFrame.Enabled = true;
+                numericUpDownOBJSeq.Enabled = false;
+                numericUpDownOBJSeq.Value = 0;
+            }
+        }
+
+        private void radioButtonOBJRaw_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonOBJSeq.Checked = !radioButtonOBJRaw.Checked;
+            UpdateOBJGroupBox();
+        }
+
+        private void radioButtonOBJSeq_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonOBJRaw.Checked = !radioButtonOBJSeq.Checked;
+            UpdateOBJGroupBox();
+        }
+
+        private void numericUpDownOBJSeq_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateOBJGroupBox();
+            numericUpDownFrame.Value = 0;
+            RenderOBJ();
         }
     }
 }
