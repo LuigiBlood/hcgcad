@@ -314,7 +314,8 @@ namespace hcgcad
             this.groupBoxOBJ.Size = new System.Drawing.Size(256, 135);
             this.groupBoxOBJ.TabIndex = 22;
             this.groupBoxOBJ.TabStop = false;
-            this.groupBoxOBJ.Text = "s";
+            this.groupBoxOBJ.Text = "OBJ Control:";
+            this.groupBoxOBJ.Visible = false;
             // 
             // label3
             // 

@@ -182,6 +182,8 @@ namespace hcgcad
                 {
                     RenderOBJ();
                 }
+
+                groupBoxOBJ.Visible = (obj == null) ? false : true;
             }
         }
 
