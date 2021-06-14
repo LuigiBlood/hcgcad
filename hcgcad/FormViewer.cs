@@ -333,30 +333,19 @@ namespace hcgcad
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "GIF Animation|*.gif";
             sfd.Title = "Save OBJ Output...";
-            ImageCodecInfo codec = Program.GetEncoder(ImageFormat.Gif);
-            EncoderParameters param0 = new EncoderParameters(1);
-            param0.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.SaveFlag, (long)EncoderValue.MultiFrame);
-            EncoderParameters paramN = new EncoderParameters(1);
-            paramN.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.SaveFlag, (long)EncoderValue.FrameDimensionTime);
-            EncoderParameters paramEnd = new EncoderParameters(1);
-            paramEnd.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.SaveFlag, (long)EncoderValue.Flush);
             sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
 
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                FileStream gifOutput = File.Create(sfd.FileName);
-                Bitmap bitmapanim;
-                Bitmap frame = GraphicsRender.Nintendo.RenderOBJ(0, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
-                bitmapanim = frame.Clone(new Rectangle(0, 0, 256, 256), PixelFormat.Format8bppIndexed);
-                //bitmapanim.MakeTransparent(Color.FromArgb(254, 1, 254));
-                bitmapanim.Save(gifOutput, codec, param0);
-                
-                for (int i = 1; i < 32; i++)
+                Bitmap[] frames = new Bitmap[32];
+                for (int i = 0; i < 32; i++)
                 {
-                    bitmapanim.SaveAdd(GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex).Clone(new Rectangle(0, 0, 256, 256), PixelFormat.Format8bppIndexed), paramN);
+                    frames[i] = GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
                 }
-                bitmapanim.SaveAdd(paramEnd);
-                gifOutput.Close();
+
+                Program.SaveGIF(sfd.FileName, frames, pal);
+
+                MessageBox.Show("Done");
             }
         }
     }

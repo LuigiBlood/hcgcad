@@ -353,7 +353,7 @@ namespace hcgcad
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                     g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-                    g.FillRectangle(new SolidBrush(Color.FromArgb(254, 1, 254)), 0, 0, 256, 256);
+                    g.FillRectangle(new SolidBrush(Color.FromArgb(0, 254, 1, 254)), 0, 0, 256, 256);
                 }
 
                 //Get All Frame Data at once
