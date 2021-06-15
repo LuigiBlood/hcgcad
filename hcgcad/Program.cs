@@ -172,7 +172,7 @@ namespace hcgcad
                 gif.Add(0xF9);      //GCE
                 gif.Add(4);         //Size
 
-                gif.Add(0b00001001);    //Packed - Restore to background color, transparent color flag
+                gif.Add(0x09);    //Packed - Restore to background color, transparent color flag
 
                 //Delay Time
                 gif.Add((byte)duration[j]);
