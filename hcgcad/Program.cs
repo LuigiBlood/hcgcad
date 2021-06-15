@@ -238,6 +238,9 @@ namespace hcgcad
 
         public static Rectangle GetBoundingRect(Bitmap[] imgs)
         {
+            if (imgs.Length == 0)
+                return new Rectangle(0, 0, 0, 0);
+
             Rectangle rect = new Rectangle(imgs[0].Width, imgs[0].Height, 0, 0);
 
             //Find Base
