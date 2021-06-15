@@ -23,6 +23,11 @@ namespace hcgcad
 
         static int selectedPal = 0;
 
+        string col_filename;
+        string cgx_filename;
+        string scr_filename;
+        string obj_filename;
+
         public FormViewer()
         {
             InitializeComponent();
@@ -141,24 +146,30 @@ namespace hcgcad
                     if (LoadCOL(file))
                     {
                         labelCOL.Text = "COL (" + Path.GetFileName(p) + "):";
+                        col_filename = Path.GetFileName(p);
                         loadedCOL = true;
                     }
                     else if (LoadCGX(file))
                     {
                         labelCGX.Text = "CGX (" + Path.GetFileName(p) + "):";
+                        cgx_filename = Path.GetFileName(p);
                         loadedCGX = true;
                     }
                     else if (LoadSCR(file))
                     {
                         labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
+                        scr_filename = Path.GetFileName(p);
                         loadedSCR = true;
                         obj = null;
+                        obj_filename = "";
                     }
                     else if (LoadOBJ(file))
                     {
                         labelSCR.Text = "OBJ (" + Path.GetFileName(p) + "):";
+                        obj_filename = Path.GetFileName(p);
                         loadedOBJ = true;
                         scr = null;
+                        scr_filename = "";
                     }
 
                     file.Close();
@@ -302,7 +313,7 @@ namespace hcgcad
             sfd.Filter = "PNG Image|*.png";
             sfd.Title = "Save CGX Output...";
             ImageFormat format = ImageFormat.Png;
-            sfd.FileName = labelCGX.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
+            sfd.FileName = Path.GetFileNameWithoutExtension(cgx_filename) + "_cgx";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
@@ -318,7 +329,7 @@ namespace hcgcad
             sfd.Filter = "PNG Image|*.png";
             sfd.Title = "Save SCR Output...";
             ImageFormat format = ImageFormat.Png;
-            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2);
+            sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
@@ -339,7 +350,7 @@ namespace hcgcad
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "GIF Animation|*.gif";
             sfd.Title = "Save OBJ Output...";
-            sfd.FileName = labelSCR.Text.Substring(5, labelCGX.Text.Length - 5 - 2 - 2) + "_obj";
+            sfd.FileName = Path.GetFileNameWithoutExtension(obj_filename) + "_obj";
             if (radioButtonOBJSeq.Checked)
             {
                 sfd.FileName += "_seq" + numericUpDownOBJSeq.Value;
