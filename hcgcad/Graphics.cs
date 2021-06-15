@@ -28,7 +28,7 @@ namespace hcgcad
                         int yt = y;
                         if (yflip) yt = 7 - y;
 
-                        tile.SetPixel(xt, yt, pal[colorID]);
+                        tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }
                 }
 
@@ -53,7 +53,7 @@ namespace hcgcad
                         int yt = y;
                         if (yflip) yt = 7 - y;
 
-                        tile.SetPixel(xt, yt, pal[colorID]);
+                        tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }
                 }
 
@@ -82,7 +82,7 @@ namespace hcgcad
                         int yt = y;
                         if (yflip) yt = 7 - y;
 
-                        tile.SetPixel(xt, yt, pal[colorID]);
+                        tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }
                 }
 
