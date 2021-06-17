@@ -62,7 +62,7 @@ namespace hcgcad
                 return;
 
             Color[] selPal = (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv;
-            Bitmap output = GraphicsRender.Nintendo.RenderPalette(selPal);
+            Bitmap output = Render.RenderPalette(selPal);
 
             if (checkBoxPalForce.Checked)
             {
@@ -85,7 +85,7 @@ namespace hcgcad
             if (cgx == null || pal == null)
                 return;
 
-            pictureBoxCGX.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1), 2);
+            pictureBoxCGX.Image = Render.ScaleBitmap(Render.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1), 2);
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
@@ -94,7 +94,7 @@ namespace hcgcad
             if (cgx == null || pal == null || scr == null)
                 return;
 
-            pictureBoxSCR.Image = GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked);
+            pictureBoxSCR.Image = Render.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked);
         }
 
         private void RenderOBJ()
@@ -102,9 +102,9 @@ namespace hcgcad
             if (cgx == null || pal == null || obj == null)
                 return;
             if (radioButtonOBJRaw.Checked)
-                pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
+                pictureBoxSCR.Image = Render.ScaleBitmap(Render.RenderOBJ((int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
             else
-                pictureBoxSCR.Image = GraphicsRender.ScaleBitmap(GraphicsRender.Nintendo.RenderOBJ((int)numericUpDownOBJSeq.Value, (int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
+                pictureBoxSCR.Image = Render.ScaleBitmap(Render.RenderOBJ((int)numericUpDownOBJSeq.Value, (int)numericUpDownFrame.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -223,7 +223,7 @@ namespace hcgcad
                     return false;
             }
 
-            pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
+            pal = Render.PaletteFromByteArray(paldat);
             pal_inv = Utility.Subarray(pal, 128, 256);
             return true;
         }
@@ -316,7 +316,7 @@ namespace hcgcad
             sfd.FileName = Path.GetFileNameWithoutExtension(cgx_filename) + "_cgx";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                GraphicsRender.Nintendo.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
+                Render.RenderCGX(cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxPalForce.Checked ? selectedPal : -1).Save(sfd.FileName, format);
             }
         }
 
@@ -332,7 +332,7 @@ namespace hcgcad
             sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                GraphicsRender.Nintendo.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+                Render.RenderSCR(scr, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -367,13 +367,13 @@ namespace hcgcad
                     duration = new int[32];
                     for (int i = 0; i < 32; i++)
                     {
-                        frames[i] = GraphicsRender.Nintendo.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
+                        frames[i] = Render.RenderOBJ(i, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex);
                         duration[i] = 10;
                     }
                 }
                 else
                 {
-                    render = GraphicsRender.Nintendo.RenderOBJAnim((int)numericUpDownOBJSeq.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex, out frames, out duration);
+                    render = Render.RenderOBJAnim((int)numericUpDownOBJSeq.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex, out frames, out duration);
                 }
 
                 Rectangle rect = Utility.GetBoundingRect(frames);
