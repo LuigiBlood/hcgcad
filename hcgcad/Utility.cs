@@ -17,10 +17,7 @@ namespace hcgcad
 
             for (int j = 0; j < len; j++)
             {
-                if ((i + j) < obj.Length)
-                    output[j] = obj[i + j];
-                else
-                    output[j] = obj[j - i];
+                output[j] = obj[(i + j) % obj.Length];
             }
 
             return output;
