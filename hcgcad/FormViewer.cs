@@ -218,13 +218,13 @@ namespace hcgcad
                 file.Read(palftr, 0, 512);
 
                 //Check Footer Info
-                string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(palftr, 0, 0x10));
+                string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(palftr, 0, 0x10));
                 if (!footer_string.Equals("NAK1989 S-CG-CAD"))
                     return false;
             }
 
             pal = GraphicsRender.Nintendo.PaletteFromByteArray(paldat);
-            pal_inv = Program.Subarray(pal, 128, 256);
+            pal_inv = Utility.Subarray(pal, 128, 256);
             return true;
         }
 
@@ -247,7 +247,7 @@ namespace hcgcad
             file.Read(cgx_t, 0, (int)file.Length);
 
             //Check Footer Info
-            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(cgx_t, off_hdr, 0x10));
+            string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(cgx_t, off_hdr, 0x10));
             if (!footer_string.Equals("NAK1989 S-CG-CAD"))
                 return false;
 
@@ -275,7 +275,7 @@ namespace hcgcad
             file.Read(scr_t, 0, (int)file.Length);
 
             //Check Footer Info
-            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(scr_t, 0x2000, 0x10));
+            string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(scr_t, 0x2000, 0x10));
             if (!footer_string.Equals("NAK1989 S-CG-CAD"))
                 return false;
 
@@ -296,7 +296,7 @@ namespace hcgcad
             file.Read(obj_t, 0, (int)file.Length);
 
             //Check Footer Info
-            string footer_string = System.Text.Encoding.ASCII.GetString(Program.Subarray(obj_t, 0x3000, 0x10));
+            string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(obj_t, 0x3000, 0x10));
             if (!footer_string.Equals("NAK1989 S-CG-CAD"))
                 return false;
 
@@ -376,7 +376,7 @@ namespace hcgcad
                     render = GraphicsRender.Nintendo.RenderOBJAnim((int)numericUpDownOBJSeq.Value, obj, cgx, (!checkBoxCGRAMSwap.Checked) ? pal : pal_inv, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex, out frames, out duration);
                 }
 
-                Rectangle rect = Program.GetBoundingRect(frames);
+                Rectangle rect = Utility.GetBoundingRect(frames);
                 render = (rect.Width == 0 || rect.Height == 0) ? false : render;
 
                 if (render)
@@ -386,7 +386,7 @@ namespace hcgcad
                         frames[i] = frames[i].Clone(rect, PixelFormat.Format32bppArgb);
                     }
 
-                    Program.SaveGIF(sfd.FileName, frames, pal, duration);
+                    GIF.SaveGIF(sfd.FileName, frames, pal, duration);
                     MessageBox.Show("GIF file has been exported.", "GIF Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else

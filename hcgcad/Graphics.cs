@@ -172,14 +172,14 @@ namespace hcgcad
                     switch (fmt)
                     {
                         case 0: //2bit
-                            tile = Tile2BPP(Program.Subarray<byte>(cgx, i * 16, 16), Program.Subarray<Color>(pal, (p_b * 128) + (p * 4), 4));
+                            tile = Tile2BPP(Utility.Subarray(cgx, i * 16, 16), Utility.Subarray(pal, (p_b * 128) + (p * 4), 4));
                             break;
                         case 1: //4bit
-                            tile = Tile4BPP(Program.Subarray<byte>(cgx, i * 32, 32), Program.Subarray<Color>(pal, (p_b * 128) + (p * 16), 16));
+                            tile = Tile4BPP(Utility.Subarray(cgx, i * 32, 32), Utility.Subarray(pal, (p_b * 128) + (p * 16), 16));
                             break;
                         default:
                         case 2: //8bit
-                            tile = Tile8BPP(Program.Subarray<byte>(cgx, i * 64, 64), Program.Subarray<Color>(pal, (p_b * 128) + (p * 128), 256));
+                            tile = Tile8BPP(Utility.Subarray(cgx, i * 64, 64), Utility.Subarray(pal, (p_b * 128) + (p * 128), 256));
                             break;
                     }
 
@@ -218,14 +218,14 @@ namespace hcgcad
                             switch (fmt)
                             {
                                 case 0:
-                                    g.DrawImage(Tile2BPP(Program.Subarray<byte>(cgx, tilecalc * 16, 16), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(Tile2BPP(Utility.Subarray(cgx, tilecalc * 16, 16), pal, xflip, yflip), x * 8, y * 8, 8, 8);
                                     break;
                                 case 1:
-                                    g.DrawImage(Tile4BPP(Program.Subarray<byte>(cgx, tilecalc * 32, 32), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(Tile4BPP(Utility.Subarray(cgx, tilecalc * 32, 32), pal, xflip, yflip), x * 8, y * 8, 8, 8);
                                     break;
                                 default:
                                 case 2:
-                                    g.DrawImage(Tile8BPP(Program.Subarray<byte>(cgx, tilecalc * 64, 64), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(Tile8BPP(Utility.Subarray(cgx, tilecalc * 64, 64), pal, xflip, yflip), x * 8, y * 8, 8, 8);
                                     break;
                             }
                         }
@@ -288,14 +288,14 @@ namespace hcgcad
                         switch (fmt)
                         {
                             case 0: //2bit
-                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + (color * 4), 4), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Utility.Subarray(pal, (p_b * 128) + (color * 4), 4), xflip, yflip);
                                 break;
                             case 1: //4bit
-                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + (color * 16), 16), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Utility.Subarray(pal, (p_b * 128) + (color * 16), 16), xflip, yflip);
                                 break;
                             default:
                             case 2: //8bit
-                                chr = RenderCGXTile(tile, z, cgx, Program.Subarray<Color>(pal, (p_b * 128) + ((color & 1) * 128), 256), xflip, yflip);
+                                chr = RenderCGXTile(tile, z, cgx, Utility.Subarray(pal, (p_b * 128) + ((color & 1) * 128), 256), xflip, yflip);
                                 break;
                         }
 
@@ -376,7 +376,7 @@ namespace hcgcad
                     int tile = ((obj[(entry * 0x180) + (i * 6) + 4] & 0x01) << 8) | obj[(entry * 0x180) + (i * 6) + 5];
 
                     //Get 16-color Palette
-                    Color[] sprpal = Program.Subarray(pal, (pal_half * 128) + (color * 16), 16);
+                    Color[] sprpal = Utility.Subarray(pal, (pal_half * 128) + (color * 16), 16);
                     sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
                     Bitmap chr = RenderCGXTile((cgx_bank * 256) + tile, size, cgx, sprpal, xflip, yflip);
 
