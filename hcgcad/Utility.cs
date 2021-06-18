@@ -31,6 +31,14 @@ namespace hcgcad
             return bitstr;
         }
 
+        public static bool[] ToBitStreamReverse(byte[] t, int bits)
+        {
+            bool[] bitstr = new bool[bits];
+            for (int i = 0; i < bits; i++)
+                bitstr[i] = (((t[i / 8] << (i % 8)) & 0x80) != 0) ? true : false;
+            return bitstr;
+        }
+
         public static byte[] ToByteStream(bool[] bits)
         {
             byte[] bytes = new byte[Convert.ToInt32(Math.Ceiling((decimal)(bits.Length / 8.0)))];

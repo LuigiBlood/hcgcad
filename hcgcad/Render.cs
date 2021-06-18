@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace hcgcad
 {
-    public class Render
+    public static class Render
     {
-        public class SNES
+        public static class SNES
         {
             //SNES Tile Render Functions
             public static Bitmap Tile2BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false)

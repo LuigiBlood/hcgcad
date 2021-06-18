@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CAD.cs" />
     <Compile Include="FormViewer.cs">
       <SubType>Form</SubType>
     </Compile>
