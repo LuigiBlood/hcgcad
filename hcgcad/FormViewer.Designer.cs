@@ -61,6 +61,11 @@ namespace hcgcad
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importRAWGraphicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importRAWPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importRAWScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -195,7 +200,8 @@ namespace hcgcad
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.importToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1072, 24);
@@ -206,6 +212,7 @@ namespace hcgcad
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
+            this.toolStripSeparator2,
             this.exportCGXAsPNGToolStripMenuItem,
             this.exportSCRAsPNGToolStripMenuItem,
             this.exportOBJAsGIFToolStripMenuItem,
@@ -401,6 +408,42 @@ namespace hcgcad
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importRAWGraphicsToolStripMenuItem,
+            this.importRAWPaletteToolStripMenuItem,
+            this.importRAWScreenToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // importRAWGraphicsToolStripMenuItem
+            // 
+            this.importRAWGraphicsToolStripMenuItem.Name = "importRAWGraphicsToolStripMenuItem";
+            this.importRAWGraphicsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.importRAWGraphicsToolStripMenuItem.Text = "Import RAW Graphics...";
+            this.importRAWGraphicsToolStripMenuItem.Click += new System.EventHandler(this.importRAWGraphicsToolStripMenuItem_Click);
+            // 
+            // importRAWPaletteToolStripMenuItem
+            // 
+            this.importRAWPaletteToolStripMenuItem.Name = "importRAWPaletteToolStripMenuItem";
+            this.importRAWPaletteToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.importRAWPaletteToolStripMenuItem.Text = "Import RAW Palette...";
+            this.importRAWPaletteToolStripMenuItem.Click += new System.EventHandler(this.importRAWPaletteToolStripMenuItem_Click);
+            // 
+            // importRAWScreenToolStripMenuItem
+            // 
+            this.importRAWScreenToolStripMenuItem.Name = "importRAWScreenToolStripMenuItem";
+            this.importRAWScreenToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.importRAWScreenToolStripMenuItem.Text = "Import RAW Screen...";
+            this.importRAWScreenToolStripMenuItem.Click += new System.EventHandler(this.importRAWScreenToolStripMenuItem_Click);
+            // 
             // FormViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -471,6 +514,11 @@ namespace hcgcad
         private System.Windows.Forms.RadioButton radioButtonOBJRaw;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importRAWGraphicsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importRAWPaletteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importRAWScreenToolStripMenuItem;
     }
 }
 

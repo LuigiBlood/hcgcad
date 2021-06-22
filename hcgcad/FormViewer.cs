@@ -377,5 +377,139 @@ namespace hcgcad
             numericUpDownFrame.Value = 0;
             RenderOBJ();
         }
+
+        private void importRAWGraphicsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Multiselect = false;
+            o.Filter = "Character Graphics Files (*.cgx;*.chr)|*.cgx;*.cgx.bak;*.chr;*.chr.bak|All files|*.*";
+            o.Title = "Import RAW Graphics...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                Form importCGXform = new Form();
+                importCGXform.AutoSize = false;
+                importCGXform.ClientSize = new Size(200, 100);
+
+                Label label1 = new Label();
+                label1.Text = "Bits Per Pixel:";
+                label1.Location = new Point(10, 10);
+
+                ComboBox cgxbpp = new ComboBox();
+                cgxbpp.Location = new Point(10, 25);
+                cgxbpp.DropDownStyle = ComboBoxStyle.DropDownList;
+                cgxbpp.Items.Add("2BPP");
+                cgxbpp.Items.Add("4BPP");
+                cgxbpp.Items.Add("8BPP");
+                cgxbpp.SelectedIndex = 0;
+
+                Button acceptCGX = new Button();
+                acceptCGX.Text = "OK";
+                acceptCGX.Location = new Point(10, importCGXform.ClientSize.Height - acceptCGX.ClientSize.Height - 10);
+                acceptCGX.DialogResult = DialogResult.OK;
+
+                Button cancelCGX = new Button();
+                cancelCGX.Text = "Cancel";
+                cancelCGX.Location = new Point(importCGXform.ClientSize.Width - cancelCGX.ClientSize.Width - 10, acceptCGX.Location.Y);
+
+                importCGXform.Text = "Import RAW Graphics Data...";
+                importCGXform.FormBorderStyle = FormBorderStyle.FixedDialog;
+                importCGXform.MaximizeBox = false;
+                importCGXform.MinimizeBox = false;
+                importCGXform.AcceptButton = acceptCGX;
+                importCGXform.CancelButton = cancelCGX;
+
+                importCGXform.Controls.Add(cgxbpp);
+                importCGXform.Controls.Add(label1);
+                importCGXform.Controls.Add(acceptCGX);
+                importCGXform.Controls.Add(cancelCGX);
+                acceptCGX.Focus();
+
+                if (importCGXform.ShowDialog() == DialogResult.OK)
+                {
+                    FileStream file = File.OpenRead(o.FileName);
+                    cad_cgx = CAD.CGX.Import(file, cgxbpp.SelectedIndex);
+                    file.Close();
+                    cgx_filename = o.FileName;
+                    RenderCGX();
+                    RenderSCR();
+                    RenderOBJ();
+                }
+            }
+        }
+
+        private void importRAWScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Multiselect = false;
+            o.Filter = "Screen Files (*.scr)|*.scr;*.scr.bak|All files|*.*";
+            o.Title = "Import RAW Screen Data...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                Form importSCRform = new Form();
+                importSCRform.AutoSize = false;
+                importSCRform.ClientSize = new Size(200, 100);
+
+                Label label1 = new Label();
+                label1.Text = "Individual Tile Size:";
+                label1.Location = new Point(10, 10);
+
+                ComboBox scrtile = new ComboBox();
+                scrtile.Location = new Point(10, 25);
+                scrtile.DropDownStyle = ComboBoxStyle.DropDownList;
+                scrtile.Items.Add("8x8");
+                scrtile.Items.Add("16x16");
+                scrtile.SelectedIndex = 0;
+
+                Button acceptSCR = new Button();
+                acceptSCR.Text = "OK";
+                acceptSCR.Location = new Point(10, importSCRform.ClientSize.Height - acceptSCR.ClientSize.Height - 10);
+                acceptSCR.DialogResult = DialogResult.OK;
+
+                Button cancelSCR = new Button();
+                cancelSCR.Text = "Cancel";
+                cancelSCR.Location = new Point(importSCRform.ClientSize.Width - cancelSCR.ClientSize.Width - 10, acceptSCR.Location.Y);
+
+                importSCRform.Text = "Import as SCR...";
+                importSCRform.FormBorderStyle = FormBorderStyle.FixedDialog;
+                importSCRform.MaximizeBox = false;
+                importSCRform.MinimizeBox = false;
+                importSCRform.AcceptButton = acceptSCR;
+                importSCRform.CancelButton = cancelSCR;
+
+                importSCRform.Controls.Add(scrtile);
+                importSCRform.Controls.Add(label1);
+                importSCRform.Controls.Add(acceptSCR);
+                importSCRform.Controls.Add(cancelSCR);
+                acceptSCR.Focus();
+
+                if (importSCRform.ShowDialog() == DialogResult.OK)
+                {
+                    FileStream file = File.OpenRead(o.FileName);
+                    cad_scr = CAD.SCR.Import(file, (byte)scrtile.SelectedIndex);
+                    file.Close();
+                    scr_filename = o.FileName;
+                    RenderSCR();
+                }
+            }
+        }
+
+        private void importRAWPaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Multiselect = false;
+            o.Filter = "SNES Color Files (*.col;*.pal)|*.col;*.col.bak;*.pal;*.pal.bak|All files|*.*";
+            o.Title = "Import RAW SNES Color Data...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                FileStream file = File.OpenRead(o.FileName);
+                cad_col = CAD.COL.Import(file);
+                file.Close();
+                col_filename = o.FileName;
+                RenderCOL();
+                RenderCGX();
+                RenderSCR();
+                RenderOBJ();
+            }
+        }
     }
 }

@@ -207,6 +207,35 @@ namespace hcgcad
 
                 return new CGX(cgx_t);
             }
+
+            public static CGX Import(FileStream file, int fmt)
+            {
+                byte[] dat;
+                int maxlen;
+                if (fmt == 0)
+                {
+                    dat = new byte[0x4500];
+                    maxlen = 0x4000;
+                }
+                else if (fmt == 1)
+                {
+                    dat = new byte[0x8500];
+                    maxlen = 0x8000;
+                }
+                else //if (fmt == 2)
+                {
+                    dat = new byte[0x10100];
+                    maxlen = 0x10000;
+                }
+
+                //Generate File
+                file.Read(dat, 0, Math.Min(maxlen, (int)file.Length));
+                System.Text.Encoding.ASCII.GetBytes("NAK1989 S-CG-CAD").CopyTo(dat, maxlen);
+                System.Text.Encoding.ASCII.GetBytes("Ver0.00 ").CopyTo(dat, maxlen + 0x10);
+                System.Text.Encoding.ASCII.GetBytes("010101  ").CopyTo(dat, maxlen + 0x18);
+
+                return new CGX(dat);
+            }
         }
 
         public class COL
@@ -292,6 +321,16 @@ namespace hcgcad
                     return new COL(paldat);
                 }
                 //return null;
+            }
+
+            public static COL Import(FileStream file)
+            {
+                file.Seek(0, SeekOrigin.Begin);
+
+                byte[] col_t = new byte[0x200];
+                file.Read(col_t, 0, Math.Min(0x200, (int)file.Length));
+
+                return new COL(col_t);
             }
         }
 
@@ -412,6 +451,22 @@ namespace hcgcad
                     return null;
 
                 return new SCR(scr_t);
+            }
+
+            public static SCR Import(FileStream file, byte scr_mode = 0)
+            {
+                byte[] dat = new byte[0x2300];
+                int maxlen = 0x2000;
+
+                //Generate File
+                file.Read(dat, 0, Math.Min(maxlen, (int)file.Length));
+                System.Text.Encoding.ASCII.GetBytes("NAK1989 S-CG-CAD").CopyTo(dat, maxlen);
+                System.Text.Encoding.ASCII.GetBytes("Ver0.00 ").CopyTo(dat, maxlen + 0x10);
+                System.Text.Encoding.ASCII.GetBytes("010101  ").CopyTo(dat, maxlen + 0x18);
+                dat[0x2042] = scr_mode;
+                Utility.Subarray(new byte[] { 0xFF }, 0, 0x200).CopyTo(dat, 0x2100);
+
+                return new SCR(dat);
             }
         }
 
