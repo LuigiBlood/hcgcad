@@ -133,70 +133,7 @@ namespace hcgcadviewer
             o.Title = "Load SCAD files...";
             if (o.ShowDialog() == DialogResult.OK)
             {
-                bool loadedCOL = false;
-                bool loadedCGX = false;
-                bool loadedSCR = false;
-                bool loadedOBJ = false;
-
-                foreach (string p in o.FileNames)
-                {
-                    FileStream file = File.Open(p, FileMode.Open, FileAccess.Read);
-
-                    if (LoadCOL(file))
-                    {
-                        labelCOL.Text = "COL (" + Path.GetFileName(p) + "):";
-                        col_filename = Path.GetFileName(p);
-                        loadedCOL = true;
-                    }
-                    else if (LoadCGX(file))
-                    {
-                        labelCGX.Text = "CGX (" + Path.GetFileName(p) + "):";
-                        cgx_filename = Path.GetFileName(p);
-                        loadedCGX = true;
-                    }
-                    else if (LoadSCR(file))
-                    {
-                        labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
-                        scr_filename = Path.GetFileName(p);
-                        loadedSCR = true;
-                        cad_obj = null;
-                        obj_filename = "";
-                    }
-                    else if (LoadOBJ(file))
-                    {
-                        labelSCR.Text = "OBJ (" + Path.GetFileName(p) + "):";
-                        obj_filename = Path.GetFileName(p);
-                        loadedOBJ = true;
-                        cad_scr = null;
-                        scr_filename = "";
-                    }
-
-                    file.Close();
-                }
-
-                UpdateOBJGroupBox();
-
-                if (loadedCOL)
-                {
-                    RenderCOL();
-                    RenderCGX();
-                    RenderSCR();
-                    RenderOBJ();
-                }
-                else if (loadedCGX)
-                {
-                    RenderCGX();
-                    RenderSCR();
-                    RenderOBJ();
-                }
-                else if (loadedSCR)
-                {
-                    RenderSCR();
-                }
-                else if (loadedOBJ)
-                {
-                    RenderOBJ();
-                }
+                loadAssets(o.FileNames);
             }
         }
 
@@ -508,6 +445,85 @@ namespace hcgcadviewer
                 RenderCOL();
                 RenderCGX();
                 RenderSCR();
+                RenderOBJ();
+            }
+        }
+
+        private void FormViewer_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void FormViewer_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            loadAssets(files);
+        }
+
+        private void loadAssets(string[] filenames)
+        {
+            bool loadedCOL = false;
+            bool loadedCGX = false;
+            bool loadedSCR = false;
+            bool loadedOBJ = false;
+
+            foreach (string p in filenames)
+            {
+                FileStream file = File.Open(p, FileMode.Open, FileAccess.Read);
+
+                if (LoadCOL(file))
+                {
+                    labelCOL.Text = "COL (" + Path.GetFileName(p) + "):";
+                    col_filename = Path.GetFileName(p);
+                    loadedCOL = true;
+                }
+                else if (LoadCGX(file))
+                {
+                    labelCGX.Text = "CGX (" + Path.GetFileName(p) + "):";
+                    cgx_filename = Path.GetFileName(p);
+                    loadedCGX = true;
+                }
+                else if (LoadSCR(file))
+                {
+                    labelSCR.Text = "SCR (" + Path.GetFileName(p) + "):";
+                    scr_filename = Path.GetFileName(p);
+                    loadedSCR = true;
+                    cad_obj = null;
+                    obj_filename = "";
+                }
+                else if (LoadOBJ(file))
+                {
+                    labelSCR.Text = "OBJ (" + Path.GetFileName(p) + "):";
+                    obj_filename = Path.GetFileName(p);
+                    loadedOBJ = true;
+                    cad_scr = null;
+                    scr_filename = "";
+                }
+
+                file.Close();
+            }
+
+            UpdateOBJGroupBox();
+
+            if (loadedCOL)
+            {
+                RenderCOL();
+                RenderCGX();
+                RenderSCR();
+                RenderOBJ();
+            }
+            else if (loadedCGX)
+            {
+                RenderCGX();
+                RenderSCR();
+                RenderOBJ();
+            }
+            else if (loadedSCR)
+            {
+                RenderSCR();
+            }
+            else if (loadedOBJ)
+            {
                 RenderOBJ();
             }
         }
