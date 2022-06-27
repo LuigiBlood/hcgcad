@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace hcgcadviewer
+namespace hcgcadeditor
 {
-    public static class Program
+    static class Program
     {
         /// <summary>
         /// Point d'entrée principal de l'application.
@@ -19,7 +16,7 @@ namespace hcgcadviewer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormViewer());
+            Application.Run(new FormEditor());
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace hcgcad
+namespace hcgcadviewer
 {
     partial class FormViewer
     {

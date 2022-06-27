@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Hyper CG-CAD Viewer")]
+[assembly: AssemblyTitle("Hyper CG-CAD Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LuigiBlood")]
-[assembly: AssemblyProduct("hcgcadviewer")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("hcgcadeditor")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("d978c432-bb0f-4137-bc34-e4ccd6eab46a")]
+[assembly: Guid("e5750373-ec0f-4337-a332-8a57557d1d30")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //

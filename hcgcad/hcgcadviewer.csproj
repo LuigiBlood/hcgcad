@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D978C432-BB0F-4137-BC34-E4CCD6EAB46A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>hcgcad</RootNamespace>
-    <AssemblyName>hcgcad</AssemblyName>
+    <RootNamespace>hcgcadviewer</RootNamespace>
+    <AssemblyName>HyperCG-CAD-Viewer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -69,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

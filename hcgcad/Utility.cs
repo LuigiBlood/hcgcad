@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
 
-namespace hcgcad
+namespace hcgcadviewer
 {
     public class Utility
     {

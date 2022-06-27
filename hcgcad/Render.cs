@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hcgcad
+namespace hcgcadviewer
 {
     public static class Render
     {

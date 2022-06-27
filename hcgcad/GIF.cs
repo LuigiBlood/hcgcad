@@ -6,7 +6,7 @@ using System.IO;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace hcgcad
+namespace hcgcadviewer
 {
     public class GIF
     {
