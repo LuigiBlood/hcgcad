@@ -647,8 +647,8 @@ namespace hcgcadviewer
                     Color[] sprpal = col.GetPalette(1, (col_half * 128) + (color * 16));
                     //Color[] sprpal = Utility.Subarray(pal, (col_half * 128) + (color * 16), 16);
                     sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
-                    Bitmap chr = cgx.RenderTile((cgx_bank * 256) + tile, size, sprpal, xflip, yflip);
-                    //Bitmap chr = RenderCGXTile((cgx_bank * 256) + tile, size, cgx, sprpal, xflip, yflip);
+                    Bitmap chr = cgx.RenderTile((cgx_bank * 128) + tile, size, sprpal, xflip, yflip);
+                    //Bitmap chr = RenderCGXTile((cgx_bank * 128) + tile, size, cgx, sprpal, xflip, yflip);
 
                     using (Graphics g = Graphics.FromImage(output))
                     {

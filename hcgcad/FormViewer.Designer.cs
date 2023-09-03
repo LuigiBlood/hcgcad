@@ -320,15 +320,15 @@ namespace hcgcadviewer
             this.comboBoxOBJSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxOBJSize.FormattingEnabled = true;
             this.comboBoxOBJSize.Items.AddRange(new object[] {
-            "8x8 16x16",
-            "8x8 32x32",
-            "8x8 64x64",
-            "16x16 32x32",
-            "16x16 64x64",
-            "32x32 64x64"});
-            this.comboBoxOBJSize.Location = new System.Drawing.Point(121, 73);
+            "8x8, 16x16",
+            "8x8, 32x32",
+            "8x8, 64x64",
+            "16x16, 32x32",
+            "16x16, 64x64",
+            "32x32, 64x64"});
+            this.comboBoxOBJSize.Location = new System.Drawing.Point(89, 73);
             this.comboBoxOBJSize.Name = "comboBoxOBJSize";
-            this.comboBoxOBJSize.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxOBJSize.Size = new System.Drawing.Size(152, 21);
             this.comboBoxOBJSize.TabIndex = 19;
             this.comboBoxOBJSize.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
@@ -337,13 +337,17 @@ namespace hcgcadviewer
             this.comboBoxCHRBANK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCHRBANK.FormattingEnabled = true;
             this.comboBoxCHRBANK.Items.AddRange(new object[] {
-            "CGX Bank 0",
-            "CGX Bank 1",
-            "CGX Bank 2",
-            "CGX Bank 3"});
-            this.comboBoxCHRBANK.Location = new System.Drawing.Point(121, 100);
+            "CGX Bank 0 (Tile 0x000)",
+            "CGX Bank 1 (Tile 0x080)",
+            "CGX Bank 2 (Tile 0x100)",
+            "CGX Bank 3 (Tile 0x180)",
+            "CGX Bank 4 (Tile 0x200)",
+            "CGX Bank 5 (Tile 0x280)",
+            "CGX Bank 6 (Tile 0x300)",
+            "CGX Bank 7 (Tile 0x380)"});
+            this.comboBoxCHRBANK.Location = new System.Drawing.Point(89, 100);
             this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
-            this.comboBoxCHRBANK.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCHRBANK.Size = new System.Drawing.Size(152, 21);
             this.comboBoxCHRBANK.TabIndex = 20;
             this.comboBoxCHRBANK.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
@@ -405,7 +409,7 @@ namespace hcgcadviewer
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(56, 103);
+            this.label3.Location = new System.Drawing.Point(24, 103);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 23;
@@ -414,7 +418,7 @@ namespace hcgcadviewer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(46, 76);
+            this.label2.Location = new System.Drawing.Point(14, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 22;
