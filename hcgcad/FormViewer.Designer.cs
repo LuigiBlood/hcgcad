@@ -66,6 +66,9 @@ namespace hcgcadviewer
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.importReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -271,7 +274,9 @@ namespace hcgcadviewer
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importRAWGraphicsToolStripMenuItem,
             this.importRAWPaletteToolStripMenuItem,
-            this.importRAWScreenToolStripMenuItem});
+            this.importRAWScreenToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.importReplaceToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.importToolStripMenuItem.Text = "Import";
@@ -279,22 +284,22 @@ namespace hcgcadviewer
             // importRAWGraphicsToolStripMenuItem
             // 
             this.importRAWGraphicsToolStripMenuItem.Name = "importRAWGraphicsToolStripMenuItem";
-            this.importRAWGraphicsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.importRAWGraphicsToolStripMenuItem.Text = "Import RAW Graphics...";
+            this.importRAWGraphicsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.importRAWGraphicsToolStripMenuItem.Text = "Load RAW Graphics...";
             this.importRAWGraphicsToolStripMenuItem.Click += new System.EventHandler(this.importRAWGraphicsToolStripMenuItem_Click);
             // 
             // importRAWPaletteToolStripMenuItem
             // 
             this.importRAWPaletteToolStripMenuItem.Name = "importRAWPaletteToolStripMenuItem";
-            this.importRAWPaletteToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.importRAWPaletteToolStripMenuItem.Text = "Import RAW Palette...";
+            this.importRAWPaletteToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.importRAWPaletteToolStripMenuItem.Text = "Load RAW Palette...";
             this.importRAWPaletteToolStripMenuItem.Click += new System.EventHandler(this.importRAWPaletteToolStripMenuItem_Click);
             // 
             // importRAWScreenToolStripMenuItem
             // 
             this.importRAWScreenToolStripMenuItem.Name = "importRAWScreenToolStripMenuItem";
-            this.importRAWScreenToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.importRAWScreenToolStripMenuItem.Text = "Import RAW Screen...";
+            this.importRAWScreenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.importRAWScreenToolStripMenuItem.Text = "Load RAW Screen...";
             this.importRAWScreenToolStripMenuItem.Click += new System.EventHandler(this.importRAWScreenToolStripMenuItem_Click);
             // 
             // numericUpDownFrame
@@ -444,12 +449,35 @@ namespace hcgcadviewer
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(183, 6);
+            // 
+            // importReplaceToolStripMenuItem
+            // 
+            this.importReplaceToolStripMenuItem.Name = "importReplaceToolStripMenuItem";
+            this.importReplaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.importReplaceToolStripMenuItem.Text = "Import / Replace...";
+            this.importReplaceToolStripMenuItem.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(181, 90);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 38);
+            this.button2.TabIndex = 29;
+            this.button2.Text = "Import / Replace";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 575);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
@@ -522,6 +550,9 @@ namespace hcgcadviewer
         private System.Windows.Forms.ToolStripMenuItem importRAWGraphicsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importRAWPaletteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importRAWScreenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem importReplaceToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }
 

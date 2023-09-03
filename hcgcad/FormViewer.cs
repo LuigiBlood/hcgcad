@@ -449,6 +449,120 @@ namespace hcgcadviewer
             }
         }
 
+        private void importReplaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog o = new OpenFileDialog();
+            o.Multiselect = false;
+            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak";
+            o.Title = "Import / Replace SCAD files...";
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                FileStream file = File.Open(o.FileName, FileMode.Open, FileAccess.Read);
+                CAD.COL new_col = null;
+                CAD.CGX new_cgx = null;
+
+                new_col = CAD.COL.Load(file);
+                if (new_col == null) new_cgx = CAD.CGX.Load(file);
+
+                file.Close();
+
+                if (new_col != null)
+                {
+                    //Replace color bank
+                }
+                else if (new_cgx != null)
+                {
+                    //Replace chr bank
+                    if (cad_cgx == null)
+                    {
+                        MessageBox.Show("Please load a CGX file first.", "CGX Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (cad_cgx.GetFormat() != new_cgx.GetFormat())
+                    {
+                        MessageBox.Show("Error: CGX Format Mismatch", "CGX Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    Form importCGXform = new Form();
+                    importCGXform.AutoSize = false;
+                    importCGXform.ClientSize = new Size(200, 150);
+                    importCGXform.Text = "Replace Graphics Bank...";
+
+                    Label label1 = new Label();
+                    label1.Text = "From Bank (@" + Path.GetFileName(o.FileName) + "):";
+                    label1.Location = new Point(10, 10);
+                    label1.AutoSize = true;
+
+                    ComboBox newcgxbank = new ComboBox();
+                    newcgxbank.Location = new Point(10, 25);
+                    newcgxbank.Size = new Size(150, 21);
+                    newcgxbank.DropDownStyle = ComboBoxStyle.DropDownList;
+                    newcgxbank.Items.Add("CGX Bank 0 (Tile 0x000)");
+                    newcgxbank.Items.Add("CGX Bank 1 (Tile 0x080)");
+                    newcgxbank.Items.Add("CGX Bank 2 (Tile 0x100)");
+                    newcgxbank.Items.Add("CGX Bank 3 (Tile 0x180)");
+                    newcgxbank.Items.Add("CGX Bank 4 (Tile 0x200)");
+                    newcgxbank.Items.Add("CGX Bank 5 (Tile 0x280)");
+                    newcgxbank.Items.Add("CGX Bank 6 (Tile 0x300)");
+                    newcgxbank.Items.Add("CGX Bank 7 (Tile 0x380)");
+                    newcgxbank.SelectedIndex = 0;
+
+                    Label label2 = new Label();
+                    label2.Text = "To Loaded Bank:";
+                    label2.Location = new Point(10, 55);
+                    label2.AutoSize = true;
+
+                    ComboBox oldcgxbank = new ComboBox();
+                    oldcgxbank.Location = new Point(10, 70);
+                    oldcgxbank.Size = new Size(150, 21);
+                    oldcgxbank.DropDownStyle = ComboBoxStyle.DropDownList;
+                    oldcgxbank.Items.Add("CGX Bank 0 (Tile 0x000)");
+                    oldcgxbank.Items.Add("CGX Bank 1 (Tile 0x080)");
+                    oldcgxbank.Items.Add("CGX Bank 2 (Tile 0x100)");
+                    oldcgxbank.Items.Add("CGX Bank 3 (Tile 0x180)");
+                    oldcgxbank.Items.Add("CGX Bank 4 (Tile 0x200)");
+                    oldcgxbank.Items.Add("CGX Bank 5 (Tile 0x280)");
+                    oldcgxbank.Items.Add("CGX Bank 6 (Tile 0x300)");
+                    oldcgxbank.Items.Add("CGX Bank 7 (Tile 0x380)");
+                    oldcgxbank.SelectedIndex = 0;
+
+                    Button acceptBTN = new Button();
+                    acceptBTN.Text = "OK";
+                    acceptBTN.Location = new Point(10, importCGXform.ClientSize.Height - acceptBTN.ClientSize.Height - 10);
+                    acceptBTN.DialogResult = DialogResult.OK;
+
+                    Button cancelBTN = new Button();
+                    cancelBTN.Text = "Cancel";
+                    cancelBTN.Location = new Point(importCGXform.ClientSize.Width - cancelBTN.ClientSize.Width - 10, acceptBTN.Location.Y);
+
+                    importCGXform.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    importCGXform.MaximizeBox = false;
+                    importCGXform.MinimizeBox = false;
+                    importCGXform.AcceptButton = acceptBTN;
+                    importCGXform.CancelButton = cancelBTN;
+
+                    importCGXform.Controls.Add(newcgxbank);
+                    importCGXform.Controls.Add(oldcgxbank);
+                    importCGXform.Controls.Add(label1);
+                    importCGXform.Controls.Add(label2);
+                    importCGXform.Controls.Add(acceptBTN);
+                    importCGXform.Controls.Add(cancelBTN);
+
+                    acceptBTN.Focus();
+
+                    if (importCGXform.ShowDialog() == DialogResult.OK)
+                    {
+                        cad_cgx.CopyBank(new_cgx, newcgxbank.SelectedIndex, oldcgxbank.SelectedIndex);
+                        RenderCGX();
+                        RenderSCR();
+                        RenderOBJ();
+                    }
+                }
+            }
+        }
+
         private void FormViewer_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;

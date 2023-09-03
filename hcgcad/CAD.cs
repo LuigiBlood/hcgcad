@@ -177,6 +177,48 @@ namespace hcgcadviewer
                 return output;
             }
 
+            public int CopyBank(CGX source, int banksrc, int bankdst)
+            {
+                int fmt = this.GetFormat();
+                if (fmt != source.GetFormat())
+                {
+                    return -1;
+                }
+
+                int offsetsrc_chr = banksrc * 0x80;
+                int offsetdst_chr = bankdst * 0x80;
+                int size_chr = 0x80;
+                int offsetsrc_attr = banksrc * 0x80;
+                int offsetdst_attr = bankdst * 0x80;
+                int size_attr = 0x80;
+
+                switch (fmt)
+                {
+                    case 0:
+                        //2BPP
+                        offsetsrc_chr *= 0x10;
+                        offsetdst_chr *= 0x10;
+                        size_chr *= 0x10;
+                        break;
+                    case 1:
+                        //4BPP
+                        offsetsrc_chr *= 0x20;
+                        offsetdst_chr *= 0x20;
+                        size_chr *= 0x20;
+                        break;
+                    case 2:
+                        //8BPP
+                        offsetsrc_chr *= 0x40;
+                        offsetdst_chr *= 0x40;
+                        size_chr *= 0x40;
+                        break;
+                }
+
+                Array.Copy(source.chr, offsetsrc_chr, this.chr, offsetdst_chr, size_chr);
+                if (fmt < 2) Array.Copy(source.attr, offsetsrc_attr, this.attr, offsetdst_attr, size_attr);
+                return 0;
+            }
+
             public static CGX Load(FileStream file)
             {
                 //CGX
