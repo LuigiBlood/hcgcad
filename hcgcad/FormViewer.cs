@@ -789,6 +789,7 @@ namespace hcgcadviewer
             else if (loadedPNL)
             {
                 RenderPNL();
+                RenderMAP();
             }
             else if (loadedMAP)
             {
