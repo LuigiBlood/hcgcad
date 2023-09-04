@@ -818,7 +818,7 @@ namespace hcgcadviewer
                 //Tile Size
                 int t = 8 * (scr_mode + 1);
 
-                Bitmap output = new Bitmap(256 * (t / 8), 2048 * (t / 8));
+                Bitmap output = new Bitmap(256 * (t / 8), 4096 * (t / 8));
 
                 //Panel Data
                 for (int i = 0; i < 0x8000; i += 2)
