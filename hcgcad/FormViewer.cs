@@ -19,6 +19,7 @@ namespace hcgcadviewer
         static CAD.SCR cad_scr;
         static CAD.OBJ cad_obj;
         static CAD.PNL cad_pnl;
+        static CAD.MAP cad_map;
 
         static int selectedPal = 0;
 
@@ -27,6 +28,7 @@ namespace hcgcadviewer
         string scr_filename;
         string obj_filename;
         string pnl_filename;
+        string map_filename;
 
         public FormViewer()
         {
@@ -114,10 +116,19 @@ namespace hcgcadviewer
             pictureBoxSCR.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
         }
 
+        private void RenderMAP()
+        {
+            if (cad_cgx == null || cad_col == null || cad_pnl == null || cad_map == null)
+                return;
+
+            pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             RenderSCR();
             RenderPNL();
+            RenderMAP();
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
@@ -128,6 +139,7 @@ namespace hcgcadviewer
             RenderSCR();
             RenderOBJ();
             RenderPNL();
+            RenderMAP();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -135,6 +147,7 @@ namespace hcgcadviewer
             cad_scr = null;
             cad_obj = null;
             cad_pnl = null;
+            cad_map = null;
             pictureBoxSCR.Image = null;
         }
 
@@ -142,7 +155,7 @@ namespace hcgcadviewer
         {
             OpenFileDialog o = new OpenFileDialog();
             o.Multiselect = true;
-            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak;*.obj;*.obj.bak;*.pnl;*.pnl.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak|Screen Files (*.scr)|*.scr;*.scr.bak|Object Files (*.obj)|*.obj;*.obj.bak|Panel Files (*.pnl)|*.pnl;*.pnl.bak|All files|*.*";
+            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak;*.obj;*.obj.bak;*.pnl;*.pnl.bak;*.map;*.map.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak|Screen Files (*.scr)|*.scr;*.scr.bak|Object Files (*.obj)|*.obj;*.obj.bak|Panel Files (*.pnl)|*.pnl;*.pnl.bak|Map Files (*.map)|*.map;*.map.bak|All files|*.*";
             o.Title = "Load SCAD files...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -192,6 +205,14 @@ namespace hcgcadviewer
             return (test != null);
         }
 
+        private bool LoadMAP(FileStream file)
+        {
+            CAD.MAP test = CAD.MAP.Load(file);
+            if (test != null)
+                cad_map = test;
+            return (test != null);
+        }
+
         private void exportCGXAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (cad_col == null && cad_cgx == null)
@@ -237,6 +258,22 @@ namespace hcgcadviewer
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+            }
+        }
+
+        private void exportMAPAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cad_col == null || cad_cgx == null || cad_pnl == null || cad_map == null)
+                return;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG Image|*.png";
+            sfd.Title = "Save MAP Output...";
+            ImageFormat format = ImageFormat.Png;
+            sfd.FileName = Path.GetFileNameWithoutExtension(map_filename) + "_map";
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -408,6 +445,7 @@ namespace hcgcadviewer
                     RenderSCR();
                     RenderOBJ();
                     RenderPNL();
+                    RenderMAP();
                 }
             }
         }
@@ -485,6 +523,7 @@ namespace hcgcadviewer
                 RenderSCR();
                 RenderOBJ();
                 RenderPNL();
+                RenderMAP();
             }
         }
 
@@ -598,6 +637,7 @@ namespace hcgcadviewer
                         RenderSCR();
                         RenderOBJ();
                         RenderPNL();
+                        RenderMAP();
                     }
                 }
             }
@@ -621,6 +661,7 @@ namespace hcgcadviewer
             bool loadedSCR = false;
             bool loadedOBJ = false;
             bool loadedPNL = false;
+            bool loadedMAP = false;
 
             foreach (string p in filenames)
             {
@@ -668,6 +709,16 @@ namespace hcgcadviewer
                     cad_obj = null;
                     obj_filename = "";
                 }
+                else if (LoadMAP(file))
+                {
+                    labelSCR.Text = "MAP (" + Path.GetFileName(p) + "):";
+                    map_filename = Path.GetFileName(p);
+                    loadedMAP = true;
+                    cad_scr = null;
+                    scr_filename = "";
+                    cad_obj = null;
+                    obj_filename = "";
+                }
 
                 file.Close();
             }
@@ -681,6 +732,7 @@ namespace hcgcadviewer
                 RenderSCR();
                 RenderOBJ();
                 RenderPNL();
+                RenderMAP();
             }
             else if (loadedCGX)
             {
@@ -688,6 +740,7 @@ namespace hcgcadviewer
                 RenderSCR();
                 RenderOBJ();
                 RenderPNL();
+                RenderMAP();
             }
             else if (loadedSCR)
             {
@@ -700,6 +753,10 @@ namespace hcgcadviewer
             else if (loadedPNL)
             {
                 RenderPNL();
+            }
+            else if (loadedMAP)
+            {
+                RenderMAP();
             }
         }
     }

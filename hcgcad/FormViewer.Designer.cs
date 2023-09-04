@@ -70,6 +70,7 @@ namespace hcgcadviewer
             this.importReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.exportPNLAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMAPAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -174,9 +175,9 @@ namespace hcgcadviewer
             this.checkBoxVisibleTiles.AutoSize = true;
             this.checkBoxVisibleTiles.Location = new System.Drawing.Point(15, 106);
             this.checkBoxVisibleTiles.Name = "checkBoxVisibleTiles";
-            this.checkBoxVisibleTiles.Size = new System.Drawing.Size(182, 17);
+            this.checkBoxVisibleTiles.Size = new System.Drawing.Size(210, 17);
             this.checkBoxVisibleTiles.TabIndex = 12;
-            this.checkBoxVisibleTiles.Text = "(SCR/PNL) Make All Tiles Visible";
+            this.checkBoxVisibleTiles.Text = "(SCR/PNL/MAP) Make All Tiles Visible";
             this.checkBoxVisibleTiles.UseVisualStyleBackColor = true;
             this.checkBoxVisibleTiles.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -193,11 +194,11 @@ namespace hcgcadviewer
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(156, 33);
+            this.button4.Location = new System.Drawing.Point(175, 33);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 38);
+            this.button4.Size = new System.Drawing.Size(89, 47);
             this.button4.TabIndex = 14;
-            this.button4.Text = "Unload SCR/OBJ/PNL";
+            this.button4.Text = "Unload SCR/OBJ/PNL/MAP";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -221,6 +222,7 @@ namespace hcgcadviewer
             this.exportSCRAsPNGToolStripMenuItem,
             this.exportOBJAsGIFToolStripMenuItem,
             this.exportPNLAsPNGToolStripMenuItem,
+            this.exportMAPAsPNGToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -484,6 +486,13 @@ namespace hcgcadviewer
             this.exportPNLAsPNGToolStripMenuItem.Text = "Export PNL as PNG...";
             this.exportPNLAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNLAsPNGToolStripMenuItem_Click);
             // 
+            // exportMAPAsPNGToolStripMenuItem
+            // 
+            this.exportMAPAsPNGToolStripMenuItem.Name = "exportMAPAsPNGToolStripMenuItem";
+            this.exportMAPAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.exportMAPAsPNGToolStripMenuItem.Text = "Export MAP as PNG...";
+            this.exportMAPAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportMAPAsPNGToolStripMenuItem_Click);
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
@@ -567,6 +576,7 @@ namespace hcgcadviewer
         private System.Windows.Forms.ToolStripMenuItem importReplaceToolStripMenuItem;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem exportPNLAsPNGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportMAPAsPNGToolStripMenuItem;
     }
 }
 

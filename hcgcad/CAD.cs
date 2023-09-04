@@ -831,5 +831,80 @@ namespace hcgcadviewer
                 return new PNL(pnl_t);
             }
         }
+
+        public class MAP
+        {
+            byte[] cell;    //Map Data (4 screens of 32x32)
+            Extra ext;
+            byte scr_mode;  //Map Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles (???)
+
+            public MAP(byte[] dat)
+            {
+                cell = Utility.Subarray(dat, 0x100, 0x2000);
+                ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x2000, 0x20)));
+                //scr_mode = dat[0x2042];
+            }
+
+            public Bitmap Render(PNL pnl, CGX cgx, COL col, bool allvisible = false)
+            {
+                //Get CGX Format
+                int fmt = cgx.GetFormat();
+
+                //Tile Size
+                int t = 8 * (scr_mode + 1);
+
+                Bitmap output = new Bitmap(512 * (t / 8), 512 * (t / 8));
+
+                //MAP Data
+                for (int i = 0; i < 0x2000; i += 2)
+                {
+                    //X Pos
+                    int x = (((i / 2) % 64) * t);
+                    //Y Pos
+                    int y = (((i / 2) / 64) * t);
+                    //Scale
+                    int z = t;
+
+                    //Map
+                    ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
+                    int tile = dat & 0x3FF;
+                    int unk0 = (dat & 0x1C00) >> 10;
+                    bool unk1 = ((dat & 0x4000) != 0);
+                    bool unk2 = ((dat & 0x8000) != 0);
+                    if (!unk2 && !allvisible) continue;
+
+                    Bitmap chr = pnl.RenderTile(tile, cgx, col, allvisible);
+
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.DrawImage(chr, x, y, z, z);
+                    }
+                }
+
+                return output;
+            }
+
+            public static MAP Load(FileStream file)
+            {
+                file.Seek(0, SeekOrigin.Begin);
+
+                //Check File Size
+                if (file.Length != 0x2100)
+                    return null;
+
+                byte[] map_t = new byte[file.Length];
+                file.Read(map_t, 0, (int)file.Length);
+
+                //Check Footer Info
+                string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(map_t, 0x0000, 0x10));
+                if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                    return null;
+
+                return new MAP(map_t);
+            }
+        }
     }
 }
