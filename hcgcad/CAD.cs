@@ -131,7 +131,7 @@ namespace hcgcadviewer
                             p = palForce * 128;
                     }
 
-                    Bitmap tile = RenderTile(i, 8, pal.GetPalette(fmt, p));
+                    Bitmap tile = RenderTile(i, 8, pal.GetPalette(fmt, p), false);
 
                     using (Graphics g = Graphics.FromImage(output))
                     {
@@ -145,7 +145,7 @@ namespace hcgcadviewer
                 return output;
             }
 
-            public Bitmap RenderTile(int tile, int size, Color[] pal, bool xflip = false, bool yflip = false)
+            public Bitmap RenderTile(int tile, int size, Color[] pal, bool xflip = false, bool yflip = false, bool bgcolor = false)
             {
                 Bitmap output = new Bitmap(size, size);
 
@@ -162,14 +162,14 @@ namespace hcgcadviewer
                             switch (GetFormat())
                             {
                                 case 0:
-                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile2BPP(Utility.Subarray(chr, tilecalc * 16, 16), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile2BPP(Utility.Subarray(chr, tilecalc * 16, 16), pal, xflip, yflip, bgcolor), x * 8, y * 8, 8, 8);
                                     break;
                                 case 1:
-                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile4BPP(Utility.Subarray(chr, tilecalc * 32, 32), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile4BPP(Utility.Subarray(chr, tilecalc * 32, 32), pal, xflip, yflip, bgcolor), x * 8, y * 8, 8, 8);
                                     break;
                                 default:
                                 case 2:
-                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile8BPP(Utility.Subarray(chr, tilecalc * 64, 64), pal, xflip, yflip), x * 8, y * 8, 8, 8);
+                                    g.DrawImage(hcgcadviewer.Render.SNES.Tile8BPP(Utility.Subarray(chr, tilecalc * 64, 64), pal, xflip, yflip, bgcolor), x * 8, y * 8, 8, 8);
                                     break;
                             }
                         }
@@ -418,7 +418,7 @@ namespace hcgcadviewer
                 clr_chr_no = (ushort)((dat[0x2047] << 8) | dat[0x2048]);
             }
 
-            public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
+            public Bitmap Render(CGX cgx, COL col, bool allvisible = false, bool bgcolor = false)
             {
                 //Get CGX Format
                 int fmt = cgx.GetFormat();
@@ -427,6 +427,19 @@ namespace hcgcadviewer
                 int t = 8 * (scr_mode + 1);
 
                 Bitmap output = new Bitmap(512 * (t / 8), 512 * (t / 8));
+
+                //Fill BG Color
+                int p_b = col_half;
+                if (bgcolor)
+                {
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.FillRectangle(new SolidBrush(col.GetPalette()[(p_b * 128) + col_cell]), 0, 0, output.Width, output.Height);
+                    }
+                }
 
                 //Screen ID
                 for (int s = 0; s < 4; s++)
@@ -441,8 +454,6 @@ namespace hcgcadviewer
                         //Scale
                         int z = t;
 
-                        int p_b = col_half;
-
                         //Map
                         ushort dat = (ushort)(cell[s][i] | (cell[s][i + 1] << 8));
                         int tile = dat & 0x3FF;
@@ -456,14 +467,14 @@ namespace hcgcadviewer
                         switch (fmt)
                         {
                             case 0: //2bit
-                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip);
+                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip, bgcolor);
                                 break;
                             case 1: //4bit
-                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip);
+                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip, bgcolor);
                                 break;
                             default:
                             case 2: //8bit
-                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip);
+                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip, bgcolor);
                                 break;
                         }
 
@@ -651,7 +662,7 @@ namespace hcgcadviewer
                     Color[] sprpal = col.GetPalette(1, (col_cell * 128) + (color * 16));
                     //Color[] sprpal = Utility.Subarray(pal, (col_half * 128) + (color * 16), 16);
                     sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
-                    Bitmap chr = cgx.RenderTile((cgx_bank * 128) + tile, size, sprpal, xflip, yflip);
+                    Bitmap chr = cgx.RenderTile((cgx_bank * 128) + tile, size, sprpal, xflip, yflip, false);
                     //Bitmap chr = RenderCGXTile((cgx_bank * 128) + tile, size, cgx, sprpal, xflip, yflip);
 
                     using (Graphics g = Graphics.FromImage(output))
@@ -716,8 +727,8 @@ namespace hcgcadviewer
             byte scr_mode;  //Screen Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles
             byte chr_bank;  //CHR BANK
             byte col_bank;  //Color Bank
-            byte col_half;  //Color (high, low)
-            byte col_cell;  //Color Cell
+            public byte col_half;  //Color (high, low)
+            public byte col_cell;  //Color Cell
             ushort unk1;
             byte unk2;
             byte unk3;
@@ -742,7 +753,7 @@ namespace hcgcadviewer
                 unk3 = dat[0x006A];
             }
 
-            public Bitmap RenderTile(int id, CGX cgx, COL col, bool allvisible = false)
+            public Bitmap RenderTile(int id, CGX cgx, COL col, bool allvisible = false, bool bgcolor = false)
             {
                 //Get CGX Format
                 int fmt = cgx.GetFormat();
@@ -754,6 +765,18 @@ namespace hcgcadviewer
 
                 //Panel Data
                 int p_b = col_half;
+
+                //Fill BG Color
+                if (bgcolor)
+                {
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.FillRectangle(new SolidBrush(col.GetPalette()[(p_b * 128) + col_cell]), 0, 0, output.Width, output.Height);
+                    }
+                }
 
                 //Map
                 ushort dat = (ushort)(cell[(id * 2) + 1] | (cell[(id * 2)] << 8));
@@ -768,14 +791,14 @@ namespace hcgcadviewer
                 switch (fmt)
                 {
                     case 0: //2bit
-                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip);
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip, bgcolor);
                         break;
                     case 1: //4bit
-                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip);
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip, bgcolor);
                         break;
                     default:
                     case 2: //8bit
-                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip);
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip, bgcolor);
                         break;
                 }
 
@@ -790,7 +813,7 @@ namespace hcgcadviewer
                 return output;
             }
 
-            public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
+            public Bitmap Render(CGX cgx, COL col, bool allvisible = false, bool bgcolor = false)
             {
                 //Tile Size
                 int t = 8 * (scr_mode + 1);
@@ -807,7 +830,7 @@ namespace hcgcadviewer
                     //Scale
                     int z = t;
 
-                    Bitmap chr = RenderTile(i / 2, cgx, col, allvisible);
+                    Bitmap chr = RenderTile(i / 2, cgx, col, allvisible, bgcolor);
                     using (Graphics g = Graphics.FromImage(output))
                     {
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -853,7 +876,7 @@ namespace hcgcadviewer
                 map_pbank = dat[0x2070];
             }
 
-            public Bitmap Render(PNL pnl, CGX cgx, COL col, bool allvisible = false)
+            public Bitmap Render(PNL pnl, CGX cgx, COL col, bool allvisible = false, bool bgcolor = false)
             {
                 //Get CGX Format
                 int fmt = cgx.GetFormat();
@@ -862,6 +885,19 @@ namespace hcgcadviewer
                 int t = 8;
 
                 Bitmap output = new Bitmap(512 * (t / 8), 512 * (t / 8));
+
+                //Fill BG Color
+                int p_b = pnl.col_half;
+                if (bgcolor)
+                {
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.FillRectangle(new SolidBrush(col.GetPalette()[(p_b * 128) + pnl.col_cell]), 0, 0, output.Width, output.Height);
+                    }
+                }
 
                 //MAP Data
                 for (int i = 0; i < 0x2000; i += 2)
@@ -875,13 +911,12 @@ namespace hcgcadviewer
 
                     //Map
                     ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
-                    int tile = dat & 0x3FF;
-                    int unk0 = (dat & 0x1C00) >> 10;
+                    int tile = dat & 0x7FF;
                     bool unk1 = ((dat & 0x4000) != 0);
                     bool unk2 = ((dat & 0x8000) != 0);
                     if (!unk2 && !allvisible) continue;
 
-                    Bitmap chr = pnl.RenderTile(tile, cgx, col, allvisible);
+                    Bitmap chr = pnl.RenderTile(tile, cgx, col, allvisible, bgcolor);
 
                     using (Graphics g = Graphics.FromImage(output))
                     {

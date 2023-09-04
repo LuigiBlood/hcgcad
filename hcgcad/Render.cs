@@ -12,7 +12,7 @@ namespace hcgcadviewer
         public static class SNES
         {
             //SNES Tile Render Functions
-            public static Bitmap Tile2BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false)
+            public static Bitmap Tile2BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false, bool bgcolor = false)
             {
                 //SNES/GB
                 Bitmap tile = new Bitmap(8, 8);
@@ -29,6 +29,12 @@ namespace hcgcadviewer
                         int yt = y;
                         if (yflip) yt = 7 - y;
 
+                        if ((colorID % 4 == 0) && (bgcolor == true))
+                        {
+                            tile.SetPixel(xt, yt, Color.Transparent);
+                            continue;
+                        }
+
                         tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }
                 }
@@ -36,7 +42,7 @@ namespace hcgcadviewer
                 return tile;
             }
 
-            public static Bitmap Tile4BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false)
+            public static Bitmap Tile4BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false, bool bgcolor = false)
             {
                 Bitmap tile = new Bitmap(8, 8);
 
@@ -54,6 +60,12 @@ namespace hcgcadviewer
                         int yt = y;
                         if (yflip) yt = 7 - y;
 
+                        if ((colorID % 16 == 0) && (bgcolor == true))
+                        {
+                            tile.SetPixel(xt, yt, Color.Transparent);
+                            continue;
+                        }
+
                         tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }
                 }
@@ -61,7 +73,7 @@ namespace hcgcadviewer
                 return tile;
             }
 
-            public static Bitmap Tile8BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false)
+            public static Bitmap Tile8BPP(byte[] dat, Color[] pal, bool xflip = false, bool yflip = false, bool bgcolor = false)
             {
                 Bitmap tile = new Bitmap(8, 8);
 
@@ -82,6 +94,12 @@ namespace hcgcadviewer
                         if (xflip) xt = 7 - x;
                         int yt = y;
                         if (yflip) yt = 7 - y;
+
+                        if ((colorID % 16 == 0) && (bgcolor == true))
+                        {
+                            tile.SetPixel(xt, yt, Color.Transparent);
+                            continue;
+                        }
 
                         tile.SetPixel(xt, yt, pal[colorID % pal.Length]);
                     }

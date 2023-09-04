@@ -113,7 +113,7 @@ namespace hcgcadviewer
             }
 
             labelSCR.Text = "SCR (" + scr_filename + "):";
-            pictureBoxSCR.Image = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
+            pictureBoxSCR.Image = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
         }
 
         private void RenderOBJ()
@@ -147,7 +147,7 @@ namespace hcgcadviewer
             }
 
             labelCGX.Text = "PNL (" + pnl_filename + "):";
-            pictureBoxCGX.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
+            pictureBoxCGX.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
@@ -163,7 +163,7 @@ namespace hcgcadviewer
             }
 
             labelSCR.Text = "MAP (" + map_filename + "):";
-            pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
+            pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -274,7 +274,7 @@ namespace hcgcadviewer
             sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+                cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -290,7 +290,7 @@ namespace hcgcadviewer
             sfd.FileName = Path.GetFileNameWithoutExtension(pnl_filename) + "_pnl";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+                cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -306,7 +306,7 @@ namespace hcgcadviewer
             sfd.FileName = Path.GetFileNameWithoutExtension(map_filename) + "_map";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+                cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -580,6 +580,11 @@ namespace hcgcadviewer
                 if (new_col != null)
                 {
                     //Replace color bank
+                    if (cad_col == null)
+                    {
+                        MessageBox.Show("Please load a COL file first.", "COL Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (new_cgx != null)
                 {
@@ -786,6 +791,13 @@ namespace hcgcadviewer
         {
             RenderSCR();
             RenderOBJ();
+            RenderMAP();
+        }
+
+        private void checkBoxDispBGColor_CheckedChanged(object sender, EventArgs e)
+        {
+            RenderSCR();
+            RenderPNL();
             RenderMAP();
         }
     }
