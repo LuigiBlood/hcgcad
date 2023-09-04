@@ -28,6 +28,7 @@ namespace hcgcadviewer
         {
             byte[] chr;     //Graphics Data
             Extra ext;
+            byte bitmode;
             byte col_bank;  //Color Bank
             byte col_half;  //Color (high, low)
             byte col_cell;  //Color Cell
@@ -51,6 +52,7 @@ namespace hcgcadviewer
 
                 //Get Extra
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, off_hdr, 0x20)));
+                bitmode = dat[off_hdr + 0x20];
                 col_bank = dat[off_hdr + 0x21];
                 col_half = dat[off_hdr + 0x22];
                 col_cell = dat[off_hdr + 0x23];
@@ -284,6 +286,7 @@ namespace hcgcadviewer
         {
             Color[] col;    //Color Palette
             Extra ext;
+            byte bitmode;
             byte[] unk;
 
             bool swap;
@@ -298,6 +301,7 @@ namespace hcgcadviewer
             {
                 col = Render.PaletteFromByteArray(dat1);
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat2, 0, 0x20)));
+                bitmode = dat2[0x30];
                 unk = Utility.Subarray(dat2, 0x100, 0x100);
                 swap = false;
             }
@@ -380,14 +384,14 @@ namespace hcgcadviewer
         {
             byte[][] cell;  //Screen Data (4 screens of 32x32)
             Extra ext;
+            byte bitmode;
             bool mode7;     //Mode 7 Flag
             byte scr_mode;  //Screen Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles
             byte chr_bank;  //CHR BANK
             byte col_bank;  //Color Bank
             byte col_half;  //Color (high, low)
             byte col_cell;  //Color Cell
-            byte unk1;
-            byte unk2;
+            ushort clr_chr_no;
 
             bool[][] clear; //Clear Code (4 screens of 32x32, false = invisible tile, true = visible tile)
 
@@ -404,14 +408,14 @@ namespace hcgcadviewer
                     clear[i] = Utility.ToBitStreamReverse(tmp, 0x400);
                 }
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x2000, 0x20)));
+                bitmode = dat[0x2040];
                 mode7 = dat[0x2041] != 0;
                 scr_mode = dat[0x2042];
                 chr_bank = dat[0x2043];
                 col_bank = dat[0x2044];
                 col_half = dat[0x2045];
                 col_cell = dat[0x2046];
-                unk1 = dat[0x2047];
-                unk2 = dat[0x2048];
+                clr_chr_no = (ushort)((dat[0x2047] << 8) | dat[0x2048]);
             }
 
             public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
@@ -459,7 +463,7 @@ namespace hcgcadviewer
                                 break;
                             default:
                             case 2: //8bit
-                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128)), xflip, yflip);
+                                chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip);
                                 break;
                         }
 
@@ -557,24 +561,24 @@ namespace hcgcadviewer
             entry[][] frames;   //32 frames, 64 entries each ([32][64])
             sequence[][] sequences; //16 sequences, 16 frames each ([16][32])
             Extra ext;
-            byte unk0;
-            byte unk1;
-            byte unk2;
+            byte obj_mode;
+            byte chr_bank;
             byte col_half;
-            byte unk4;
-            byte unk5;
-            byte unk6;
+            byte col_cell;
+            byte vsize_flag;
+            byte chr_s_bankl;
+            byte chr_s_bankh;
 
             public OBJ(byte[] dat)
             {
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x3000, 0x20)));
-                unk0 = dat[0x3050];
-                unk1 = dat[0x3051];
-                unk2 = dat[0x3052];
-                col_half = dat[0x3053];
-                unk4 = dat[0x3054];
-                unk5 = dat[0x3055];
-                unk6 = dat[0x3056];
+                obj_mode = dat[0x3050];
+                chr_bank = dat[0x3051];
+                col_half = dat[0x3052];
+                col_cell = dat[0x3053];
+                vsize_flag = dat[0x3054];
+                chr_s_bankl = dat[0x3055];
+                chr_s_bankh = dat[0x3056];
 
                 frames = new entry[32][];
                 for (int f = 0; f < 32; f++)
@@ -644,7 +648,7 @@ namespace hcgcadviewer
                     int tile = frames[frame][i].tile;
 
                     //Get 16-color Palette
-                    Color[] sprpal = col.GetPalette(1, (col_half * 128) + (color * 16));
+                    Color[] sprpal = col.GetPalette(1, (col_cell * 128) + (color * 16));
                     //Color[] sprpal = Utility.Subarray(pal, (col_half * 128) + (color * 16), 16);
                     sprpal[0] = Color.FromArgb(0, sprpal[0].R, sprpal[0].G, sprpal[0].B); //Must be transparent
                     Bitmap chr = cgx.RenderTile((cgx_bank * 128) + tile, size, sprpal, xflip, yflip);
@@ -707,14 +711,16 @@ namespace hcgcadviewer
         {
             byte[] cell;  //Panel Data (4 screens of 32x32)
             Extra ext;
+            byte plbank;
             bool mode7;     //Mode 7 Flag
             byte scr_mode;  //Screen Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles
             byte chr_bank;  //CHR BANK
             byte col_bank;  //Color Bank
             byte col_half;  //Color (high, low)
             byte col_cell;  //Color Cell
-            byte unk1;
+            ushort unk1;
             byte unk2;
+            byte unk3;
 
             bool[] clear; //Clear Code (false = invisible tile, true = visible tile)
 
@@ -724,14 +730,16 @@ namespace hcgcadviewer
                 clear = new bool[0x4000];
                 for (int i = 0; i < 0x4000; i++) clear[i] = dat[0x8100 + (i * 2)] != 0;
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x0000, 0x20)));
+                plbank = dat[0x0060];
                 //mode7 = dat[0x0061] != 0;
                 //scr_mode = dat[0x0062];
                 //chr_bank = dat[0x0063];
                 col_bank = dat[0x0064];
                 col_half = dat[0x0065];
                 col_cell = dat[0x0066];
-                unk1 = dat[0x0067];
-                unk2 = dat[0x0068];
+                unk1 = (ushort)((dat[0x0067] << 8) | dat[0x0068]);
+                unk2 = dat[0x0069];
+                unk3 = dat[0x006A];
             }
 
             public Bitmap RenderTile(int id, CGX cgx, COL col, bool allvisible = false)
@@ -767,7 +775,7 @@ namespace hcgcadviewer
                         break;
                     default:
                     case 2: //8bit
-                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 128)), xflip, yflip);
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 128 * 0)), xflip, yflip);
                         break;
                 }
 
@@ -834,15 +842,15 @@ namespace hcgcadviewer
 
         public class MAP
         {
-            byte[] cell;    //Map Data (4 screens of 32x32)
+            byte[] cell;    //Map Data
             Extra ext;
-            byte scr_mode;  //Map Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles (???)
+            byte map_pbank;
 
             public MAP(byte[] dat)
             {
                 cell = Utility.Subarray(dat, 0x100, 0x2000);
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x2000, 0x20)));
-                //scr_mode = dat[0x2042];
+                map_pbank = dat[0x2070];
             }
 
             public Bitmap Render(PNL pnl, CGX cgx, COL col, bool allvisible = false)
@@ -851,7 +859,7 @@ namespace hcgcadviewer
                 int fmt = cgx.GetFormat();
 
                 //Tile Size
-                int t = 8 * (scr_mode + 1);
+                int t = 8;
 
                 Bitmap output = new Bitmap(512 * (t / 8), 512 * (t / 8));
 
