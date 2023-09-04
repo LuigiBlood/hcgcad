@@ -818,7 +818,7 @@ namespace hcgcadviewer
                 //Tile Size
                 int t = 8 * (scr_mode + 1);
 
-                Bitmap output = new Bitmap(256 * (t / 8), 1024 * (t / 8));
+                Bitmap output = new Bitmap(256 * (t / 8), 2048 * (t / 8));
 
                 //Panel Data
                 for (int i = 0; i < 0x8000; i += 2)
@@ -911,7 +911,7 @@ namespace hcgcadviewer
 
                     //Map
                     ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
-                    int tile = dat & 0x0FFF;
+                    int tile = dat & 0x3FFF;
                     bool unk1 = ((dat & 0x4000) != 0);
                     bool unk2 = ((dat & 0x8000) != 0);
                     if (!unk2 && !allvisible) continue;
