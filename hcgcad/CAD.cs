@@ -734,11 +734,56 @@ namespace hcgcadviewer
                 unk2 = dat[0x0068];
             }
 
-            public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
+            public Bitmap RenderTile(int id, CGX cgx, COL col, bool allvisible = false)
             {
                 //Get CGX Format
                 int fmt = cgx.GetFormat();
 
+                //Tile Size
+                int t = 8 * (scr_mode + 1);
+
+                Bitmap output = new Bitmap(t, t);
+
+                //Panel Data
+                int p_b = col_half;
+
+                //Map
+                ushort dat = (ushort)(cell[(id * 2) + 1] | (cell[(id * 2)] << 8));
+                int tile = dat & 0x3FF;
+                int color = (dat & 0x1C00) >> 10;
+                bool xflip = ((dat & 0x4000) != 0);
+                bool yflip = ((dat & 0x8000) != 0);
+                bool visible = allvisible ? true : clear[id];
+                if (!visible) return output;
+
+                Bitmap chr;
+                switch (fmt)
+                {
+                    case 0: //2bit
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip);
+                        break;
+                    case 1: //4bit
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip);
+                        break;
+                    default:
+                    case 2: //8bit
+                        chr = cgx.RenderTile(tile, t, col.GetPalette(fmt, (p_b * 128) + (color * 128)), xflip, yflip);
+                        break;
+                }
+
+                using (Graphics g = Graphics.FromImage(output))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                    g.DrawImage(chr, 0, 0, t, t);
+                }
+
+                return output;
+            }
+
+            public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
+            {
                 //Tile Size
                 int t = 8 * (scr_mode + 1);
 
@@ -754,32 +799,7 @@ namespace hcgcadviewer
                     //Scale
                     int z = t;
 
-                    int p_b = col_half;
-
-                    //Map
-                    ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
-                    int tile = dat & 0x3FF;
-                    int color = (dat & 0x1C00) >> 10;
-                    bool xflip = ((dat & 0x4000) != 0);
-                    bool yflip = ((dat & 0x8000) != 0);
-                    bool visible = allvisible ? true : clear[i / 2];
-                    if (!visible) continue;
-
-                    Bitmap chr;
-                    switch (fmt)
-                    {
-                        case 0: //2bit
-                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip);
-                            break;
-                        case 1: //4bit
-                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip);
-                            break;
-                        default:
-                        case 2: //8bit
-                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128)), xflip, yflip);
-                            break;
-                    }
-
+                    Bitmap chr = RenderTile(i / 2, cgx, col, allvisible);
                     using (Graphics g = Graphics.FromImage(output))
                     {
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
