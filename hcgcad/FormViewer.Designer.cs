@@ -121,7 +121,7 @@ namespace hcgcadviewer
             // checkBoxPalForce
             // 
             this.checkBoxPalForce.AutoSize = true;
-            this.checkBoxPalForce.Location = new System.Drawing.Point(15, 66);
+            this.checkBoxPalForce.Location = new System.Drawing.Point(15, 85);
             this.checkBoxPalForce.Name = "checkBoxPalForce";
             this.checkBoxPalForce.Size = new System.Drawing.Size(120, 17);
             this.checkBoxPalForce.TabIndex = 6;
@@ -171,18 +171,18 @@ namespace hcgcadviewer
             // checkBoxVisibleTiles
             // 
             this.checkBoxVisibleTiles.AutoSize = true;
-            this.checkBoxVisibleTiles.Location = new System.Drawing.Point(15, 89);
+            this.checkBoxVisibleTiles.Location = new System.Drawing.Point(15, 106);
             this.checkBoxVisibleTiles.Name = "checkBoxVisibleTiles";
-            this.checkBoxVisibleTiles.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxVisibleTiles.Size = new System.Drawing.Size(182, 17);
             this.checkBoxVisibleTiles.TabIndex = 12;
-            this.checkBoxVisibleTiles.Text = "(SCR) Make All Tiles Visible";
+            this.checkBoxVisibleTiles.Text = "(SCR/PNL) Make All Tiles Visible";
             this.checkBoxVisibleTiles.UseVisualStyleBackColor = true;
             this.checkBoxVisibleTiles.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBoxCGRAMSwap
             // 
             this.checkBoxCGRAMSwap.AutoSize = true;
-            this.checkBoxCGRAMSwap.Location = new System.Drawing.Point(15, 113);
+            this.checkBoxCGRAMSwap.Location = new System.Drawing.Point(15, 127);
             this.checkBoxCGRAMSwap.Name = "checkBoxCGRAMSwap";
             this.checkBoxCGRAMSwap.Size = new System.Drawing.Size(134, 17);
             this.checkBoxCGRAMSwap.TabIndex = 13;
@@ -192,11 +192,11 @@ namespace hcgcadviewer
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(181, 33);
+            this.button4.Location = new System.Drawing.Point(156, 33);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 38);
+            this.button4.Size = new System.Drawing.Size(100, 38);
             this.button4.TabIndex = 14;
-            this.button4.Text = "Unload SCR/OBJ";
+            this.button4.Text = "Unload SCR/OBJ/PNL";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -304,7 +304,7 @@ namespace hcgcadviewer
             // 
             // numericUpDownFrame
             // 
-            this.numericUpDownFrame.Location = new System.Drawing.Point(201, 47);
+            this.numericUpDownFrame.Location = new System.Drawing.Point(201, 33);
             this.numericUpDownFrame.Maximum = new decimal(new int[] {
             31,
             0,
@@ -326,7 +326,7 @@ namespace hcgcadviewer
             "16x16, 32x32",
             "16x16, 64x64",
             "32x32, 64x64"});
-            this.comboBoxOBJSize.Location = new System.Drawing.Point(89, 73);
+            this.comboBoxOBJSize.Location = new System.Drawing.Point(89, 59);
             this.comboBoxOBJSize.Name = "comboBoxOBJSize";
             this.comboBoxOBJSize.Size = new System.Drawing.Size(152, 21);
             this.comboBoxOBJSize.TabIndex = 19;
@@ -345,7 +345,7 @@ namespace hcgcadviewer
             "CGX Bank 5 (Tile 0x280)",
             "CGX Bank 6 (Tile 0x300)",
             "CGX Bank 7 (Tile 0x380)"});
-            this.comboBoxCHRBANK.Location = new System.Drawing.Point(89, 100);
+            this.comboBoxCHRBANK.Location = new System.Drawing.Point(89, 86);
             this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
             this.comboBoxCHRBANK.Size = new System.Drawing.Size(152, 21);
             this.comboBoxCHRBANK.TabIndex = 20;
@@ -354,7 +354,7 @@ namespace hcgcadviewer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(137, 49);
+            this.label1.Location = new System.Drawing.Point(137, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 21;
@@ -363,7 +363,7 @@ namespace hcgcadviewer
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 49);
+            this.label4.Location = new System.Drawing.Point(5, 35);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 13);
             this.label4.TabIndex = 27;
@@ -371,7 +371,7 @@ namespace hcgcadviewer
             // 
             // numericUpDownOBJSeq
             // 
-            this.numericUpDownOBJSeq.Location = new System.Drawing.Point(89, 47);
+            this.numericUpDownOBJSeq.Location = new System.Drawing.Point(89, 33);
             this.numericUpDownOBJSeq.Maximum = new decimal(new int[] {
             15,
             0,
@@ -409,7 +409,7 @@ namespace hcgcadviewer
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 103);
+            this.label3.Location = new System.Drawing.Point(24, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 23;
@@ -418,7 +418,7 @@ namespace hcgcadviewer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 76);
+            this.label2.Location = new System.Drawing.Point(14, 62);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 22;
@@ -427,10 +427,10 @@ namespace hcgcadviewer
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(12, 136);
+            this.tabControl1.Location = new System.Drawing.Point(12, 149);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(256, 153);
+            this.tabControl1.Size = new System.Drawing.Size(256, 140);
             this.tabControl1.TabIndex = 28;
             // 
             // tabPage1
@@ -448,7 +448,7 @@ namespace hcgcadviewer
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(248, 127);
+            this.tabPage1.Size = new System.Drawing.Size(248, 114);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -467,9 +467,9 @@ namespace hcgcadviewer
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(181, 90);
+            this.button2.Location = new System.Drawing.Point(12, 57);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 38);
+            this.button2.Size = new System.Drawing.Size(132, 23);
             this.button2.TabIndex = 29;
             this.button2.Text = "Import / Replace";
             this.button2.UseVisualStyleBackColor = true;

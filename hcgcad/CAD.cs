@@ -702,5 +702,114 @@ namespace hcgcadviewer
                 return new OBJ(obj_t);
             }
         }
+
+        public class PNL
+        {
+            byte[] cell;  //Panel Data (4 screens of 32x32)
+            Extra ext;
+            bool mode7;     //Mode 7 Flag
+            byte scr_mode;  //Screen Mode: 0 = 8x8 Tiles, 1 = 16x16 Tiles
+            byte chr_bank;  //CHR BANK
+            byte col_bank;  //Color Bank
+            byte col_half;  //Color (high, low)
+            byte col_cell;  //Color Cell
+            byte unk1;
+            byte unk2;
+
+            bool[] clear; //Clear Code (false = invisible tile, true = visible tile)
+
+            public PNL(byte[] dat)
+            {
+                cell = Utility.Subarray(dat, 0x100, 0x8000);
+                clear = new bool[0x4000];
+                for (int i = 0; i < 0x4000; i++) clear[i] = dat[0x8100 + (i * 2)] != 0;
+                ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x0000, 0x20)));
+                //mode7 = dat[0x0061] != 0;
+                //scr_mode = dat[0x0062];
+                //chr_bank = dat[0x0063];
+                col_bank = dat[0x0064];
+                col_half = dat[0x0065];
+                col_cell = dat[0x0066];
+                unk1 = dat[0x0067];
+                unk2 = dat[0x0068];
+            }
+
+            public Bitmap Render(CGX cgx, COL col, bool allvisible = false)
+            {
+                //Get CGX Format
+                int fmt = cgx.GetFormat();
+
+                //Tile Size
+                int t = 8 * (scr_mode + 1);
+
+                Bitmap output = new Bitmap(256 * (t / 8), 1024 * (t / 8));
+
+                //Panel Data
+                for (int i = 0; i < 0x8000; i += 2)
+                {
+                    //X Pos
+                    int x = (((i / 2) % 32) * t);
+                    //Y Pos
+                    int y = (((i / 2) / 32) * t);
+                    //Scale
+                    int z = t;
+
+                    int p_b = col_half;
+
+                    //Map
+                    ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
+                    int tile = dat & 0x3FF;
+                    int color = (dat & 0x1C00) >> 10;
+                    bool xflip = ((dat & 0x4000) != 0);
+                    bool yflip = ((dat & 0x8000) != 0);
+                    bool visible = allvisible ? true : clear[i / 2];
+                    if (!visible) continue;
+
+                    Bitmap chr;
+                    switch (fmt)
+                    {
+                        case 0: //2bit
+                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 4)), xflip, yflip);
+                            break;
+                        case 1: //4bit
+                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 16)), xflip, yflip);
+                            break;
+                        default:
+                        case 2: //8bit
+                            chr = cgx.RenderTile(tile, z, col.GetPalette(fmt, (p_b * 128) + (color * 128)), xflip, yflip);
+                            break;
+                    }
+
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.DrawImage(chr, x, y, z, z);
+                    }
+                }
+
+                return output;
+            }
+
+            public static PNL Load(FileStream file)
+            {
+                file.Seek(0, SeekOrigin.Begin);
+
+                //Check File Size
+                if (file.Length != 0x10100)
+                    return null;
+
+                byte[] pnl_t = new byte[file.Length];
+                file.Read(pnl_t, 0, (int)file.Length);
+
+                //Check Footer Info
+                string footer_string = System.Text.Encoding.ASCII.GetString(Utility.Subarray(pnl_t, 0x0000, 0x10));
+                if (!footer_string.Equals("NAK1989 S-CG-CAD"))
+                    return null;
+
+                return new PNL(pnl_t);
+            }
+        }
     }
 }

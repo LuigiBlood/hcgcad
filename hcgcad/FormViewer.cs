@@ -18,6 +18,7 @@ namespace hcgcadviewer
         static CAD.CGX cad_cgx;
         static CAD.SCR cad_scr;
         static CAD.OBJ cad_obj;
+        static CAD.PNL cad_pnl;
 
         static int selectedPal = 0;
 
@@ -25,6 +26,7 @@ namespace hcgcadviewer
         string cgx_filename;
         string scr_filename;
         string obj_filename;
+        string pnl_filename;
 
         public FormViewer()
         {
@@ -104,9 +106,18 @@ namespace hcgcadviewer
                 pictureBoxSCR.Image = Render.ScaleBitmap(cad_obj.Render((int)numericUpDownOBJSeq.Value, (int)numericUpDownFrame.Value, cad_cgx, cad_col, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
         }
 
+        private void RenderPNL()
+        {
+            if (cad_cgx == null || cad_col == null || cad_pnl == null)
+                return;
+
+            pictureBoxSCR.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked);
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             RenderSCR();
+            RenderPNL();
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
@@ -116,12 +127,14 @@ namespace hcgcadviewer
             RenderCGX();
             RenderSCR();
             RenderOBJ();
+            RenderPNL();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             cad_scr = null;
             cad_obj = null;
+            cad_pnl = null;
             pictureBoxSCR.Image = null;
         }
 
@@ -129,7 +142,7 @@ namespace hcgcadviewer
         {
             OpenFileDialog o = new OpenFileDialog();
             o.Multiselect = true;
-            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak;*.obj;*.obj.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak|Screen Files (*.scr)|*.scr;*.scr.bak|Object Files (*.obj)|*.obj;*.obj.bak|All files|*.*";
+            o.Filter = "All Supported Files|*.col;*.col.bak;*.cgx;*.cgx.bak;*.scr;*.scr.bak;*.obj;*.obj.bak;*.pnl;*.pnl.bak|Color Files (*.col)|*.col;*.col.bak|Character Graphics Files (*.cgx)|*.cgx;*.cgx.bak|Screen Files (*.scr)|*.scr;*.scr.bak|Object Files (*.obj)|*.obj;*.obj.bak|Panel Files (*.pnl)|*.pnl;*.pnl.bak|All files|*.*";
             o.Title = "Load SCAD files...";
             if (o.ShowDialog() == DialogResult.OK)
             {
@@ -168,6 +181,14 @@ namespace hcgcadviewer
             CAD.OBJ test = CAD.OBJ.Load(file);
             if (test != null)
                 cad_obj = test;
+            return (test != null);
+        }
+
+        private bool LoadPNL(FileStream file)
+        {
+            CAD.PNL test = CAD.PNL.Load(file);
+            if (test != null)
+                cad_pnl = test;
             return (test != null);
         }
 
@@ -370,6 +391,7 @@ namespace hcgcadviewer
                     RenderCGX();
                     RenderSCR();
                     RenderOBJ();
+                    RenderPNL();
                 }
             }
         }
@@ -446,6 +468,7 @@ namespace hcgcadviewer
                 RenderCGX();
                 RenderSCR();
                 RenderOBJ();
+                RenderPNL();
             }
         }
 
@@ -558,6 +581,7 @@ namespace hcgcadviewer
                         RenderCGX();
                         RenderSCR();
                         RenderOBJ();
+                        RenderPNL();
                     }
                 }
             }
@@ -580,6 +604,7 @@ namespace hcgcadviewer
             bool loadedCGX = false;
             bool loadedSCR = false;
             bool loadedOBJ = false;
+            bool loadedPNL = false;
 
             foreach (string p in filenames)
             {
@@ -604,6 +629,8 @@ namespace hcgcadviewer
                     loadedSCR = true;
                     cad_obj = null;
                     obj_filename = "";
+                    cad_pnl = null;
+                    pnl_filename = "";
                 }
                 else if (LoadOBJ(file))
                 {
@@ -612,6 +639,18 @@ namespace hcgcadviewer
                     loadedOBJ = true;
                     cad_scr = null;
                     scr_filename = "";
+                    cad_pnl = null;
+                    pnl_filename = "";
+                }
+                else if (LoadPNL(file))
+                {
+                    labelSCR.Text = "PNL (" + Path.GetFileName(p) + "):";
+                    obj_filename = Path.GetFileName(p);
+                    loadedPNL = true;
+                    cad_scr = null;
+                    scr_filename = "";
+                    cad_obj = null;
+                    obj_filename = "";
                 }
 
                 file.Close();
@@ -625,12 +664,14 @@ namespace hcgcadviewer
                 RenderCGX();
                 RenderSCR();
                 RenderOBJ();
+                RenderPNL();
             }
             else if (loadedCGX)
             {
                 RenderCGX();
                 RenderSCR();
                 RenderOBJ();
+                RenderPNL();
             }
             else if (loadedSCR)
             {
@@ -639,6 +680,10 @@ namespace hcgcadviewer
             else if (loadedOBJ)
             {
                 RenderOBJ();
+            }
+            else if (loadedPNL)
+            {
+                RenderPNL();
             }
         }
     }
