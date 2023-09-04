@@ -40,7 +40,6 @@ namespace hcgcadviewer
             this.pictureBoxSCR = new System.Windows.Forms.PictureBox();
             this.checkBoxVisibleTiles = new System.Windows.Forms.CheckBox();
             this.checkBoxCGRAMSwap = new System.Windows.Forms.CheckBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,12 +47,16 @@ namespace hcgcadviewer
             this.exportCGXAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSCRAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportOBJAsGIFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPNLAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMAPAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importRAWGraphicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importRAWPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importRAWScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.importReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numericUpDownFrame = new System.Windows.Forms.NumericUpDown();
             this.comboBoxOBJSize = new System.Windows.Forms.ComboBox();
             this.comboBoxCHRBANK = new System.Windows.Forms.ComboBox();
@@ -66,11 +69,12 @@ namespace hcgcadviewer
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.importReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
-            this.exportPNLAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportMAPAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxLeftDisplay = new System.Windows.Forms.ComboBox();
+            this.comboBoxRightDisplay = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -80,6 +84,7 @@ namespace hcgcadviewer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -192,16 +197,6 @@ namespace hcgcadviewer
             this.checkBoxCGRAMSwap.UseVisualStyleBackColor = true;
             this.checkBoxCGRAMSwap.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(175, 33);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(89, 47);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "Unload SCR/OBJ/PNL/MAP";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -232,45 +227,59 @@ namespace hcgcadviewer
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.loadToolStripMenuItem.Text = "Load Assets...";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(184, 6);
             // 
             // exportCGXAsPNGToolStripMenuItem
             // 
             this.exportCGXAsPNGToolStripMenuItem.Name = "exportCGXAsPNGToolStripMenuItem";
-            this.exportCGXAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportCGXAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.exportCGXAsPNGToolStripMenuItem.Text = "Export CGX as PNG...";
             this.exportCGXAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportCGXAsPNGToolStripMenuItem_Click);
             // 
             // exportSCRAsPNGToolStripMenuItem
             // 
             this.exportSCRAsPNGToolStripMenuItem.Name = "exportSCRAsPNGToolStripMenuItem";
-            this.exportSCRAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportSCRAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.exportSCRAsPNGToolStripMenuItem.Text = "Export SCR as PNG...";
             this.exportSCRAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportSCRAsPNGToolStripMenuItem_Click);
             // 
             // exportOBJAsGIFToolStripMenuItem
             // 
             this.exportOBJAsGIFToolStripMenuItem.Name = "exportOBJAsGIFToolStripMenuItem";
-            this.exportOBJAsGIFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportOBJAsGIFToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.exportOBJAsGIFToolStripMenuItem.Text = "Export OBJ as GIF...";
             this.exportOBJAsGIFToolStripMenuItem.Click += new System.EventHandler(this.exportOBJAsGIFToolStripMenuItem_Click);
+            // 
+            // exportPNLAsPNGToolStripMenuItem
+            // 
+            this.exportPNLAsPNGToolStripMenuItem.Name = "exportPNLAsPNGToolStripMenuItem";
+            this.exportPNLAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.exportPNLAsPNGToolStripMenuItem.Text = "Export PNL as PNG...";
+            this.exportPNLAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNLAsPNGToolStripMenuItem_Click);
+            // 
+            // exportMAPAsPNGToolStripMenuItem
+            // 
+            this.exportMAPAsPNGToolStripMenuItem.Name = "exportMAPAsPNGToolStripMenuItem";
+            this.exportMAPAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.exportMAPAsPNGToolStripMenuItem.Text = "Export MAP as PNG...";
+            this.exportMAPAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportMAPAsPNGToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // importToolStripMenuItem
@@ -305,6 +314,18 @@ namespace hcgcadviewer
             this.importRAWScreenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.importRAWScreenToolStripMenuItem.Text = "Load RAW Screen...";
             this.importRAWScreenToolStripMenuItem.Click += new System.EventHandler(this.importRAWScreenToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(183, 6);
+            // 
+            // importReplaceToolStripMenuItem
+            // 
+            this.importReplaceToolStripMenuItem.Name = "importReplaceToolStripMenuItem";
+            this.importReplaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.importReplaceToolStripMenuItem.Text = "Import / Replace...";
+            this.importReplaceToolStripMenuItem.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
             // 
             // numericUpDownFrame
             // 
@@ -430,6 +451,7 @@ namespace hcgcadviewer
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(12, 149);
             this.tabControl1.Name = "tabControl1";
@@ -457,18 +479,6 @@ namespace hcgcadviewer
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(183, 6);
-            // 
-            // importReplaceToolStripMenuItem
-            // 
-            this.importReplaceToolStripMenuItem.Name = "importReplaceToolStripMenuItem";
-            this.importReplaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.importReplaceToolStripMenuItem.Text = "Import / Replace...";
-            this.importReplaceToolStripMenuItem.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(12, 57);
@@ -479,19 +489,63 @@ namespace hcgcadviewer
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
             // 
-            // exportPNLAsPNGToolStripMenuItem
+            // tabPage2
             // 
-            this.exportPNLAsPNGToolStripMenuItem.Name = "exportPNLAsPNGToolStripMenuItem";
-            this.exportPNLAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.exportPNLAsPNGToolStripMenuItem.Text = "Export PNL as PNG...";
-            this.exportPNLAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNLAsPNGToolStripMenuItem_Click);
+            this.tabPage2.Controls.Add(this.comboBoxRightDisplay);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.comboBoxLeftDisplay);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(248, 114);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Display";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // exportMAPAsPNGToolStripMenuItem
+            // label5
             // 
-            this.exportMAPAsPNGToolStripMenuItem.Name = "exportMAPAsPNGToolStripMenuItem";
-            this.exportMAPAsPNGToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.exportMAPAsPNGToolStripMenuItem.Text = "Export MAP as PNG...";
-            this.exportMAPAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportMAPAsPNGToolStripMenuItem_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Left Side:";
+            // 
+            // comboBoxLeftDisplay
+            // 
+            this.comboBoxLeftDisplay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLeftDisplay.FormattingEnabled = true;
+            this.comboBoxLeftDisplay.Items.AddRange(new object[] {
+            "CGX (Graphics)",
+            "PNL (Panel)"});
+            this.comboBoxLeftDisplay.Location = new System.Drawing.Point(13, 27);
+            this.comboBoxLeftDisplay.Name = "comboBoxLeftDisplay";
+            this.comboBoxLeftDisplay.Size = new System.Drawing.Size(152, 21);
+            this.comboBoxLeftDisplay.TabIndex = 20;
+            this.comboBoxLeftDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBoxLeftDisplay_SelectedIndexChanged);
+            // 
+            // comboBoxRightDisplay
+            // 
+            this.comboBoxRightDisplay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRightDisplay.FormattingEnabled = true;
+            this.comboBoxRightDisplay.Items.AddRange(new object[] {
+            "SCR (Screen)",
+            "OBJ (Object)",
+            "MAP (Map)"});
+            this.comboBoxRightDisplay.Location = new System.Drawing.Point(13, 76);
+            this.comboBoxRightDisplay.Name = "comboBoxRightDisplay";
+            this.comboBoxRightDisplay.Size = new System.Drawing.Size(152, 21);
+            this.comboBoxRightDisplay.TabIndex = 22;
+            this.comboBoxRightDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBoxRightDisplay_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 60);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(59, 13);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Right Side:";
             // 
             // FormViewer
             // 
@@ -501,7 +555,6 @@ namespace hcgcadviewer
             this.ClientSize = new System.Drawing.Size(1072, 575);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBoxCGRAMSwap);
             this.Controls.Add(this.checkBoxVisibleTiles);
             this.Controls.Add(this.pictureBoxSCR);
@@ -528,6 +581,8 @@ namespace hcgcadviewer
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -546,7 +601,6 @@ namespace hcgcadviewer
         private System.Windows.Forms.PictureBox pictureBoxSCR;
         private System.Windows.Forms.CheckBox checkBoxVisibleTiles;
         private System.Windows.Forms.CheckBox checkBoxCGRAMSwap;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -577,6 +631,11 @@ namespace hcgcadviewer
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem exportPNLAsPNGToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportMAPAsPNGToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ComboBox comboBoxRightDisplay;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBoxLeftDisplay;
+        private System.Windows.Forms.Label label5;
     }
 }
 
