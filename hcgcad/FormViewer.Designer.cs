@@ -69,6 +69,7 @@ namespace hcgcadviewer
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.importReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
+            this.exportPNLAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -219,6 +220,7 @@ namespace hcgcadviewer
             this.exportCGXAsPNGToolStripMenuItem,
             this.exportSCRAsPNGToolStripMenuItem,
             this.exportOBJAsGIFToolStripMenuItem,
+            this.exportPNLAsPNGToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -475,6 +477,13 @@ namespace hcgcadviewer
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
             // 
+            // exportPNLAsPNGToolStripMenuItem
+            // 
+            this.exportPNLAsPNGToolStripMenuItem.Name = "exportPNLAsPNGToolStripMenuItem";
+            this.exportPNLAsPNGToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportPNLAsPNGToolStripMenuItem.Text = "Export PNL as PNG...";
+            this.exportPNLAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNLAsPNGToolStripMenuItem_Click);
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
@@ -557,6 +566,7 @@ namespace hcgcadviewer
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem importReplaceToolStripMenuItem;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem exportPNLAsPNGToolStripMenuItem;
     }
 }
 

@@ -220,7 +220,23 @@ namespace hcgcadviewer
             sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_scr.Render(cad_cgx, cad_col).Save(sfd.FileName, format);
+                cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
+            }
+        }
+
+        private void exportPNLAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cad_col == null || cad_cgx == null || cad_pnl == null)
+                return;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG Image|*.png";
+            sfd.Title = "Save PNL Output...";
+            ImageFormat format = ImageFormat.Png;
+            sfd.FileName = Path.GetFileNameWithoutExtension(pnl_filename) + "_pnl";
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked).Save(sfd.FileName, format);
             }
         }
 
@@ -645,7 +661,7 @@ namespace hcgcadviewer
                 else if (LoadPNL(file))
                 {
                     labelSCR.Text = "PNL (" + Path.GetFileName(p) + "):";
-                    obj_filename = Path.GetFileName(p);
+                    pnl_filename = Path.GetFileName(p);
                     loadedPNL = true;
                     cad_scr = null;
                     scr_filename = "";
