@@ -76,6 +76,8 @@ namespace hcgcadviewer
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkBoxDispBGColor = new System.Windows.Forms.CheckBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBoxExportFilenames = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -86,6 +88,7 @@ namespace hcgcadviewer
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -454,6 +457,7 @@ namespace hcgcadviewer
             // 
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 147);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -559,6 +563,26 @@ namespace hcgcadviewer
             this.checkBoxDispBGColor.UseVisualStyleBackColor = true;
             this.checkBoxDispBGColor.CheckedChanged += new System.EventHandler(this.checkBoxDispBGColor_CheckedChanged);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.checkBoxExportFilenames);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(248, 114);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Options";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxExportFilenames
+            // 
+            this.checkBoxExportFilenames.AutoSize = true;
+            this.checkBoxExportFilenames.Location = new System.Drawing.Point(12, 11);
+            this.checkBoxExportFilenames.Name = "checkBoxExportFilenames";
+            this.checkBoxExportFilenames.Size = new System.Drawing.Size(165, 17);
+            this.checkBoxExportFilenames.TabIndex = 0;
+            this.checkBoxExportFilenames.Text = "Export with all filenames listed";
+            this.checkBoxExportFilenames.UseVisualStyleBackColor = true;
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
@@ -596,6 +620,8 @@ namespace hcgcadviewer
             this.tabPage1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -650,6 +676,8 @@ namespace hcgcadviewer
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox checkBoxDispBGColor;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox checkBoxExportFilenames;
     }
 }
 
