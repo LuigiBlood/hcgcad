@@ -911,7 +911,7 @@ namespace hcgcadviewer
 
                     //Map
                     ushort dat = (ushort)(cell[i + 1] | (cell[i] << 8));
-                    int tile = dat & 0x7FF;
+                    int tile = dat & 0x0FFF;
                     bool unk1 = ((dat & 0x4000) != 0);
                     bool unk2 = ((dat & 0x8000) != 0);
                     if (!unk2 && !allvisible) continue;
