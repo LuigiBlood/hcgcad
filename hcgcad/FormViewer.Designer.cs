@@ -68,16 +68,16 @@ namespace hcgcadviewer
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkBoxDispBGColor = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBoxExportFilenames = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxLeftDisplay = new System.Windows.Forms.ComboBox();
             this.comboBoxRightDisplay = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.checkBoxDispBGColor = new System.Windows.Forms.CheckBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBoxExportFilenames = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
@@ -86,8 +86,8 @@ namespace hcgcadviewer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,7 +135,7 @@ namespace hcgcadviewer
             this.checkBoxPalForce.Location = new System.Drawing.Point(7, 8);
             this.checkBoxPalForce.Name = "checkBoxPalForce";
             this.checkBoxPalForce.Size = new System.Drawing.Size(120, 17);
-            this.checkBoxPalForce.TabIndex = 6;
+            this.checkBoxPalForce.TabIndex = 10;
             this.checkBoxPalForce.Text = "(CGX) Force Palette";
             this.checkBoxPalForce.UseVisualStyleBackColor = true;
             this.checkBoxPalForce.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
@@ -196,7 +196,7 @@ namespace hcgcadviewer
             this.checkBoxCGRAMSwap.Location = new System.Drawing.Point(7, 29);
             this.checkBoxCGRAMSwap.Name = "checkBoxCGRAMSwap";
             this.checkBoxCGRAMSwap.Size = new System.Drawing.Size(134, 17);
-            this.checkBoxCGRAMSwap.TabIndex = 13;
+            this.checkBoxCGRAMSwap.TabIndex = 11;
             this.checkBoxCGRAMSwap.Text = "Swap CG-RAM (Hi/Lo)";
             this.checkBoxCGRAMSwap.UseVisualStyleBackColor = true;
             this.checkBoxCGRAMSwap.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
@@ -341,7 +341,7 @@ namespace hcgcadviewer
             0});
             this.numericUpDownFrame.Name = "numericUpDownFrame";
             this.numericUpDownFrame.Size = new System.Drawing.Size(41, 20);
-            this.numericUpDownFrame.TabIndex = 17;
+            this.numericUpDownFrame.TabIndex = 23;
             this.numericUpDownFrame.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // comboBoxOBJSize
@@ -358,7 +358,7 @@ namespace hcgcadviewer
             this.comboBoxOBJSize.Location = new System.Drawing.Point(89, 59);
             this.comboBoxOBJSize.Name = "comboBoxOBJSize";
             this.comboBoxOBJSize.Size = new System.Drawing.Size(152, 21);
-            this.comboBoxOBJSize.TabIndex = 19;
+            this.comboBoxOBJSize.TabIndex = 24;
             this.comboBoxOBJSize.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // comboBoxCHRBANK
@@ -377,7 +377,7 @@ namespace hcgcadviewer
             this.comboBoxCHRBANK.Location = new System.Drawing.Point(89, 86);
             this.comboBoxCHRBANK.Name = "comboBoxCHRBANK";
             this.comboBoxCHRBANK.Size = new System.Drawing.Size(152, 21);
-            this.comboBoxCHRBANK.TabIndex = 20;
+            this.comboBoxCHRBANK.TabIndex = 25;
             this.comboBoxCHRBANK.SelectedIndexChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label1
@@ -408,7 +408,7 @@ namespace hcgcadviewer
             0});
             this.numericUpDownOBJSeq.Name = "numericUpDownOBJSeq";
             this.numericUpDownOBJSeq.Size = new System.Drawing.Size(38, 20);
-            this.numericUpDownOBJSeq.TabIndex = 26;
+            this.numericUpDownOBJSeq.TabIndex = 22;
             this.numericUpDownOBJSeq.ValueChanged += new System.EventHandler(this.numericUpDownOBJSeq_ValueChanged);
             // 
             // radioButtonOBJSeq
@@ -417,7 +417,7 @@ namespace hcgcadviewer
             this.radioButtonOBJSeq.Location = new System.Drawing.Point(129, 6);
             this.radioButtonOBJSeq.Name = "radioButtonOBJSeq";
             this.radioButtonOBJSeq.Size = new System.Drawing.Size(79, 17);
-            this.radioButtonOBJSeq.TabIndex = 25;
+            this.radioButtonOBJSeq.TabIndex = 21;
             this.radioButtonOBJSeq.TabStop = true;
             this.radioButtonOBJSeq.Text = "Sequences";
             this.radioButtonOBJSeq.UseVisualStyleBackColor = true;
@@ -429,7 +429,7 @@ namespace hcgcadviewer
             this.radioButtonOBJRaw.Location = new System.Drawing.Point(6, 6);
             this.radioButtonOBJRaw.Name = "radioButtonOBJRaw";
             this.radioButtonOBJRaw.Size = new System.Drawing.Size(84, 17);
-            this.radioButtonOBJRaw.TabIndex = 24;
+            this.radioButtonOBJRaw.TabIndex = 20;
             this.radioButtonOBJRaw.TabStop = true;
             this.radioButtonOBJRaw.Text = "Raw Frames";
             this.radioButtonOBJRaw.UseVisualStyleBackColor = true;
@@ -464,6 +464,30 @@ namespace hcgcadviewer
             this.tabControl1.Size = new System.Drawing.Size(256, 140);
             this.tabControl1.TabIndex = 28;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.checkBoxDispBGColor);
+            this.tabPage3.Controls.Add(this.checkBoxCGRAMSwap);
+            this.tabPage3.Controls.Add(this.checkBoxPalForce);
+            this.tabPage3.Controls.Add(this.checkBoxVisibleTiles);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(248, 114);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Display";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDispBGColor
+            // 
+            this.checkBoxDispBGColor.AutoSize = true;
+            this.checkBoxDispBGColor.Location = new System.Drawing.Point(7, 73);
+            this.checkBoxDispBGColor.Name = "checkBoxDispBGColor";
+            this.checkBoxDispBGColor.Size = new System.Drawing.Size(233, 17);
+            this.checkBoxDispBGColor.TabIndex = 13;
+            this.checkBoxDispBGColor.Text = "(SCR/PNL/MAP) Display Background Color";
+            this.checkBoxDispBGColor.UseVisualStyleBackColor = true;
+            this.checkBoxDispBGColor.CheckedChanged += new System.EventHandler(this.checkBoxDispBGColor_CheckedChanged);
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.radioButtonOBJRaw);
@@ -484,12 +508,32 @@ namespace hcgcadviewer
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.checkBoxExportFilenames);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(248, 114);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Options";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxExportFilenames
+            // 
+            this.checkBoxExportFilenames.AutoSize = true;
+            this.checkBoxExportFilenames.Location = new System.Drawing.Point(12, 11);
+            this.checkBoxExportFilenames.Name = "checkBoxExportFilenames";
+            this.checkBoxExportFilenames.Size = new System.Drawing.Size(165, 17);
+            this.checkBoxExportFilenames.TabIndex = 30;
+            this.checkBoxExportFilenames.Text = "Export with all filenames listed";
+            this.checkBoxExportFilenames.UseVisualStyleBackColor = true;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(167, 38);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(97, 36);
-            this.button2.TabIndex = 29;
+            this.button2.TabIndex = 1;
             this.button2.Text = "Import / Replace";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.importReplaceToolStripMenuItem_Click);
@@ -513,7 +557,7 @@ namespace hcgcadviewer
             this.comboBoxLeftDisplay.Location = new System.Drawing.Point(12, 108);
             this.comboBoxLeftDisplay.Name = "comboBoxLeftDisplay";
             this.comboBoxLeftDisplay.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxLeftDisplay.TabIndex = 20;
+            this.comboBoxLeftDisplay.TabIndex = 2;
             this.comboBoxLeftDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBoxLeftDisplay_SelectedIndexChanged);
             // 
             // comboBoxRightDisplay
@@ -527,7 +571,7 @@ namespace hcgcadviewer
             this.comboBoxRightDisplay.Location = new System.Drawing.Point(141, 108);
             this.comboBoxRightDisplay.Name = "comboBoxRightDisplay";
             this.comboBoxRightDisplay.Size = new System.Drawing.Size(116, 21);
-            this.comboBoxRightDisplay.TabIndex = 22;
+            this.comboBoxRightDisplay.TabIndex = 3;
             this.comboBoxRightDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBoxRightDisplay_SelectedIndexChanged);
             // 
             // label6
@@ -538,50 +582,6 @@ namespace hcgcadviewer
             this.label6.Size = new System.Drawing.Size(59, 13);
             this.label6.TabIndex = 21;
             this.label6.Text = "Right Side:";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.checkBoxDispBGColor);
-            this.tabPage3.Controls.Add(this.checkBoxCGRAMSwap);
-            this.tabPage3.Controls.Add(this.checkBoxPalForce);
-            this.tabPage3.Controls.Add(this.checkBoxVisibleTiles);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(248, 114);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Display";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDispBGColor
-            // 
-            this.checkBoxDispBGColor.AutoSize = true;
-            this.checkBoxDispBGColor.Location = new System.Drawing.Point(7, 73);
-            this.checkBoxDispBGColor.Name = "checkBoxDispBGColor";
-            this.checkBoxDispBGColor.Size = new System.Drawing.Size(233, 17);
-            this.checkBoxDispBGColor.TabIndex = 14;
-            this.checkBoxDispBGColor.Text = "(SCR/PNL/MAP) Display Background Color";
-            this.checkBoxDispBGColor.UseVisualStyleBackColor = true;
-            this.checkBoxDispBGColor.CheckedChanged += new System.EventHandler(this.checkBoxDispBGColor_CheckedChanged);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.checkBoxExportFilenames);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(248, 114);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Options";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxExportFilenames
-            // 
-            this.checkBoxExportFilenames.AutoSize = true;
-            this.checkBoxExportFilenames.Location = new System.Drawing.Point(12, 11);
-            this.checkBoxExportFilenames.Name = "checkBoxExportFilenames";
-            this.checkBoxExportFilenames.Size = new System.Drawing.Size(165, 17);
-            this.checkBoxExportFilenames.TabIndex = 0;
-            this.checkBoxExportFilenames.Text = "Export with all filenames listed";
-            this.checkBoxExportFilenames.UseVisualStyleBackColor = true;
             // 
             // FormViewer
             // 
@@ -616,10 +616,10 @@ namespace hcgcadviewer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
