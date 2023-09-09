@@ -445,5 +445,26 @@ namespace hcgcadviewer
 
             return output;
         }
+
+        public static Bitmap ShiftBitmap(Bitmap input, int x, int y)
+        {
+            Bitmap output = new Bitmap(input.Width, input.Height);
+
+            if (x < 0) x = input.Width + x;
+            if (y < 0) y = input.Height + y;
+
+            using (Graphics g = Graphics.FromImage(output))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                g.DrawImage(input, x, y, input.Width, input.Height);
+                g.DrawImage(input, x - input.Width, y - input.Height, input.Width, input.Height);
+                g.DrawImage(input, x, y - input.Height, input.Width, input.Height);
+                g.DrawImage(input, x - input.Width, y, input.Width, input.Height);
+            }
+
+            return output;
+        }
     }
 }

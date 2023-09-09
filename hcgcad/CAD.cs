@@ -418,6 +418,11 @@ namespace hcgcadviewer
                 clr_chr_no = (ushort)((dat[0x2047] << 8) | dat[0x2048]);
             }
 
+            public int GetTileSize()
+            {
+                return 8 * (scr_mode + 1);
+            }
+
             public Bitmap Render(CGX cgx, COL col, bool allvisible = false, bool bgcolor = false)
             {
                 //Get CGX Format

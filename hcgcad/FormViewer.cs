@@ -32,6 +32,9 @@ namespace hcgcadviewer
 
         bool allowRender;
 
+        Bitmap bmp_scr;
+        Bitmap bmp_map;
+
         public FormViewer()
         {
             InitializeComponent();
@@ -106,7 +109,7 @@ namespace hcgcadviewer
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
-        private void RenderSCR()
+        private void RenderSCR(bool redo)
         {
             if (!allowRender)
                 return;
@@ -118,7 +121,12 @@ namespace hcgcadviewer
                 return;
             }
 
-            pictureBoxSCR.Image = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            if (redo)
+            {
+                bmp_scr = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            }
+
+            pictureBoxSCR.Image = Render.ShiftBitmap(bmp_scr, (int)numericUpDownX.Value * cad_scr.GetTileSize(), (int)numericUpDownY.Value * cad_scr.GetTileSize());
             pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
         }
 
@@ -166,7 +174,7 @@ namespace hcgcadviewer
             }
         }
 
-        private void RenderMAP()
+        private void RenderMAP(bool redo)
         {
             if (!allowRender)
                 return;
@@ -178,26 +186,31 @@ namespace hcgcadviewer
                 return;
             }
 
-            pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            if (redo)
+            {
+                bmp_map = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            }
+
+            pictureBoxSCR.Image = Render.ShiftBitmap(bmp_map, (int)numericUpDownX.Value * 8, (int)numericUpDownY.Value * 8);
             pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxVisibleTiles_CheckedChanged(object sender, EventArgs e)
         {
-            RenderSCR();
+            RenderSCR(true);
             RenderPNL();
-            RenderMAP();
+            RenderMAP(true);
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxCGRAMSwap_CheckedChanged(object sender, EventArgs e)
         {
             cad_col.SetPaletteSwap(checkBoxCGRAMSwap.Checked);
             RenderCOL();
             RenderCGX();
-            RenderSCR();
+            RenderSCR(true);
             RenderOBJ();
             RenderPNL();
-            RenderMAP();
+            RenderMAP(true);
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -507,10 +520,10 @@ namespace hcgcadviewer
                     file.Close();
                     cgx_filename = o.FileName;
                     RenderCGX();
-                    RenderSCR();
+                    RenderSCR(true);
                     RenderOBJ();
                     RenderPNL();
-                    RenderMAP();
+                    RenderMAP(true);
                 }
             }
         }
@@ -566,7 +579,7 @@ namespace hcgcadviewer
                     cad_scr = CAD.SCR.Import(file, (byte)scrtile.SelectedIndex);
                     file.Close();
                     scr_filename = o.FileName;
-                    RenderSCR();
+                    RenderSCR(true);
                 }
             }
         }
@@ -585,10 +598,10 @@ namespace hcgcadviewer
                 col_filename = o.FileName;
                 RenderCOL();
                 RenderCGX();
-                RenderSCR();
+                RenderSCR(true);
                 RenderOBJ();
                 RenderPNL();
-                RenderMAP();
+                RenderMAP(true);
             }
         }
 
@@ -704,10 +717,10 @@ namespace hcgcadviewer
                     {
                         cad_cgx.CopyBank(new_cgx, newcgxbank.SelectedIndex, oldcgxbank.SelectedIndex);
                         RenderCGX();
-                        RenderSCR();
+                        RenderSCR(true);
                         RenderOBJ();
                         RenderPNL();
-                        RenderMAP();
+                        RenderMAP(true);
                     }
                 }
             }
@@ -793,22 +806,22 @@ namespace hcgcadviewer
             {
                 RenderCOL();
                 RenderCGX();
-                RenderSCR();
+                RenderSCR(true);
                 RenderOBJ();
                 RenderPNL();
-                RenderMAP();
+                RenderMAP(true);
             }
             else if (loadedCGX)
             {
                 RenderCGX();
-                RenderSCR();
+                RenderSCR(true);
                 RenderOBJ();
                 RenderPNL();
-                RenderMAP();
+                RenderMAP(true);
             }
             else if (loadedSCR)
             {
-                RenderSCR();
+                RenderSCR(true);
             }
             else if (loadedOBJ)
             {
@@ -817,11 +830,11 @@ namespace hcgcadviewer
             else if (loadedPNL)
             {
                 RenderPNL();
-                RenderMAP();
+                RenderMAP(true);
             }
             else if (loadedMAP)
             {
-                RenderMAP();
+                RenderMAP(true);
             }
         }
 
@@ -833,17 +846,23 @@ namespace hcgcadviewer
 
         private void comboBoxRightDisplay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RenderSCR();
+            RenderSCR(false);
             RenderOBJ();
             RenderPNL();
-            RenderMAP();
+            RenderMAP(false);
         }
 
         private void checkBoxDispBGColor_CheckedChanged(object sender, EventArgs e)
         {
-            RenderSCR();
+            RenderSCR(true);
             RenderPNL();
-            RenderMAP();
+            RenderMAP(true);
+        }
+
+        private void numericUpDownXY_ValueChanged(object sender, EventArgs e)
+        {
+            RenderSCR(false);
+            RenderMAP(false);
         }
     }
 }

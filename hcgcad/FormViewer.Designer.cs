@@ -66,6 +66,11 @@ namespace hcgcadviewer
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
             this.checkBoxDispBGColor = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -83,6 +88,9 @@ namespace hcgcadviewer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -156,7 +164,7 @@ namespace hcgcadviewer
             this.checkBoxVisibleTiles.TabIndex = 12;
             this.checkBoxVisibleTiles.Text = "(SCR/PNL/MAP) Make All Tiles Visible";
             this.checkBoxVisibleTiles.UseVisualStyleBackColor = true;
-            this.checkBoxVisibleTiles.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.checkBoxVisibleTiles.CheckedChanged += new System.EventHandler(this.checkBoxVisibleTiles_CheckedChanged);
             // 
             // checkBoxCGRAMSwap
             // 
@@ -167,7 +175,7 @@ namespace hcgcadviewer
             this.checkBoxCGRAMSwap.TabIndex = 11;
             this.checkBoxCGRAMSwap.Text = "Swap CG-RAM (Hi/Lo)";
             this.checkBoxCGRAMSwap.UseVisualStyleBackColor = true;
-            this.checkBoxCGRAMSwap.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.checkBoxCGRAMSwap.CheckedChanged += new System.EventHandler(this.checkBoxCGRAMSwap_CheckedChanged);
             // 
             // menuStrip1
             // 
@@ -429,21 +437,89 @@ namespace hcgcadviewer
             this.tabControl1.Location = new System.Drawing.Point(12, 76);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(256, 140);
+            this.tabControl1.Size = new System.Drawing.Size(256, 177);
             this.tabControl1.TabIndex = 28;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.groupBox1);
             this.tabPage3.Controls.Add(this.checkBoxDispBGColor);
             this.tabPage3.Controls.Add(this.checkBoxCGRAMSwap);
             this.tabPage3.Controls.Add(this.checkBoxPalForce);
             this.tabPage3.Controls.Add(this.checkBoxVisibleTiles);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(248, 114);
+            this.tabPage3.Size = new System.Drawing.Size(248, 151);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Display";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.numericUpDownY);
+            this.groupBox1.Controls.Add(this.numericUpDownX);
+            this.groupBox1.Location = new System.Drawing.Point(7, 96);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(233, 48);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "SCR/MAP Scroll Wrap";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(121, 21);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 13);
+            this.label6.TabIndex = 31;
+            this.label6.Text = "Y:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "X:";
+            // 
+            // numericUpDownY
+            // 
+            this.numericUpDownY.Location = new System.Drawing.Point(144, 19);
+            this.numericUpDownY.Maximum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            0});
+            this.numericUpDownY.Minimum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownY.Name = "numericUpDownY";
+            this.numericUpDownY.Size = new System.Drawing.Size(47, 20);
+            this.numericUpDownY.TabIndex = 29;
+            this.numericUpDownY.ValueChanged += new System.EventHandler(this.numericUpDownXY_ValueChanged);
+            // 
+            // numericUpDownX
+            // 
+            this.numericUpDownX.Location = new System.Drawing.Point(39, 19);
+            this.numericUpDownX.Maximum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            0});
+            this.numericUpDownX.Minimum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownX.Name = "numericUpDownX";
+            this.numericUpDownX.Size = new System.Drawing.Size(47, 20);
+            this.numericUpDownX.TabIndex = 14;
+            this.numericUpDownX.ValueChanged += new System.EventHandler(this.numericUpDownXY_ValueChanged);
             // 
             // checkBoxDispBGColor
             // 
@@ -471,7 +547,7 @@ namespace hcgcadviewer
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(248, 114);
+            this.tabPage1.Size = new System.Drawing.Size(248, 151);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "OBJ Control";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -481,7 +557,7 @@ namespace hcgcadviewer
             this.tabPage2.Controls.Add(this.checkBoxExportFilenames);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(248, 114);
+            this.tabPage2.Size = new System.Drawing.Size(248, 151);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Options";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -583,6 +659,10 @@ namespace hcgcadviewer
             this.tabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -642,6 +722,11 @@ namespace hcgcadviewer
         private System.Windows.Forms.CheckBox checkBoxExportFilenames;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBoxSCR;
+        private System.Windows.Forms.NumericUpDown numericUpDownX;
+        private System.Windows.Forms.NumericUpDown numericUpDownY;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
     }
 }
 
