@@ -526,6 +526,7 @@ namespace hcgcadviewer
             this.comboBoxRightDisplay.Items.AddRange(new object[] {
             "SCR (Screen)",
             "OBJ (Object)",
+            "PNL (Panel)",
             "MAP (Map)"});
             this.comboBoxRightDisplay.Location = new System.Drawing.Point(553, 34);
             this.comboBoxRightDisplay.Name = "comboBoxRightDisplay";

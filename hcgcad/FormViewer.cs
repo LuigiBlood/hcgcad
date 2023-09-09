@@ -145,7 +145,7 @@ namespace hcgcadviewer
         {
             if (!allowRender)
                 return;
-            if (comboBoxLeftDisplay.SelectedIndex != 1)
+            if (comboBoxLeftDisplay.SelectedIndex != 1 && comboBoxRightDisplay.SelectedIndex != 2)
                 return;
             if (cad_cgx == null || cad_col == null || cad_pnl == null)
             {
@@ -154,19 +154,26 @@ namespace hcgcadviewer
                 return;
             }
 
-            pictureBoxCGX.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
-            pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
+            if (comboBoxLeftDisplay.SelectedIndex == 1)
+            {
+                pictureBoxCGX.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+                pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
+            }
+            if (comboBoxRightDisplay.SelectedIndex == 2)
+            {
+                pictureBoxSCR.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+                pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
+            }
         }
 
         private void RenderMAP()
         {
             if (!allowRender)
                 return;
-            if (comboBoxRightDisplay.SelectedIndex != 2)
+            if (comboBoxRightDisplay.SelectedIndex != 3)
                 return;
             if (cad_cgx == null || cad_col == null || cad_pnl == null || cad_map == null)
             {
-                //labelSCR.Text = "MAP (Error):";
                 pictureBoxSCR.Image = null;
                 return;
             }
@@ -762,14 +769,16 @@ namespace hcgcadviewer
                     pnl_filename = Path.GetFileName(p);
                     loadedPNL = true;
                     comboBoxLeftDisplay.Items[1] = "PNL (Panel) - " + pnl_filename;
-                    comboBoxLeftDisplay.SelectedIndex = 1;
+                    comboBoxRightDisplay.Items[2] = "PNL (Panel) - " + pnl_filename;
+                    if (comboBoxLeftDisplay.SelectedIndex != 1 && comboBoxRightDisplay.SelectedIndex != 2)
+                        comboBoxLeftDisplay.SelectedIndex = 1;
                 }
                 else if (LoadMAP(file))
                 {
                     map_filename = Path.GetFileName(p);
                     loadedMAP = true;
-                    comboBoxRightDisplay.Items[2] = "MAP (Map) - " + map_filename;
-                    comboBoxRightDisplay.SelectedIndex = 2;
+                    comboBoxRightDisplay.Items[3] = "MAP (Map) - " + map_filename;
+                    comboBoxRightDisplay.SelectedIndex = 3;
                 }
 
                 file.Close();
@@ -825,6 +834,7 @@ namespace hcgcadviewer
         {
             RenderSCR();
             RenderOBJ();
+            RenderPNL();
             RenderMAP();
         }
 
