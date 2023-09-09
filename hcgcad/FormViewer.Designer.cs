@@ -35,7 +35,6 @@ namespace hcgcadviewer
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxPalForce = new System.Windows.Forms.CheckBox();
             this.labelCOL = new System.Windows.Forms.Label();
-            this.pictureBoxSCR = new System.Windows.Forms.PictureBox();
             this.checkBoxVisibleTiles = new System.Windows.Forms.CheckBox();
             this.checkBoxCGRAMSwap = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -74,10 +73,11 @@ namespace hcgcadviewer
             this.button2 = new System.Windows.Forms.Button();
             this.comboBoxLeftDisplay = new System.Windows.Forms.ComboBox();
             this.comboBoxRightDisplay = new System.Windows.Forms.ComboBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBoxSCR = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
@@ -85,6 +85,8 @@ namespace hcgcadviewer
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -144,18 +146,6 @@ namespace hcgcadviewer
             this.labelCOL.Size = new System.Drawing.Size(31, 13);
             this.labelCOL.TabIndex = 9;
             this.labelCOL.Text = "COL:";
-            // 
-            // pictureBoxSCR
-            // 
-            this.pictureBoxSCR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxSCR.Location = new System.Drawing.Point(553, 55);
-            this.pictureBoxSCR.MinimumSize = new System.Drawing.Size(512, 512);
-            this.pictureBoxSCR.Name = "pictureBoxSCR";
-            this.pictureBoxSCR.Size = new System.Drawing.Size(512, 512);
-            this.pictureBoxSCR.TabIndex = 11;
-            this.pictureBoxSCR.TabStop = false;
             // 
             // checkBoxVisibleTiles
             // 
@@ -543,17 +533,36 @@ namespace hcgcadviewer
             this.comboBoxRightDisplay.TabIndex = 3;
             this.comboBoxRightDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBoxRightDisplay_SelectedIndexChanged);
             // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.pictureBoxSCR);
+            this.panel2.Location = new System.Drawing.Point(553, 55);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(512, 512);
+            this.panel2.TabIndex = 6;
+            // 
+            // pictureBoxSCR
+            // 
+            this.pictureBoxSCR.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxSCR.Name = "pictureBoxSCR";
+            this.pictureBoxSCR.Size = new System.Drawing.Size(117, 108);
+            this.pictureBoxSCR.TabIndex = 3;
+            this.pictureBoxSCR.TabStop = false;
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 575);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.comboBoxRightDisplay);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.comboBoxLeftDisplay);
-            this.Controls.Add(this.pictureBoxSCR);
             this.Controls.Add(this.labelCOL);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxCOL);
@@ -566,7 +575,6 @@ namespace hcgcadviewer
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).EndInit();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
@@ -578,6 +586,8 @@ namespace hcgcadviewer
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -591,7 +601,6 @@ namespace hcgcadviewer
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox checkBoxPalForce;
         private System.Windows.Forms.Label labelCOL;
-        private System.Windows.Forms.PictureBox pictureBoxSCR;
         private System.Windows.Forms.CheckBox checkBoxVisibleTiles;
         private System.Windows.Forms.CheckBox checkBoxCGRAMSwap;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -630,6 +639,8 @@ namespace hcgcadviewer
         private System.Windows.Forms.CheckBox checkBoxDispBGColor;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox checkBoxExportFilenames;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pictureBoxSCR;
     }
 }
 

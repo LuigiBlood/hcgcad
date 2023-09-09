@@ -119,6 +119,7 @@ namespace hcgcadviewer
             }
 
             pictureBoxSCR.Image = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
         }
 
         private void RenderOBJ()
@@ -137,6 +138,7 @@ namespace hcgcadviewer
                 pictureBoxSCR.Image = Render.ScaleBitmap(cad_obj.Render((int)numericUpDownFrame.Value, cad_cgx, cad_col, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
             else
                 pictureBoxSCR.Image = Render.ScaleBitmap(cad_obj.Render((int)numericUpDownOBJSeq.Value, (int)numericUpDownFrame.Value, cad_cgx, cad_col, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
+            pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
         }
 
         private void RenderPNL()
@@ -170,6 +172,7 @@ namespace hcgcadviewer
             }
 
             pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
+            pictureBoxSCR.Size = pictureBoxSCR.Image.Size;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
