@@ -272,7 +272,7 @@ namespace hcgcadviewer
             sfd.Title = "Save CGX Output...";
             ImageFormat format = ImageFormat.Png;
             if (checkBoxExportFilenames.Checked)
-                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "_cgx";
+                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + ".png";
             else
                 sfd.FileName = Path.GetFileNameWithoutExtension(cgx_filename) + "_cgx";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -291,7 +291,7 @@ namespace hcgcadviewer
             sfd.Title = "Save SCR Output...";
             ImageFormat format = ImageFormat.Png;
             if (checkBoxExportFilenames.Checked)
-                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(scr_filename) + "_scr";
+                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(scr_filename) + ".png";
             else
                 sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -310,7 +310,7 @@ namespace hcgcadviewer
             sfd.Title = "Save PNL Output...";
             ImageFormat format = ImageFormat.Png;
             if (checkBoxExportFilenames.Checked)
-                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(pnl_filename) + "_pnl";
+                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(pnl_filename) + ".png";
             else
                 sfd.FileName = Path.GetFileNameWithoutExtension(pnl_filename) + "_pnl";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -329,7 +329,7 @@ namespace hcgcadviewer
             sfd.Title = "Save MAP Output...";
             ImageFormat format = ImageFormat.Png;
             if (checkBoxExportFilenames.Checked)
-                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(pnl_filename) + "+" + Path.GetFileName(map_filename) + "_map";
+                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(pnl_filename) + "+" + Path.GetFileName(map_filename) + ".png";
             else
                 sfd.FileName = Path.GetFileNameWithoutExtension(map_filename) + "_map";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -353,13 +353,14 @@ namespace hcgcadviewer
             sfd.Filter = "GIF Animation|*.gif";
             sfd.Title = "Save OBJ Output...";
             if (checkBoxExportFilenames.Checked)
-                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(obj_filename) + "_obj";
+                sfd.FileName = Path.GetFileName(col_filename) + "+" + Path.GetFileName(cgx_filename) + "+" + Path.GetFileName(obj_filename);
             else
                 sfd.FileName = Path.GetFileNameWithoutExtension(obj_filename) + "_obj";
             if (radioButtonOBJSeq.Checked)
             {
                 sfd.FileName += "_seq" + numericUpDownOBJSeq.Value;
             }
+            sfd.FileName += ".gif";
 
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
