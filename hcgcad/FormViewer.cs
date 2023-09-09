@@ -30,6 +30,8 @@ namespace hcgcadviewer
         string pnl_filename;
         string map_filename;
 
+        bool allowRender;
+
         public FormViewer()
         {
             InitializeComponent();
@@ -38,6 +40,7 @@ namespace hcgcadviewer
             radioButtonOBJRaw.Checked = true;
             comboBoxLeftDisplay.SelectedIndex = 0;
             comboBoxRightDisplay.SelectedIndex = 0;
+            allowRender = true;
         }
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
@@ -62,6 +65,8 @@ namespace hcgcadviewer
 
         private void RenderCOL()
         {
+            if (!allowRender)
+                return;
             if (cad_col == null)
                 return;
 
@@ -86,48 +91,48 @@ namespace hcgcadviewer
 
         private void RenderCGX()
         {
+            if (!allowRender)
+                return;
             if (comboBoxLeftDisplay.SelectedIndex != 0)
                 return;
             if (cad_cgx == null || cad_col == null)
             {
-                labelCGX.Text = "CGX (Error):";
                 pictureBoxCGX.Image = null;
                 pictureBoxCGX.Size = new Size(1, 1);
                 return;
             }
 
-            labelCGX.Text = "CGX (" + cgx_filename + "):";
             pictureBoxCGX.Image = Render.ScaleBitmap(cad_cgx.Render(cad_col, checkBoxPalForce.Checked ? selectedPal : -1), 2);
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
         private void RenderSCR()
         {
+            if (!allowRender)
+                return;
             if (comboBoxRightDisplay.SelectedIndex != 0)
                 return;
             if (cad_cgx == null || cad_col == null || cad_scr == null)
             {
-                labelSCR.Text = "SCR (Error):";
                 pictureBoxSCR.Image = null;
                 return;
             }
 
-            labelSCR.Text = "SCR (" + scr_filename + "):";
             pictureBoxSCR.Image = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
         }
 
         private void RenderOBJ()
         {
+            if (!allowRender)
+                return;
             if (comboBoxRightDisplay.SelectedIndex != 1)
                 return;
             if (cad_cgx == null || cad_col == null || cad_obj == null)
             {
-                labelSCR.Text = "OBJ (Error):";
                 pictureBoxSCR.Image = null;
                 return;
             }
 
-            labelSCR.Text = "OBJ (" + obj_filename + "):";
             if (radioButtonOBJRaw.Checked)
                 pictureBoxSCR.Image = Render.ScaleBitmap(cad_obj.Render((int)numericUpDownFrame.Value, cad_cgx, cad_col, (byte)comboBoxOBJSize.SelectedIndex, (byte)comboBoxCHRBANK.SelectedIndex), 2);
             else
@@ -136,33 +141,34 @@ namespace hcgcadviewer
 
         private void RenderPNL()
         {
+            if (!allowRender)
+                return;
             if (comboBoxLeftDisplay.SelectedIndex != 1)
                 return;
             if (cad_cgx == null || cad_col == null || cad_pnl == null)
             {
-                labelCGX.Text = "PNL (Error):";
                 pictureBoxCGX.Image = null;
                 pictureBoxCGX.Size = new Size(1, 1);
                 return;
             }
 
-            labelCGX.Text = "PNL (" + pnl_filename + "):";
             pictureBoxCGX.Image = cad_pnl.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
             pictureBoxCGX.Size = pictureBoxCGX.Image.Size;
         }
 
         private void RenderMAP()
         {
+            if (!allowRender)
+                return;
             if (comboBoxRightDisplay.SelectedIndex != 2)
                 return;
             if (cad_cgx == null || cad_col == null || cad_pnl == null || cad_map == null)
             {
-                labelSCR.Text = "MAP (Error):";
+                //labelSCR.Text = "MAP (Error):";
                 pictureBoxSCR.Image = null;
                 return;
             }
 
-            labelSCR.Text = "MAP (" + map_filename + "):";
             pictureBoxSCR.Image = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
         }
 
@@ -716,6 +722,8 @@ namespace hcgcadviewer
             bool loadedPNL = false;
             bool loadedMAP = false;
 
+            allowRender = false;
+
             foreach (string p in filenames)
             {
                 FileStream file = File.Open(p, FileMode.Open, FileAccess.Read);
@@ -729,35 +737,42 @@ namespace hcgcadviewer
                 {
                     cgx_filename = Path.GetFileName(p);
                     loadedCGX = true;
+                    comboBoxLeftDisplay.Items[0] = "CGX (Graphics) - " + cgx_filename;
                     comboBoxLeftDisplay.SelectedIndex = 0;
                 }
                 else if (LoadSCR(file))
                 {
                     scr_filename = Path.GetFileName(p);
                     loadedSCR = true;
+                    comboBoxRightDisplay.Items[0] = "SCR (Screen) - " + scr_filename;
                     comboBoxRightDisplay.SelectedIndex = 0;
                 }
                 else if (LoadOBJ(file))
                 {
                     obj_filename = Path.GetFileName(p);
                     loadedOBJ = true;
+                    comboBoxRightDisplay.Items[1] = "OBJ (Object) - " + obj_filename;
                     comboBoxRightDisplay.SelectedIndex = 1;
                 }
                 else if (LoadPNL(file))
                 {
                     pnl_filename = Path.GetFileName(p);
                     loadedPNL = true;
+                    comboBoxLeftDisplay.Items[1] = "PNL (Panel) - " + pnl_filename;
                     comboBoxLeftDisplay.SelectedIndex = 1;
                 }
                 else if (LoadMAP(file))
                 {
                     map_filename = Path.GetFileName(p);
                     loadedMAP = true;
+                    comboBoxRightDisplay.Items[2] = "MAP (Map) - " + map_filename;
                     comboBoxRightDisplay.SelectedIndex = 2;
                 }
 
                 file.Close();
             }
+
+            allowRender = true;
 
             UpdateOBJGroupBox();
 
