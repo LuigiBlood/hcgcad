@@ -450,6 +450,9 @@ namespace hcgcadviewer
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
 
+            x %= input.Width;
+            y %= input.Height;
+
             if (x < 0) x = input.Width + x;
             if (y < 0) y = input.Height + y;
 
