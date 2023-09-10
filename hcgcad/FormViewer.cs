@@ -309,7 +309,7 @@ namespace hcgcadviewer
                 sfd.FileName = Path.GetFileNameWithoutExtension(scr_filename) + "_scr";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked).Save(sfd.FileName, format);
+                Render.ShiftBitmap(cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked), (int)numericUpDownX.Value * cad_scr.GetTileSize(), (int)numericUpDownY.Value * cad_scr.GetTileSize()).Save(sfd.FileName, format);
             }
         }
 
@@ -347,7 +347,7 @@ namespace hcgcadviewer
                 sfd.FileName = Path.GetFileNameWithoutExtension(map_filename) + "_map";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked).Save(sfd.FileName, format);
+                Render.ShiftBitmap(cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked), (int)numericUpDownX.Value * 8, (int)numericUpDownY.Value * 8).Save(sfd.FileName, format);
             }
         }
 
