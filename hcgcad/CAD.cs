@@ -399,6 +399,7 @@ namespace hcgcadviewer
             {
                 Normal,
                 F,
+                NoClearData,
             };
 
             format fmt;
@@ -408,6 +409,8 @@ namespace hcgcadviewer
                 fmt = format.Normal;
                 if (dat.Length == 0x4100)
                     fmt = format.F;
+                if (dat.Length == 0x2100)
+                    fmt = format.NoClearData;
 
                 cell = new byte[4][];
                 clear = new bool[4][];
@@ -422,12 +425,20 @@ namespace hcgcadviewer
                             tmp[j] = dat[0x2100 + ((i & 2) * 0x80) + ((i & 1) * 4) + (j % 4) + ((j / 4) * 8)];
                         clear[i] = Utility.ToBitStreamReverse(tmp, 0x400);
                     }
-                    else //if (fmt == format.F)
+                    else if (fmt == format.F)
                     {
                         clear[i] = new bool[32 * 32];
                         for (int j = 0; (j < 32 * 32); j++)
                         {
                             clear[i][j] = (dat[0x2100 + (i * 0x800) + (j * 2) + 1] & 0x80) != 0;
+                        }
+                    }
+                    else //if (fmt == format.NoClearData)
+                    {
+                        clear[i] = new bool[32 * 32];
+                        for (int j = 0; (j < 32 * 32); j++)
+                        {
+                            clear[i][j] = true;
                         }
                     }
                 }
@@ -525,7 +536,7 @@ namespace hcgcadviewer
                 file.Seek(0, SeekOrigin.Begin);
 
                 //Check File Size
-                if (file.Length != 0x2300 && file.Length != 0x4100)
+                if (file.Length != 0x2100 && file.Length != 0x2300 && file.Length != 0x4100)
                     return null;
 
                 byte[] scr_t = new byte[file.Length];
