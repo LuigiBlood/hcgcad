@@ -395,17 +395,41 @@ namespace hcgcadviewer
 
             bool[][] clear; //Clear Code (4 screens of 32x32, false = invisible tile, true = visible tile)
 
+            enum format
+            {
+                Normal,
+                F,
+            };
+
+            format fmt;
+
             public SCR(byte[] dat)
             {
+                fmt = format.Normal;
+                if (dat.Length == 0x4100)
+                    fmt = format.F;
+
                 cell = new byte[4][];
                 clear = new bool[4][];
                 for (int i = 0; i < 4; i++)
                 {
                     cell[i] = Utility.Subarray(dat, i * 0x800, 0x800);
-                    byte[] tmp = new byte[0x80];
-                    for (int j = 0; j < 0x80; j++)
-                        tmp[j] = dat[0x2100 + ((i & 2) * 0x80) + ((i & 1) * 4) + (j % 4) + ((j / 4) * 8)];
-                    clear[i] = Utility.ToBitStreamReverse(tmp, 0x400);
+
+                    if (fmt == format.Normal)
+                    {
+                        byte[] tmp = new byte[0x80];
+                        for (int j = 0; j < 0x80; j++)
+                            tmp[j] = dat[0x2100 + ((i & 2) * 0x80) + ((i & 1) * 4) + (j % 4) + ((j / 4) * 8)];
+                        clear[i] = Utility.ToBitStreamReverse(tmp, 0x400);
+                    }
+                    else //if (fmt == format.F)
+                    {
+                        clear[i] = new bool[32 * 32];
+                        for (int j = 0; (j < 32 * 32); j++)
+                        {
+                            clear[i][j] = (dat[0x2100 + (i * 0x800) + (j * 2) + 1] & 0x80) != 0;
+                        }
+                    }
                 }
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x2000, 0x20)));
                 bitmode = dat[0x2040];
@@ -501,7 +525,7 @@ namespace hcgcadviewer
                 file.Seek(0, SeekOrigin.Begin);
 
                 //Check File Size
-                if (file.Length != 0x2300)
+                if (file.Length != 0x2300 && file.Length != 0x4100)
                     return null;
 
                 byte[] scr_t = new byte[file.Length];
@@ -547,18 +571,33 @@ namespace hcgcadviewer
                 public byte color;     //Byte 4: 0000CCC0 00000000
                 public ushort tile;    //Byte 4: 0000000T TTTTTTTT
 
-                public entry(byte[] dat)
+                public entry(byte[] dat, bool littleendian = false)
                 {
                     disp = (dat[0] & 0x80) != 0;
                     size = (dat[0] & 0x01) != 0;
                     group = dat[1];
                     y = (sbyte)dat[2];
                     x = (sbyte)dat[3];
-                    yflip = (dat[4] & 0x80) != 0;
-                    xflip = (dat[4] & 0x40) != 0;
-                    pri = (byte)((dat[4] & 0x30) >> 4);
-                    color = (byte)((dat[4] & 0x0E) >> 1);
-                    tile = (ushort)(((dat[4] & 0x01) << 8) | dat[5]);
+
+                    byte byte1;
+                    byte byte2;
+
+                    if (littleendian)
+                    {
+                        byte1 = dat[5];
+                        byte2 = dat[4];
+                    }
+                    else
+                    {
+                        byte1 = dat[4];
+                        byte2 = dat[5];
+                    }
+
+                    yflip = (byte1 & 0x80) != 0;
+                    xflip = (byte1 & 0x40) != 0;
+                    pri = (byte)((byte1 & 0x30) >> 4);
+                    color = (byte)((byte1 & 0x0E) >> 1);
+                    tile = (ushort)(((byte1 & 0x01) << 8) | byte2);
                 }
             }
 
@@ -574,8 +613,15 @@ namespace hcgcadviewer
                 }
             }
 
+            struct sequence_pos
+            {
+                public sbyte x;
+                public sbyte y;
+            }
+
             entry[][] frames;   //32 frames, 64 entries each ([32][64])
             sequence[][] sequences; //16 sequences, 16 frames each ([16][32])
+            sequence_pos[] sequences_pos; //16 sequences, one position each
             Extra ext;
             byte obj_mode;
             byte chr_bank;
@@ -585,8 +631,18 @@ namespace hcgcadviewer
             byte chr_s_bankl;
             byte chr_s_bankh;
 
+            enum format {
+                Normal,
+                F,
+            };
+
+            format fmt;
+
             public OBJ(byte[] dat)
             {
+                fmt = format.Normal;
+                if (dat.Length == 0x3520)
+                    fmt = format.F;
                 ext = new Extra(System.Text.Encoding.ASCII.GetString(Utility.Subarray(dat, 0x3000, 0x20)));
                 obj_mode = dat[0x3050];
                 chr_bank = dat[0x3051];
@@ -601,15 +657,27 @@ namespace hcgcadviewer
                 {
                     frames[f] = new entry[64];
                     for (int e = 0; e < 64; e++)
-                        frames[f][e] = new entry(Utility.Subarray(dat, (0x180 * f) + (e * 6), 6));
+                        frames[f][e] = new entry(Utility.Subarray(dat, (0x180 * f) + (e * 6), 6), fmt == format.F);
                 }
 
                 sequences = new sequence[16][];
+                sequences_pos = new sequence_pos[16];
                 for (int f = 0; f < 16; f++)
                 {
                     sequences[f] = new sequence[32];
                     for (int e = 0; e < 32; e++)
                         sequences[f][e] = new sequence(dat[0x3100 + (f * 0x40) + (e * 2) + 0], dat[0x3100 + (f * 0x40) + (e * 2) + 1]);
+
+                    if (fmt == format.F)
+                    {
+                        sequences_pos[f].x = (sbyte)dat[0x3500 + (f * 2) + 0];
+                        sequences_pos[f].y = (sbyte)dat[0x3500 + (f * 2) + 1];
+                    }
+                    else
+                    {
+                        sequences_pos[f].x = 0;
+                        sequences_pos[f].y = 0;
+                    }
                 }
             }
 
@@ -708,7 +776,7 @@ namespace hcgcadviewer
                 file.Seek(0, SeekOrigin.Begin);
 
                 //Check File Size
-                if (file.Length != 0x3500)
+                if (file.Length != 0x3500 && file.Length != 0x3520)
                     return null;
 
                 byte[] obj_t = new byte[file.Length];
