@@ -121,7 +121,7 @@ namespace hcgcadviewer
                 return;
             }
 
-            if (redo)
+            if (redo || bmp_scr == null)
             {
                 bmp_scr = cad_scr.Render(cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
             }
@@ -186,7 +186,7 @@ namespace hcgcadviewer
                 return;
             }
 
-            if (redo)
+            if (redo || bmp_map == null)
             {
                 bmp_map = cad_map.Render(cad_pnl, cad_cgx, cad_col, checkBoxVisibleTiles.Checked, checkBoxDispBGColor.Checked);
             }
@@ -515,12 +515,15 @@ namespace hcgcadviewer
 
                 if (importCGXform.ShowDialog() == DialogResult.OK)
                 {
+                    allowRender = false;
                     FileStream file = File.OpenRead(o.FileName);
                     cad_cgx = CAD.CGX.Import(file, cgxbpp.SelectedIndex);
                     file.Close();
                     cgx_filename = Path.GetFileName(o.FileName);
                     comboBoxLeftDisplay.Items[0] = "CGX (Graphics) - " + cgx_filename;
                     comboBoxLeftDisplay.SelectedIndex = 0;
+                    allowRender = true;
+
                     RenderCGX();
                     RenderSCR(true);
                     RenderOBJ();
@@ -577,12 +580,15 @@ namespace hcgcadviewer
 
                 if (importSCRform.ShowDialog() == DialogResult.OK)
                 {
+                    allowRender = false;
                     FileStream file = File.OpenRead(o.FileName);
                     cad_scr = CAD.SCR.Import(file, (byte)scrtile.SelectedIndex);
                     file.Close();
                     scr_filename = Path.GetFileName(o.FileName);
                     comboBoxRightDisplay.Items[0] = "SCR (Screen) - " + scr_filename;
                     comboBoxRightDisplay.SelectedIndex = 0;
+                    allowRender = true;
+
                     RenderSCR(true);
                 }
             }
@@ -596,10 +602,13 @@ namespace hcgcadviewer
             o.Title = "Import RAW SNES Color Data...";
             if (o.ShowDialog() == DialogResult.OK)
             {
+                allowRender = false;
                 FileStream file = File.OpenRead(o.FileName);
                 cad_col = CAD.COL.Import(file);
                 file.Close();
                 col_filename = Path.GetFileName(o.FileName);
+                allowRender = true;
+
                 RenderCOL();
                 RenderCGX();
                 RenderSCR(true);
