@@ -30,9 +30,7 @@ namespace hcgcadviewer
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.pictureBoxCGX = new System.Windows.Forms.PictureBox();
             this.pictureBoxCOL = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxPalForce = new System.Windows.Forms.CheckBox();
             this.labelCOL = new System.Windows.Forms.Label();
             this.checkBoxVisibleTiles = new System.Windows.Forms.CheckBox();
@@ -80,9 +78,9 @@ namespace hcgcadviewer
             this.comboBoxRightDisplay = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBoxSCR = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxCGX = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).BeginInit();
-            this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOBJSeq)).BeginInit();
@@ -95,6 +93,8 @@ namespace hcgcadviewer
             this.tabPage2.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -107,14 +107,6 @@ namespace hcgcadviewer
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // pictureBoxCGX
-            // 
-            this.pictureBoxCGX.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxCGX.Name = "pictureBoxCGX";
-            this.pictureBoxCGX.Size = new System.Drawing.Size(117, 108);
-            this.pictureBoxCGX.TabIndex = 3;
-            this.pictureBoxCGX.TabStop = false;
-            // 
             // pictureBoxCOL
             // 
             this.pictureBoxCOL.Location = new System.Drawing.Point(12, 311);
@@ -123,17 +115,6 @@ namespace hcgcadviewer
             this.pictureBoxCOL.TabIndex = 4;
             this.pictureBoxCOL.TabStop = false;
             this.pictureBoxCOL.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseClick);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pictureBoxCGX);
-            this.panel1.Location = new System.Drawing.Point(274, 55);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(273, 512);
-            this.panel1.TabIndex = 5;
             // 
             // checkBoxPalForce
             // 
@@ -152,7 +133,7 @@ namespace hcgcadviewer
             this.labelCOL.Location = new System.Drawing.Point(12, 292);
             this.labelCOL.Name = "labelCOL";
             this.labelCOL.Size = new System.Drawing.Size(31, 13);
-            this.labelCOL.TabIndex = 9;
+            this.labelCOL.TabIndex = 0;
             this.labelCOL.Text = "COL:";
             // 
             // checkBoxVisibleTiles
@@ -629,19 +610,38 @@ namespace hcgcadviewer
             this.pictureBoxSCR.TabIndex = 3;
             this.pictureBoxSCR.TabStop = false;
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBoxCGX);
+            this.panel1.Location = new System.Drawing.Point(274, 55);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(273, 512);
+            this.panel1.TabIndex = 29;
+            // 
+            // pictureBoxCGX
+            // 
+            this.pictureBoxCGX.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxCGX.Name = "pictureBoxCGX";
+            this.pictureBoxCGX.Size = new System.Drawing.Size(117, 108);
+            this.pictureBoxCGX.TabIndex = 3;
+            this.pictureBoxCGX.TabStop = false;
+            // 
             // FormViewer
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 575);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.comboBoxRightDisplay);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.comboBoxLeftDisplay);
             this.Controls.Add(this.labelCOL);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxCOL);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
@@ -649,9 +649,7 @@ namespace hcgcadviewer
             this.Text = "Hyper CG-CAD - Viewer";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormViewer_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormViewer_DragEnter);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCOL)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrame)).EndInit();
@@ -669,6 +667,8 @@ namespace hcgcadviewer
             this.tabPage2.PerformLayout();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSCR)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCGX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -677,9 +677,7 @@ namespace hcgcadviewer
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.PictureBox pictureBoxCGX;
         private System.Windows.Forms.PictureBox pictureBoxCOL;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox checkBoxPalForce;
         private System.Windows.Forms.Label labelCOL;
         private System.Windows.Forms.CheckBox checkBoxVisibleTiles;
@@ -727,6 +725,8 @@ namespace hcgcadviewer
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBoxCGX;
     }
 }
 
