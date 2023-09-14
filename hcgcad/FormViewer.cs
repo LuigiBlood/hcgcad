@@ -518,7 +518,9 @@ namespace hcgcadviewer
                     FileStream file = File.OpenRead(o.FileName);
                     cad_cgx = CAD.CGX.Import(file, cgxbpp.SelectedIndex);
                     file.Close();
-                    cgx_filename = o.FileName;
+                    cgx_filename = Path.GetFileName(o.FileName);
+                    comboBoxLeftDisplay.Items[0] = "CGX (Graphics) - " + cgx_filename;
+                    comboBoxLeftDisplay.SelectedIndex = 0;
                     RenderCGX();
                     RenderSCR(true);
                     RenderOBJ();
@@ -578,7 +580,9 @@ namespace hcgcadviewer
                     FileStream file = File.OpenRead(o.FileName);
                     cad_scr = CAD.SCR.Import(file, (byte)scrtile.SelectedIndex);
                     file.Close();
-                    scr_filename = o.FileName;
+                    scr_filename = Path.GetFileName(o.FileName);
+                    comboBoxRightDisplay.Items[0] = "SCR (Screen) - " + scr_filename;
+                    comboBoxRightDisplay.SelectedIndex = 0;
                     RenderSCR(true);
                 }
             }
@@ -595,7 +599,7 @@ namespace hcgcadviewer
                 FileStream file = File.OpenRead(o.FileName);
                 cad_col = CAD.COL.Import(file);
                 file.Close();
-                col_filename = o.FileName;
+                col_filename = Path.GetFileName(o.FileName);
                 RenderCOL();
                 RenderCGX();
                 RenderSCR(true);
